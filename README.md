@@ -12,14 +12,14 @@ An 11-person meme generator project. This README is the entry point — use it t
 
 ## `src/` — code
 
-| Folder | Owner | What goes here |
-|--------|-------|----------------|
-| [`src/frontend/`](src/frontend/) | Tybalt, Eric | Frontend application code (HTML/CSS/JS, components, UI logic). |
-| [`src/backend/database/`](src/backend/database/) | Omar | Database setup, schema, seed scripts, template library. |
-| [`src/backend/pipelines/`](src/backend/pipelines/) | 3 competing subteams | Three prototype pipelines for merging a meme template + user image. Each folder is a sandbox holding both prototype code and the subteam's supporting notes. One pipeline will be selected at the end of the sprint and its code promoted into `src/backend/`; the other two will be deleted. |
-| `src/backend/pipelines/a/` | Steven + 1 | Pipeline A prototype + notes. |
-| `src/backend/pipelines/b/` | Abhay + 1 | Pipeline B prototype + notes. |
-| `src/backend/pipelines/c/` | Anlisa, Jennifer, Lorenzo | Pipeline C prototype + notes. |
+| Folder | What goes here |
+|--------|----------------|
+| [`src/frontend/`](src/frontend/) | Frontend application code (HTML/CSS/JS, components, UI logic). |
+| [`src/backend/database/`](src/backend/database/) | Database setup, schema, seed scripts, template library. |
+| [`src/backend/pipelines/`](src/backend/pipelines/) | Three prototype pipelines for merging a meme template + user image. Each folder is a sandbox holding both prototype code and supporting notes. One pipeline will be selected at the end of the sprint and its code promoted into `src/backend/`; the other two will be deleted. |
+| `src/backend/pipelines/a/` | Pipeline A prototype + notes. |
+| `src/backend/pipelines/b/` | Pipeline B prototype + notes. |
+| `src/backend/pipelines/c/` | Pipeline C prototype + notes. |
 
 ## `docs/` — documentation
 
