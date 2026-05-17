@@ -8,16 +8,16 @@
 
 ## Attendance
 
-| Present | Absent |
-|---------|--------|
-| Tybalt | George |
-| Steven | Miguel |
-| Anlisa | |
-| Lorenzo | |
-| Eric | |
-| Abhay | |
-| Omar | |
-| Jennifer | |
+| Present  | Absent |
+| -------- | ------ |
+| Tybalt   | George |
+| Steven   | Miguel |
+| Anlisa   |        |
+| Lorenzo  |        |
+| Eric     |        |
+| Abhay    |        |
+| Omar     |        |
+| Jennifer |        |
 
 ---
 
@@ -36,13 +36,13 @@ This sprint focuses on setting up the foundational architecture for the meme gen
 
 Work this sprint is divided into independent subteams. Each subteam owns its workstream end-to-end: they will create their own GitHub issues, define their own milestones, and merge into their feature branch before integration.
 
-| Subteam | Members | Responsibility |
-|---------|---------|----------------|
-| Database | Omar | Build and populate the meme template database |
-| Frontend | Tybalt, Eric | Implement the UI based on approved wireframes |
-| Backend Pipeline A | Steven + 1 absent member | Independent meme/user-image merge pipeline |
-| Backend Pipeline B | Abhay + 1 absent member | Independent meme/user-image merge pipeline |
-| Backend Pipeline C | Anlisa, Jennifer, Lorenzo | Independent meme/user-image merge pipeline |
+| Subteam            | Members                   | Responsibility                                |
+| ------------------ | ------------------------- | --------------------------------------------- |
+| Database           | Omar                      | Build and populate the meme template database |
+| Frontend           | Tybalt, Eric              | Implement the UI based on approved wireframes |
+| Backend Pipeline A | Steven + 1 absent member  | Independent meme/user-image merge pipeline    |
+| Backend Pipeline B | Abhay + 1 absent member   | Independent meme/user-image merge pipeline    |
+| Backend Pipeline C | Anlisa, Jennifer, Lorenzo | Independent meme/user-image merge pipeline    |
 
 The two absent members (George, Miguel) will be assigned to the two-person backend pipeline subteams once they confirm availability.
 
@@ -64,6 +64,7 @@ The two absent members (George, Miguel) will be assigned to the two-person backe
 - Document the schema so all three backend subteams can consume it consistently
 
 **Deliverables:**
+
 - Firestore collection with 5–10 labeled templates
 - Schema documentation in the repo
 - Subteam-owned GitHub issues and milestones
@@ -81,6 +82,7 @@ The two absent members (George, Miguel) will be assigned to the two-person backe
 - Wire upload + result views so any of the three backend pipelines can be plugged in
 
 **Deliverables:**
+
 - Wireframe-aligned HTML/CSS/JS scaffold
 - Image upload + result display flow
 - Subteam-owned GitHub issues and milestones
@@ -92,32 +94,39 @@ The two absent members (George, Miguel) will be assigned to the two-person backe
 **Objective:** Each subteam independently designs a pipeline that takes two images — a meme template and a user image — and merges them into a final meme. We do not yet know the ideal way to do this, so the three subteams will explore different approaches in parallel. The strongest pipeline will be selected at the end of the sprint based on output quality, latency, and cost.
 
 Each backend subteam owns:
+
 - Their own approach to prompt design, API selection, and merge logic
 - Their own GitHub issues and milestones
 - Their own feature branch and test harness
 - A short written justification of their approach and trade-offs
 
 **Shared input contract for all three pipelines:**
+
 - Meme template image + labeled `context` from the database
 - User-uploaded image
 - Returns: generated meme image + caption with placement metadata
 
 **APIs / LLMs in scope (each subteam picks their own mix):**
+
 - Gemini
 - GPT-4o / Sora
 - Claude
 - Any custom programmatic image compositing the subteam wants to layer in
 
 #### Pipeline A — Steven + 1 absent member
+
 Independent approach; details TBD by subteam.
 
 #### Pipeline B — Abhay + 1 absent member
+
 Independent approach; details TBD by subteam.
 
 #### Pipeline C — Anlisa, Jennifer, Lorenzo
+
 Independent approach; details TBD by subteam.
 
 **Selection criteria (end of sprint):**
+
 - Output quality on a shared test set of meme + user-image pairs
 - Latency per generation
 - Cost per generation
@@ -128,16 +137,19 @@ Independent approach; details TBD by subteam.
 ## Cross-Cutting Concerns
 
 ### User Design Flow
+
 - DBML diagrams for database schema (Omar coordinates with backend subteams)
 - UML diagrams for system interactions across the three candidate pipelines
 - Document expected user paths through the application
 
 ### Testing
+
 - **Unit tests:** Per-subteam, covering each subteam's own modules
 - **End-to-end tests:** Shared harness so all three pipelines can be evaluated against the same inputs
 - **CI/CD:** Automated testing on PR for every subteam branch
 
 ### Open Optimization Questions
+
 - Expected latency for LLM prompt responses across the three pipelines
 - Handling concurrent generation requests
 - Merging logic for text overlay on generated images
