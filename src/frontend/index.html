@@ -14,18 +14,40 @@
     <link rel="stylesheet" href="./styles/reset.css" />
     <link rel="stylesheet" href="./styles/base.css" />
     <link rel="stylesheet" href="./styles/header.css" />
+    <link rel="stylesheet" href="./styles/step-indicator.css" />
+    <link rel="stylesheet" href="./styles/home.css" />
   </head>
   <body>
     <div id="site-header"></div>
     <script src="./scripts/header.js"></script>
     <main class="container">
-      <h1>Put yourself in a meme.</h1>
-      <p class="lead muted">Upload a photo · Pick a template · Edit text · Download</p>
-      <p>
-        This scaffold demonstrates the base design tokens — color, typography, and spacing — applied
-        to a sample heading and paragraph. Subsequent issues build pages and components on top of
-        this foundation.
-      </p>
+      <section class="home-hero">
+        <h1 class="home-hero__title">Put yourself in a meme.</h1>
+        <p class="home-hero__subtitle">Upload a photo · Pick a template · Edit · Download</p>
+      </section>
+      <div class="home-cards">
+        <div class="home-card">
+          <div class="home-card__icon">
+            <img src="./assets/icons/upload-cloud.svg" alt="" />
+          </div>
+          <p class="home-card__title">Upload a photo</p>
+          <p class="home-card__subtitle">JPG · PNG · HEIC</p>
+          <div class="home-card__actions">
+            <a href="./pages/upload.html" class="btn btn--surface">Choose a file</a>
+          </div>
+        </div>
+        <div class="home-card">
+          <div class="home-card__icon">
+            <img src="./assets/icons/grid.svg" alt="" />
+          </div>
+          <p class="home-card__title">Browse Templates</p>
+          <p class="home-card__subtitle">Or get a random one</p>
+          <div class="home-card__actions">
+            <a href="./pages/templates.html" class="btn btn--surface">Browse</a>
+            <a href="./pages/templates.html" class="btn btn--surface">Random</a>
+          </div>
+        </div>
+      </div>
     </main>
   </body>
 </html>
