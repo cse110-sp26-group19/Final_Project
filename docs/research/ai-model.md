@@ -8,13 +8,13 @@ For MemeBro, **Claude Haiku 4.5** is the recommended default model, with Claude 
 
 ## Current Pricing (per million tokens)
 
-| Model | Input | Output | Context Window | Image Input |
-|---|---|---|---|---|
-| **Claude Haiku 4.5** | $1.00 | $5.00 | 200K | Yes |
-| GPT-5.4 Mini | $0.75 | $4.50 | 128K | Yes |
-| Gemini 2.5 Flash | $0.30 | $2.50 | 1M | Yes |
-| DeepSeek V4 | $0.30 | $0.50 | 64K | No |
-| Claude Sonnet 4.6 | $3.00 | $15.00 | 1M | Yes |
+| Model                | Input | Output | Context Window | Image Input |
+| -------------------- | ----- | ------ | -------------- | ----------- |
+| **Claude Haiku 4.5** | $1.00 | $5.00  | 200K           | Yes         |
+| GPT-5.4 Mini         | $0.75 | $4.50  | 128K           | Yes         |
+| Gemini 2.5 Flash     | $0.30 | $2.50  | 1M             | Yes         |
+| DeepSeek V4          | $0.30 | $0.50  | 64K            | No          |
+| Claude Sonnet 4.6    | $3.00 | $15.00 | 1M             | Yes         |
 
 ---
 
@@ -22,7 +22,7 @@ For MemeBro, **Claude Haiku 4.5** is the recommended default model, with Claude 
 
 ### 1. Speed matches the project brief
 
-The project spec explicitly states: *"Speed is of the essence, if it takes 5 minutes to respond, you missed your chance."*
+The project spec explicitly states: _"Speed is of the essence, if it takes 5 minutes to respond, you missed your chance."_
 
 Haiku 4.5 generates output at **86 tokens/second** with a **0.74s time-to-first-token** ,4–5× faster than Sonnet 4.5 on comparable tasks. No other model in this tier matches that combination of low latency and response throughput.
 
@@ -47,6 +47,7 @@ This is the most impactful cost lever available, and it is available on Haiku 4.
 ### 5. Performance exceeds its tier
 
 Haiku 4.5 scores **73.3% on SWE-bench Verified**, the industry standard coding benchmark. For context:
+
 - Claude Sonnet 4.6 scores 79.6%
 - Claude Opus 4.6 scores 80.8%
 
@@ -64,7 +65,7 @@ GPT-5.4 Mini is slightly cheaper on raw tokens ($0.75 vs $1.00 input) and compet
 - It has a 128K context ceiling, half of Haiku's 200K
 - Haiku's instruction-following quality edges out Mini for creative/format-constrained text tasks
 
-For MemeBro's workload (cached system prompt + short user input + short caption output), Haiku's caching advantage likely makes it *cheaper in practice* despite higher list-price input rates.
+For MemeBro's workload (cached system prompt + short user input + short caption output), Haiku's caching advantage likely makes it _cheaper in practice_ despite higher list-price input rates.
 
 ### Gemini 2.5 Flash
 
@@ -94,13 +95,13 @@ Sonnet 4.6 is a strong model but costs 3× more than Haiku on input and 3× more
 
 Assumptions: 10,000 meme generations/month, ~300 input tokens (200 cached system prompt + 100 user input), ~100 output tokens per request.
 
-| Model | Est. Monthly Cost (with caching) |
-|---|---|
-| Claude Haiku 4.5 | ~$3 |
-| GPT-5.4 Mini | ~$7 |
-| Gemini 2.5 Flash | ~$4 |
-| DeepSeek V4 | ~$1 (but no image support) |
-| Claude Sonnet 4.6 | ~$9 |
+| Model             | Est. Monthly Cost (with caching) |
+| ----------------- | -------------------------------- |
+| Claude Haiku 4.5  | ~$3                              |
+| GPT-5.4 Mini      | ~$7                              |
+| Gemini 2.5 Flash  | ~$4                              |
+| DeepSeek V4       | ~$1 (but no image support)       |
+| Claude Sonnet 4.6 | ~$9                              |
 
 > These are rough estimates. Actual costs depend on prompt length, output length, and cache hit rate. Always instrument token usage from day one.
 
@@ -132,5 +133,5 @@ All of these should be captured as **Architectural Decision Records (ADRs)** in 
 
 ## Notes
 
-- Image *generation* (e.g., face-swapping a friend into a meme template) requires a separate API such as Stability AI or Replicate. Claude handles text only ,this is a separate dependency that requires TA approval per the project spec.
+- Image _generation_ (e.g., face-swapping a friend into a meme template) requires a separate API such as Stability AI or Replicate. Claude handles text only ,this is a separate dependency that requires TA approval per the project spec.
 - Pricing information sourced from official Anthropic documentation and third-party pricing aggregators.

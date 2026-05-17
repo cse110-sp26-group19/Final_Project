@@ -14,6 +14,7 @@ We are going with a **REST API** over alternatives like GraphQL or gRPC. Key rea
 ## Framework Options
 
 ### Express.js
+
 - Lightweight, unopinionated Node.js framework
 - Full control over routing, middleware, and request/response handling
 - Best choice if we want to self-host or deploy on something like Railway, Render, or a VPS
@@ -22,6 +23,7 @@ We are going with a **REST API** over alternatives like GraphQL or gRPC. Key rea
 - Downside: requires manual setup for auth, storage, and database — more boilerplate
 
 ### Firebase (Functions + Firestore + Storage)
+
 - Backend-as-a-Service (BaaS) — handles auth, database, file storage, and serverless functions in one platform
 - Minimal server management — scales automatically
 - Firebase Functions expose REST endpoints natively
@@ -31,6 +33,7 @@ We are going with a **REST API** over alternatives like GraphQL or gRPC. Key rea
 - Trade-off: less control, vendor lock-in, costs can scale unexpectedly at high usage
 
 ### Supabase
+
 - Open-source Firebase alternative built on top of PostgreSQL
 - Provides auth, storage, and a REST API auto-generated from your database schema
 - Stronger querying power than Firestore (full SQL via `pg`) — useful if meme/user data gets relational
