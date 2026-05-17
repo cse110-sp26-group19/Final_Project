@@ -30,7 +30,7 @@ After cloning the repo, run **once**:
 npm install
 ```
 
-This installs the dev tooling (Prettier, stylelint, EditorConfig) so every contributor formats and lints code identically. Rationale for the tool choices lives in [`docs/decisions/0001-code-style-tooling.md`](docs/decisions/0001-code-style-tooling.md).
+This installs the dev tooling (Prettier and EditorConfig) so every contributor formats code identically. Rationale for the tool choice lives in [`docs/decisions/0001-code-style-tooling.md`](docs/decisions/0001-code-style-tooling.md).
 
 ## Daily workflow
 
@@ -38,13 +38,9 @@ This installs the dev tooling (Prettier, stylelint, EditorConfig) so every contr
   ```bash
   npm run format
   ```
-- **Check everything** (what CI will run):
+- **Check formatting** (what CI will run):
   ```bash
-  npm run lint
-  ```
-- **Auto-fix CSS lint issues:**
-  ```bash
-  npm run lint:css:fix
+  npm run format:check
   ```
 
 ## Editor setup (strongly recommended)
@@ -54,20 +50,18 @@ Install these so formatting happens on save and you never have to think about it
 - **VS Code:**
   - [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
   - [EditorConfig for VS Code](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
-  - [stylelint](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint)
 - **JetBrains (WebStorm, IntelliJ):** built-in. Enable Prettier under _Settings → Languages & Frameworks → JavaScript → Prettier_ and tick **"On save"** and **"On 'Reformat Code' action"**.
 
 Once your editor is set up, **enable "Format on save"** in editor settings. After that, write code however you want — the moment you save, Prettier rewrites it to the team standard.
 
 ## What each tool does
 
-| Tool             | Purpose                                                                                                |
-| ---------------- | ------------------------------------------------------------------------------------------------------ |
-| **Prettier**     | Formats HTML, CSS, JS, JSON, Markdown (whitespace, quotes, trailing commas, line wrapping, etc.)       |
-| **stylelint**    | Catches CSS _correctness_ issues Prettier doesn't (duplicate properties, invalid units, bad selectors) |
-| **EditorConfig** | Enforces basics at save-time (indent style/size, line endings, trailing whitespace, final newline)     |
+| Tool             | Purpose                                                                                            |
+| ---------------- | -------------------------------------------------------------------------------------------------- |
+| **Prettier**     | Formats HTML, CSS, JS, JSON, Markdown (whitespace, quotes, trailing commas, line wrapping, etc.)   |
+| **EditorConfig** | Enforces basics at save-time (indent style/size, line endings, trailing whitespace, final newline) |
 
-If `npm run lint` passes locally, it will pass in CI. If it doesn't, your PR will be blocked until it does.
+If `npm run format:check` passes locally, it will pass in CI. If it doesn't, your PR will be blocked until it does.
 
 ---
 
