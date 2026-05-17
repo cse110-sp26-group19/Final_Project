@@ -5,7 +5,7 @@
   "description": "AI-assisted meme generator — CSE 110 Spring 2026 final project (Group 19).",
   "scripts": {
     "format": "prettier --write .",
-    "lint": "prettier --check ."
+    "format:check": "prettier --check ."
   },
   "devDependencies": {
     "prettier": "^3.3.3"

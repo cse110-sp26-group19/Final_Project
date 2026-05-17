@@ -14,7 +14,7 @@ Operational instructions for contributors live in [`CONTRIBUTING.md`](../../CONT
 - **Prettier** formats every file type we'll write (HTML, CSS, JS, JSON, Markdown). It's opinionated by design — no per-developer config debates. It also has zero transitive npm dependencies, which keeps `node_modules` minimal.
 - **EditorConfig** is editor-native and enforces the basics (indent, line endings, trailing whitespace) at save-time, before Prettier runs. It catches files Prettier doesn't format (`.gitignore`, configs, plain text).
 
-Together they give us: one `npm install`, one `npm run lint` command, identical results on every machine and in CI.
+Together they give us: one `npm install`, one `npm run format:check` command, identical results on every machine and in CI.
 
 ## What we considered and skipped
 
