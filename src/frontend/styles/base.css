@@ -1,0 +1,80 @@
+/**
+ * Base styles — applies design tokens to default HTML elements so every page
+ * starts from a consistent typographic and color baseline. Also defines the
+ * minimum set of layout and text utilities used across the app.
+ *
+ * Loading order in index.html: tokens.css → reset.css → base.css.
+ */
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-sans);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-bold);
+}
+
+h1 {
+  font-size: var(--font-size-display);
+  font-weight: var(--font-weight-black);
+}
+
+h2 {
+  font-size: var(--font-size-3xl);
+}
+
+h3 {
+  font-size: var(--font-size-2xl);
+}
+
+h4 {
+  font-size: var(--font-size-xl);
+}
+
+/* Paragraphs */
+p {
+  line-height: var(--line-height-base);
+  color: var(--color-text);
+}
+
+/* Flow spacing — element-after-heading gets a larger gap; paragraph-after-paragraph gets a smaller one */
+h1 + *,
+h2 + *,
+h3 + *,
+h4 + *,
+h5 + *,
+h6 + * {
+  margin-top: var(--space-5);
+}
+
+p + p {
+  margin-top: var(--space-4);
+}
+
+/* Layout utilities */
+.container {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: var(--space-7) var(--space-5);
+}
+
+/* Text utilities */
+.lead {
+  font-size: var(--font-size-lg);
+}
+
+.muted {
+  color: var(--color-text-muted);
+}

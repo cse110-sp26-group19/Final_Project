@@ -1,0 +1,69 @@
+/**
+ * Design tokens — single source of truth for color, typography, spacing, and
+ * other reusable values. Hex codes and font sizes match the Figma design
+ * system (see docs/design/figma_page.png).
+ */
+
+:root {
+  /* Colors */
+  --color-bg: #06080f;
+  --color-surface: #0c1020;
+  --color-surface-2: #111526;
+  --color-accent: #0c2d6e;
+  --color-accent-hover: #071e4d;
+  --color-text: #e2e8f0;
+  --color-text-muted: #3d4a63;
+  --color-border: #151b2e;
+  --color-success: #166534;
+  --color-error: #7f1d1d;
+
+  /* Typography — families */
+  --font-sans: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Typography — weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
+
+  /* Typography — sizes */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+  --font-size-3xl: 3rem;
+  --font-size-display: 4.5rem;
+
+  /* Typography — line heights */
+  --line-height-tight: 1.15;
+  --line-height-base: 1.5;
+  --line-height-loose: 1.75;
+
+  /* Spacing scale (0.25rem step) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  /* Border radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+
+  /* Borders */
+  --border-width: 1px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+
+  /* Layout */
+  --max-content-width: 1200px;
+}
