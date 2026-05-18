@@ -79,3 +79,40 @@
 .btn--surface {
   background: #111526;
 }
+
+@media (max-width: 640px) {
+  .home-hero {
+    padding: var(--space-5) 0 var(--space-4);
+  }
+
+  .home-hero__title {
+    font-size: var(--font-size-3xl);
+    line-height: var(--line-height-tight);
+  }
+
+  .home-hero__subtitle {
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-base);
+  }
+
+  .home-cards {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .home-card {
+    width: 100%;
+    min-height: unset;
+  }
+
+  .home-card__actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .home-card__actions .btn {
+    width: 100%;
+    justify-content: center;
+    min-height: 44px;
+  }
+}

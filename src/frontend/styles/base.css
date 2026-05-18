@@ -70,6 +70,12 @@ p + p {
   padding: var(--space-7) var(--space-5);
 }
 
+@media (max-width: 640px) {
+  .container {
+    padding: var(--space-5) var(--space-4);
+  }
+}
+
 /* Text utilities */
 .lead {
   font-size: var(--font-size-lg);
