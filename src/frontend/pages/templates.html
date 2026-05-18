@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pick a template — memebro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles/tokens.css" />
+    <link rel="stylesheet" href="../styles/reset.css" />
+    <link rel="stylesheet" href="../styles/base.css" />
+    <link rel="stylesheet" href="../styles/header.css" />
+    <link rel="stylesheet" href="../styles/step-indicator.css" />
+    <link rel="stylesheet" href="../styles/templates.css" />
+  </head>
+  <body>
+    <div id="site-header"></div>
+    <script src="../scripts/header.js"></script>
+
+    <main class="container">
+      <div class="templates-header">
+        <div class="step-indicator">
+          <span class="step-indicator__meta">Step 2 of 3 · Meme Selection</span>
+          <h1 class="step-indicator__title">Pick a meme template</h1>
+        </div>
+        <button class="btn btn--surface templates-header__random" id="random-btn" type="button">
+          🎲 Random
+        </button>
+      </div>
+
+      <div class="templates-controls">
+        <input
+          type="search"
+          id="search-input"
+          class="templates-search"
+          placeholder="Search templates"
+          aria-label="Search templates"
+        />
+        <div class="templates-chips" role="tablist" aria-label="Template categories">
+          <button class="templates-chip templates-chip--active" data-category="all" type="button">
+            All
+          </button>
+          <button class="templates-chip" data-category="popular" type="button">Popular</button>
+        </div>
+      </div>
+
+      <p class="templates-status" id="grid-loading">Loading templates…</p>
+      <p class="templates-status" id="grid-empty" hidden>
+        No templates match. Try a different search.
+      </p>
+      <div class="template-grid" id="template-grid" aria-live="polite"></div>
+
+      <div class="templates-see-more">
+        <button class="see-more" id="see-more-btn" type="button" hidden>↓ See more</button>
+      </div>
+
+      <div class="page-nav">
+        <a href="upload.html" class="btn">← Back</a>
+        <a
+          href="edit.html"
+          class="btn"
+          id="next-btn"
+          aria-disabled="true"
+          tabindex="-1"
+          aria-label="Next: edit text (pick a template first)"
+        >
+          Next: edit text →
+        </a>
+      </div>
+    </main>
+
+    <script type="module" src="../scripts/templates-page.js"></script>
+  </body>
+</html>
