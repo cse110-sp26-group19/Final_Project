@@ -1,9 +1,15 @@
 async function loadHeader() {
   const placeholder = document.getElementById("site-header");
   if (!placeholder) return;
-  const base = document.querySelector('meta[name="base-path"]')?.content ?? "";
+  const base = window.location.pathname.includes("/pages/") ? ".." : ".";
   const res = await fetch(`${base}/components/header.html`);
-  placeholder.outerHTML = await res.text();
+  if (!res.ok) {
+    console.error("Failed to load header:", res.status);
+    return;
+  }
+  let html = await res.text();
+  html = html.replace(/href="\/([^"]*)"/g, `href="${base}/$1"`);
+  placeholder.outerHTML = html;
 }
 
 document.addEventListener("DOMContentLoaded", loadHeader);
