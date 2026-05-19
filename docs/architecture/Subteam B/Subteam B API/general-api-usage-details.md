@@ -9,6 +9,7 @@ Usually you’d run FaceFusion on **your own server** and expose a simple HTTP A
 
 - It works on any **normal** photo
 - Faces are detected automatically using face detection models
+
 - **You just provide:**
   - source image (the face you want to use)
   - target image (the photo where faces will be replaced)
@@ -42,15 +43,16 @@ python facefusion.py run \
 ```
 
 That command tells FaceFusion:
-which face image to use (source)
-which image/video to modify (target)
-where to save the result (output)
+
+- which face image to use (source)
+- which image/video to modify (target)
+- where to save the result (output)
 
 ---
 
 ### Option JavaScript (Node.JS API)
 
-You can call FaceFusion from Node using child_process.
+**You can call FaceFusion from Node using child_process.**
 
 Example:
 
