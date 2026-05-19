@@ -1,5 +1,6 @@
 const zone = document.getElementById("upload-zone");
 const input = document.getElementById("file-input");
+const cameraInput = document.getElementById("camera-input");
 const nextBtn = document.getElementById("next-btn");
 const preview = document.getElementById("upload-preview");
 const ALLOWED = ["image/jpeg", "image/png", "image/heic"];
@@ -36,3 +37,7 @@ document.getElementById("choose-file-btn").addEventListener("click", (e) => {
   e.stopPropagation();
   input.click();
 });
+
+document.getElementById("camera-btn").addEventListener("click", () => cameraInput.click());
+document.getElementById("library-btn").addEventListener("click", () => input.click());
+cameraInput.addEventListener("change", () => handleFile(cameraInput.files[0]));
