@@ -13,7 +13,7 @@
   - Build facial recognition surveillance systems
 
 - **Computer-generated media**
-  - ***You cannot create or modify realistic audio/video of people unless you clearly label it as AI-generated***
+  - **_You cannot create or modify realistic audio/video of people unless you clearly label it as AI-generated_**
 
 - **Healthcare / insurance decisions**
   - You cannot use it for:

@@ -33,12 +33,13 @@ Usually you’d run FaceFusion on **your own server** and expose a simple HTTP A
 
 CLI means Command Line Interface — basically running a program through terminal commands instead of clicking buttons.
 For FaceFusion, you normally run commands like:
+
 ```
 python facefusion.py run \
  --source source.jpg \
  --target target.jpg \
- --output output.jpg 
- ```
+ --output output.jpg
+```
 
 That command tells FaceFusion:
 which face image to use (source)
