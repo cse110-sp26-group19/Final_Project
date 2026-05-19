@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Result — memebro</title>
+    <title>Your meme — memebro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -14,15 +14,33 @@
     <link rel="stylesheet" href="../styles/reset.css" />
     <link rel="stylesheet" href="../styles/base.css" />
     <link rel="stylesheet" href="../styles/header.css" />
-    <link rel="stylesheet" href="../styles/step-indicator.css" />
+    <link rel="stylesheet" href="../styles/result.css" />
   </head>
   <body>
     <div id="site-header"></div>
     <script src="../scripts/header.js"></script>
+
     <main class="container">
-      <div class="page-nav">
-        <a href="../index.html" class="btn">← Start over</a>
+      <h1 class="result-title">Your meme</h1>
+
+      <div class="result-frame" id="result-frame">
+        <canvas class="result-canvas" id="result-canvas"></canvas>
+        <p class="result-status" id="result-status">Loading meme…</p>
       </div>
+
+      <div class="result-actions">
+        <button class="btn" id="download-btn" type="button" disabled aria-disabled="true">
+          ↓ Download
+        </button>
+        <button class="btn btn--surface" id="share-btn" type="button" disabled aria-disabled="true">
+          🔗 Share link
+        </button>
+        <a class="btn btn--surface" id="restart-btn" href="../index.html">+ Make another</a>
+      </div>
+
+      <p class="result-toast" id="result-toast" role="status" aria-live="polite" hidden></p>
     </main>
+
+    <script type="module" src="../scripts/result.js"></script>
   </body>
 </html>

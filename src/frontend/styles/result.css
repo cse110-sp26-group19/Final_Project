@@ -1,0 +1,96 @@
+/**
+ * Result page — final meme display + download / share / restart actions.
+ * Single-column centered layout.
+ */
+
+.result-title {
+  font-family: var(--font-sans);
+  font-size: 40px;
+  line-height: 52px;
+  font-weight: var(--font-weight-regular);
+  color: #e2e8f0;
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+
+.result-frame {
+  position: relative;
+  background: #0c1020;
+  border-radius: 8px;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin: 0 auto var(--space-6);
+  max-width: 800px;
+}
+
+.result-canvas {
+  display: none;
+  max-width: 100%;
+  max-height: 75vh;
+  border-radius: 8px;
+}
+
+.result-canvas.is-loaded {
+  display: block;
+}
+
+.result-status {
+  position: absolute;
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 23px;
+  color: var(--color-text-muted);
+  padding: var(--space-5);
+  text-align: center;
+}
+
+.result-frame.is-error .result-status {
+  color: var(--color-error);
+}
+
+.result-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.result-actions .btn {
+  min-width: 180px;
+  justify-content: center;
+}
+
+.result-toast {
+  text-align: center;
+  margin-top: var(--space-5);
+  padding: 12px 20px;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 20px;
+  color: #e2e8f0;
+  background: #111526;
+  border: 1px solid #151b2e;
+  border-radius: 8px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.result-toast.is-error {
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+
+@media (max-width: 600px) {
+  .result-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .result-actions .btn {
+    width: 100%;
+  }
+}
