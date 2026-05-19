@@ -15,19 +15,41 @@
     <link rel="stylesheet" href="../styles/base.css" />
     <link rel="stylesheet" href="../styles/header.css" />
     <link rel="stylesheet" href="../styles/step-indicator.css" />
+    <link rel="stylesheet" href="../styles/edit.css" />
   </head>
   <body>
     <div id="site-header"></div>
     <script src="../scripts/header.js"></script>
+
     <main class="container">
-      <div class="step-indicator">
-        <span class="step-indicator__meta">Step 3 of 3 · Edit</span>
-        <h1 class="step-indicator__title">Edit text</h1>
-      </div>
-      <div class="page-nav">
-        <a href="templates.html" class="btn">← Change template</a>
-        <a href="result.html" class="btn">Generate →</a>
+      <div class="edit-layout">
+        <section class="edit-preview" aria-label="Meme preview">
+          <p class="edit-preview__label">Preview</p>
+          <div class="edit-preview__frame" id="preview-frame">
+            <canvas class="edit-preview__canvas" id="preview-canvas"></canvas>
+            <p class="edit-preview__status" id="preview-status">Loading template…</p>
+          </div>
+          <p class="edit-preview__hint">Tip: drag any text on the preview to move it.</p>
+        </section>
+
+        <aside class="edit-panel" aria-label="Text editor">
+          <div class="step-indicator">
+            <span class="step-indicator__meta">Step 3 of 3 · Edit</span>
+            <h1 class="step-indicator__title">Edit text</h1>
+          </div>
+
+          <div class="edit-inputs" id="edit-inputs"></div>
+
+          <div class="edit-actions">
+            <a href="templates.html" class="btn btn--surface">← Change template</a>
+            <button class="btn" id="generate-btn" type="button" disabled aria-disabled="true">
+              Generate →
+            </button>
+          </div>
+        </aside>
       </div>
     </main>
+
+    <script type="module" src="../scripts/edit.js"></script>
   </body>
 </html>

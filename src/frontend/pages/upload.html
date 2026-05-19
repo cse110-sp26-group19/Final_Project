@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="../styles/base.css" />
     <link rel="stylesheet" href="../styles/header.css" />
     <link rel="stylesheet" href="../styles/step-indicator.css" />
+    <link rel="stylesheet" href="../styles/upload.css" />
   </head>
   <body>
     <div id="site-header"></div>
@@ -24,10 +25,22 @@
         <span class="step-indicator__meta">Step 1 of 3 · Upload</span>
         <h1 class="step-indicator__title">Upload a photo</h1>
       </div>
+      <input type="file" id="file-input" accept=".jpg,.jpeg,.png,.heic" hidden />
+      <div class="upload-zone" id="upload-zone">
+        <img class="upload-zone__preview" id="upload-preview" alt="Uploaded photo preview" />
+        <div class="upload-zone__content">
+          <img class="upload-zone__icon" src="../assets/icons/upload-plus.svg" alt="" />
+          <p class="upload-zone__text">Drop a photo<br />or</p>
+          <button class="upload-zone__btn" id="choose-file-btn" type="button">Choose file</button>
+        </div>
+      </div>
       <div class="page-nav">
         <a href="../index.html" class="btn">← Back</a>
-        <a href="select.html" class="btn">Next: pick a meme →</a>
+        <a href="templates.html" class="btn" id="next-btn" disabled aria-disabled="true"
+          >Next: pick a meme →</a
+        >
       </div>
     </main>
+    <script src="../scripts/upload.js"></script>
   </body>
 </html>

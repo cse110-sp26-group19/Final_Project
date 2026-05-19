@@ -52,3 +52,31 @@
   height: 20px;
   flex-shrink: 0;
 }
+
+@media (max-width: 640px) {
+  .site-header {
+    height: 56px;
+  }
+
+  .site-header__inner {
+    padding: 0 var(--space-4);
+  }
+
+  .site-header__logo {
+    font-size: 20px;
+  }
+
+  .site-header__nav {
+    gap: 12px;
+  }
+
+  .nav-link {
+    font-size: 14px;
+    gap: 4px;
+  }
+
+  .nav-link__chevron {
+    width: 14px;
+    height: 14px;
+  }
+}
