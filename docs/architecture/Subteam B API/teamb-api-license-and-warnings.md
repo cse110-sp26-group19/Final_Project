@@ -8,20 +8,20 @@
 
 (**Link to Rail License**)[https://www.licenses.ai/source-code-license]
 
-- Surveillance / identification
+- **Surveillance / identification**
   - Identify or infer personal traits (race, gender, religion, health, location, etc.)
   - Build facial recognition surveillance systems
 
-- Computer-generated media
-  - <bold><em>You cannot create or modify realistic audio/video of people unless you clearly label it as AI-generated </em></bold>
+- **Computer-generated media**
+  - ***You cannot create or modify realistic audio/video of people unless you clearly label it as AI-generated***
 
-- Healthcare / insurance decisions
+- **Healthcare / insurance decisions**
   - You cannot use it for:
     - Insurance approval/denial
     - Medical diagnosis without humans
     - Risk prediction based on personal data
 
-- Criminal prediction / profiling (strict ban)
+- **Criminal prediction / profiling (strict ban)**
   - You cannot use it for:
     - Predicting if someone will commit a crime
     - Facial-based criminal profiling
