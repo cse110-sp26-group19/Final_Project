@@ -12,3 +12,29 @@
 - Computer-generated media
     - <bold><em>You cannot create or modify realistic audio/video of people unless you clearly label it as AI-generated </em></bold>
 
+- Healthcare / insurance decisions
+  - You cannot use it for:
+    - Insurance approval/denial
+    - Medical diagnosis without humans
+    - Risk prediction based on personal data
+
+- Criminal prediction / profiling (strict ban)
+  - You cannot use it for:
+    - Predicting if someone will commit a crime
+    - Facial-based criminal profiling
+    - Any “crime risk” inference about a person
+
+**Special rule: you must enforce these restrictions**
+- If you distribute software using this license:
+- You must pass these restrictions to your users
+- You must legally enforce them downstream
+- So it “sticks” even if someone reuses your code.
+
+**Termination clause (important)**
+- If someone violates the restrictions:
+- The license can be immediately terminated
+- The licensor can demand deletion/return of the software
+- They can publicly list the violation
+- They can pursue legal action
+
+
