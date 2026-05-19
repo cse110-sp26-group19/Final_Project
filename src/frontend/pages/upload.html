@@ -26,13 +26,31 @@
         <h1 class="step-indicator__title">Upload a photo</h1>
       </div>
       <input type="file" id="file-input" accept=".jpg,.jpeg,.png,.heic" hidden />
+      <input type="file" id="camera-input" accept="image/*" capture="environment" hidden />
       <div class="upload-zone" id="upload-zone">
         <img class="upload-zone__preview" id="upload-preview" alt="Uploaded photo preview" />
         <div class="upload-zone__content">
           <img class="upload-zone__icon" src="../assets/icons/upload-plus.svg" alt="" />
-          <p class="upload-zone__text">Drop a photo<br />or</p>
-          <button class="upload-zone__btn" id="choose-file-btn" type="button">Choose file</button>
+          <p class="upload-zone__text upload-zone__text--desktop">Drop a photo<br />or</p>
+          <p class="upload-zone__text upload-zone__text--mobile">
+            Tap to upload<br />JPG · PNG · HEIC
+          </p>
+          <button
+            class="upload-zone__btn upload-zone__btn--desktop"
+            id="choose-file-btn"
+            type="button"
+          >
+            Choose file
+          </button>
         </div>
+      </div>
+      <div class="upload-mobile-btns">
+        <button class="btn btn--surface upload-mobile-btns__btn" id="camera-btn" type="button">
+          📷 Camera
+        </button>
+        <button class="btn btn--surface upload-mobile-btns__btn" id="library-btn" type="button">
+          🖼 Library
+        </button>
       </div>
       <div class="page-nav">
         <a href="../index.html" class="btn">← Back</a>
