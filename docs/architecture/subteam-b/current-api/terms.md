@@ -1,10 +1,12 @@
 ### Terms 0f Agreement Info
 
-___
-(**Link Here To API**)[https://replicate.com/codeplugtech/face-swap] 
+---
+
+(**Link Here To API**)[https://replicate.com/codeplugtech/face-swap]
 
 (**Terms OF Agreement**)[https://replicate.com/terms]
-___
+
+---
 
 **Things to take note of**
 
@@ -17,7 +19,7 @@ ___
 - They can also suspend your account
 - **Any Disputes with Replicate? Have to do Arbitration and No Class Action Allowed**
 
-___
+---
 
 1. **Replicate allows commercial use**
    - **Individual models may still restrict usage**
@@ -34,21 +36,21 @@ ___
      - **Risk is on us**
 
 3. **They Can Use Your Data To Operate Services**
-   - ***Replicate gets a license to:***
+   - **_Replicate gets a license to:_**
      - process your uploads
      - store them
      - generate outputs
      - operate the service
      - **They also reserve rights to create aggregated/anonymized usage data (“Resultant Data”)**
-   - ***Important nuance:***
+   - **_Important nuance:_**
      - they are NOT claiming ownership of your outputs
      - but they do process and temporarily host your data
        - So for sensitive/private media:
          - you should assume uploads leave your infrastructure.
 
 4. **You’re Responsible for Compliance**
-   - ***Replicate pushes legal responsibility heavily onto users.***
-   - ***You are responsible for:***
+   - **_Replicate pushes legal responsibility heavily onto users._**
+   - **_You are responsible for:_**
      - copyright compliance
      - likeness/consent
      - AI law compliance
