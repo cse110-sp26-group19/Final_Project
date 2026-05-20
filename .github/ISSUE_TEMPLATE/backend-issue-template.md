@@ -4,15 +4,16 @@ about: Use for server bugs, API failures, database issues, bottlenecks, features
   etc
 title: "[backend]"
 labels: backend
-assignees: ''
-
+assignees: ""
 ---
 
 ## Overview
 
 ## Description
+
 This issue covers:
-* 
+
+-
 
 ## Stages to Test
 
@@ -20,14 +21,16 @@ This issue covers:
 
 ### Stage 2:
 
-... 
+...
 
 ## Testing Checklist
 
 ### Unit Tests
-- [ ] 
-- [ ] 
+
+- [ ]
+- [ ]
 
 ### Integration Tests
-- [ ] 
+
+- [ ]
 - [ ]
