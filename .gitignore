@@ -31,3 +31,7 @@ Thumbs.db
 .cache/
 *.log
 coverage/
+
+# Pipeline zone-check verification outputs (generated locally, not needed in repo)
+src/backend/pipelines/**/*_zone_check.png
+src/backend/pipelines/**/*_zone_check.jpg

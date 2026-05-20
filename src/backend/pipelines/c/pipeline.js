@@ -9,7 +9,7 @@ import { createRequire } from "module";
 
 const require = createRequire(import.meta.url);
 
-/** @type {Record<string, { context: string, text: null, user_image: null }>} */
+/** @type {Record<string, { context: string, imageZone?: { x: number, y: number, w: number, h: number }, text: null, user_image: null }>} */
 const TEMPLATES = require("./templates.json");
 
 /**
@@ -39,7 +39,9 @@ export function resolveTemplate(templateId) {
  * @param {object} input - Generation input.
  * @param {string} input.templateId - The template identifier to resolve.
  * @param {string} input.userImage - Placeholder user image URL or identifier.
- * @returns {object} Mock generated meme response.
+ * @returns {object} Mock generated meme response including imageZone when
+ *   the template defines one. The frontend uses imageZone to composite the
+ *   user's cropped face onto the meme canvas at the correct position.
  */
 export function generateMockMeme({ templateId, userImage }) {
   const template = resolveTemplate(templateId);
@@ -51,6 +53,7 @@ export function generateMockMeme({ templateId, userImage }) {
       x: 0.65,
       y: 0.25,
     },
+    imageZone: template.imageZone ?? null,
     metadata: {
       pipeline: "c",
       source: "mock",

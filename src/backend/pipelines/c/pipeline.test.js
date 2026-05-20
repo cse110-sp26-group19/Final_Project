@@ -56,3 +56,28 @@ test("generateMockMeme embeds template context in metadata", () => {
 test("generateMockMeme throws for an unknown templateId", () => {
   assert.throws(() => generateMockMeme({ templateId: "BAD_ID", userImage: "mock.png" }), TypeError);
 });
+
+// --- imageZone ---
+
+test("generateMockMeme returns imageZone for IMG_4 (two-button sweating guy)", () => {
+  const result = generateMockMeme({ templateId: "IMG_4", userImage: "mock.png" });
+  assert.ok(result.imageZone !== undefined, "imageZone should be present");
+  assert.equal(typeof result.imageZone.x, "number");
+  assert.equal(typeof result.imageZone.y, "number");
+  assert.equal(typeof result.imageZone.w, "number");
+  assert.equal(typeof result.imageZone.h, "number");
+});
+
+test("generateMockMeme imageZone coordinates are normalized between 0 and 1", () => {
+  const result = generateMockMeme({ templateId: "IMG_4", userImage: "mock.png" });
+  const { x, y, w, h } = result.imageZone;
+  assert.ok(x >= 0 && x <= 1, "x must be 0..1");
+  assert.ok(y >= 0 && y <= 1, "y must be 0..1");
+  assert.ok(w > 0 && w <= 1, "w must be 0..1");
+  assert.ok(h > 0 && h <= 1, "h must be 0..1");
+});
+
+test("generateMockMeme returns imageZone null for templates without one", () => {
+  const result = generateMockMeme({ templateId: "IMG_2", userImage: "mock.png" });
+  assert.equal(result.imageZone, null);
+});
