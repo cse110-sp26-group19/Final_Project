@@ -2,7 +2,7 @@
 name: Backend Issue Template
 about: Use for server bugs, API failures, database issues, bottlenecks, features,
   etc
-title: ''
+title: "[backend]"
 labels: backend
 assignees: ''
 
