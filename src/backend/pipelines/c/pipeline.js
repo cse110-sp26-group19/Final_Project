@@ -1,11 +1,17 @@
 /**
- * Pipeline C mock implementation.
+ * Pipeline C implementation.
  *
- * This file represents the first testable backend flow for MemeBro.
- * It does not call Firebase or a real LLM yet.
+ * Exports two generation paths:
+ *   - generateMockMeme  — no network calls, safe for unit tests
+ *   - generateMeme      — calls AILabTools Face Swap API (requires AILAB_API_KEY)
  */
 
 import { createRequire } from "module";
+import { resolve, dirname } from "path";
+import { fileURLToPath } from "url";
+import { runFaceSwap } from "./face-swap.js";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const require = createRequire(import.meta.url);
 
@@ -59,6 +65,55 @@ export function generateMockMeme({ templateId, userImage }) {
       source: "mock",
       templateContext: template.context,
       userImage,
+    },
+  };
+}
+
+/**
+ * Generate a real meme by swapping the user's face into a template using
+ * the AILabTools AI Face Swap API.
+ *
+ * Only works for templates where faceSwapSupported is true and an image
+ * filename is defined. Requires AILAB_API_KEY in the environment.
+ *
+ * @param {object} input
+ * @param {string} input.templateId   - The template identifier (e.g. "KURT").
+ * @param {string} input.userImagePath - Absolute path to the user's photo.
+ * @param {string} input.outputPath   - Absolute path to save the result image.
+ * @returns {Promise<object>}         Generation result with image path and metadata.
+ */
+export async function generateMeme({ templateId, userImagePath, outputPath }) {
+  const template = resolveTemplate(templateId);
+
+  if (!template.faceSwapSupported) {
+    throw new Error(
+      `generateMeme: template "${templateId}" does not support face swap. ` +
+        `Use generateMockMeme or choose a template with faceSwapSupported: true.`
+    );
+  }
+
+  if (!template.image) {
+    throw new Error(`generateMeme: template "${templateId}" has no image filename defined.`);
+  }
+
+  const templateImagePath = resolve(__dirname, "templates", template.image);
+
+  const savedPath = await runFaceSwap({
+    targetPath: templateImagePath,
+    facePath: userImagePath,
+    outputPath,
+  });
+
+  return {
+    image: savedPath,
+    text: null,
+    placement: null,
+    imageZone: template.imageZone ?? null,
+    metadata: {
+      pipeline: "c",
+      source: "ailab-face-swap",
+      templateContext: template.context,
+      userImagePath,
     },
   };
 }
