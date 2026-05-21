@@ -14,3 +14,9 @@
   - Depends on Personal Computers GPU, which is not good if clients device cannot handle it
   - We did not understand the extent of the GPU Usage until it was unable to be supported due to personal computers being unable to keep up with the GPU needs.
   - Originally Chosen as free, and can be ran in local computer until couldn't
+ 
+## Why We Switched
+
+- Hosting FaceFusion would require paid GPU servers which are too costly for this project
+- Replicate handles GPU requirements on their end via a simple REST API
+- Cloudflare Workers proxies Replicate API calls to keep the API key secure
