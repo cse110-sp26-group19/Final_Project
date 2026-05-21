@@ -69,7 +69,7 @@
         ```
 
     - After You have the code, Our App Calls https://your-worker-name.workers.dev
-      - ![Image Example of where the link is](./cloudflare_steps/cloudflare_step1.png)
+      - ![Image Example of where the link is](./cloudflare_steps/cloudflare_step4.png)
     - Then we send a JSON request to it
       - ```
             {
