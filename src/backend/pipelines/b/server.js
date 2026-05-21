@@ -3,7 +3,10 @@ import multer from "multer";
 import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
+import dotenv from "dotenv";
 import ReplicateClient from "./replicate-client.js";
+
+dotenv.config({ path: path.join(path.dirname(fileURLToPath(import.meta.url)), "../../../../.env") });
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -40,7 +43,6 @@ const upload = multer({
 
 // Initialize Replicate client
 const replicateClient = new ReplicateClient({
-  apiToken: process.env.REPLICATE_API_TOKEN,
   outputDir: path.join(__dirname, "../../frontend/assets/generated"),
 });
 
