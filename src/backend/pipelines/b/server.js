@@ -6,7 +6,9 @@ import fs from "fs";
 import dotenv from "dotenv";
 import ReplicateClient from "./replicate-client.js";
 
-dotenv.config({ path: path.join(path.dirname(fileURLToPath(import.meta.url)), "../../../../.env") });
+dotenv.config({
+  path: path.join(path.dirname(fileURLToPath(import.meta.url)), "../../../../.env"),
+});
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -62,63 +64,67 @@ app.get("/health", (req, res) => {
  * @param {File} targetImage - Target image file (the face to swap to)
  * @returns {Object} Result with output image path and metadata
  */
-app.post("/api/swap", upload.fields([{ name: "sourceImage" }, { name: "targetImage" }]), async (req, res) => {
-  try {
-    // Validate files are uploaded
-    if (!req.files || !req.files.sourceImage || !req.files.targetImage) {
-      return res.status(400).json({
-        error: "Missing required files",
-        message: "Both sourceImage and targetImage are required",
+app.post(
+  "/api/swap",
+  upload.fields([{ name: "sourceImage" }, { name: "targetImage" }]),
+  async (req, res) => {
+    try {
+      // Validate files are uploaded
+      if (!req.files || !req.files.sourceImage || !req.files.targetImage) {
+        return res.status(400).json({
+          error: "Missing required files",
+          message: "Both sourceImage and targetImage are required",
+        });
+      }
+
+      const sourceImagePath = req.files.sourceImage[0].path;
+      const targetImagePath = req.files.targetImage[0].path;
+
+      console.log(`Processing face swap...`);
+      console.log(`Source: ${sourceImagePath}`);
+      console.log(`Target: ${targetImagePath}`);
+
+      // Perform face swap
+      const result = await replicateClient.generateSwap(sourceImagePath, targetImagePath, {
+        options: req.body.options || {},
       });
-    }
 
-    const sourceImagePath = req.files.sourceImage[0].path;
-    const targetImagePath = req.files.targetImage[0].path;
-
-    console.log(`Processing face swap...`);
-    console.log(`Source: ${sourceImagePath}`);
-    console.log(`Target: ${targetImagePath}`);
-
-    // Perform face swap
-    const result = await replicateClient.generateSwap(sourceImagePath, targetImagePath, {
-      options: req.body.options || {},
-    });
-
-    // Clean up uploaded files
-    fs.unlink(sourceImagePath, (err) => {
-      if (err) console.error(`Failed to delete source: ${err.message}`);
-    });
-    fs.unlink(targetImagePath, (err) => {
-      if (err) console.error(`Failed to delete target: ${err.message}`);
-    });
-
-    res.json({
-      success: true,
-      message: "Face swap completed successfully",
-      result: result,
-    });
-  } catch (error) {
-    console.error("Face swap error:", error.message);
-
-    // Clean up files on error
-    if (req.files?.sourceImage?.[0]?.path && fs.existsSync(req.files.sourceImage[0].path)) {
-      fs.unlink(req.files.sourceImage[0].path, (err) => {
+      // Clean up uploaded files
+      fs.unlink(sourceImagePath, (err) => {
         if (err) console.error(`Failed to delete source: ${err.message}`);
       });
-    }
-    if (req.files?.targetImage?.[0]?.path && fs.existsSync(req.files.targetImage[0].path)) {
-      fs.unlink(req.files.targetImage[0].path, (err) => {
+      fs.unlink(targetImagePath, (err) => {
         if (err) console.error(`Failed to delete target: ${err.message}`);
       });
-    }
 
-    res.status(500).json({
-      success: false,
-      error: error.message,
-      message: "Failed to process face swap",
-    });
+      res.json({
+        success: true,
+        message: "Face swap completed successfully",
+        result: result,
+      });
+    } catch (error) {
+      console.error("Face swap error:", error.message);
+
+      // Clean up files on error
+      if (req.files?.sourceImage?.[0]?.path && fs.existsSync(req.files.sourceImage[0].path)) {
+        fs.unlink(req.files.sourceImage[0].path, (err) => {
+          if (err) console.error(`Failed to delete source: ${err.message}`);
+        });
+      }
+      if (req.files?.targetImage?.[0]?.path && fs.existsSync(req.files.targetImage[0].path)) {
+        fs.unlink(req.files.targetImage[0].path, (err) => {
+          if (err) console.error(`Failed to delete target: ${err.message}`);
+        });
+      }
+
+      res.status(500).json({
+        success: false,
+        error: error.message,
+        message: "Failed to process face swap",
+      });
+    }
   }
-});
+);
 
 /**
  * GET /api/status
