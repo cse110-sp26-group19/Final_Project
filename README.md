@@ -4,8 +4,8 @@ An 11-person meme generator project. This README is the entry point — use it t
 
 ## Videos
 
-| Video | Link |
-| ----- | ---- |
+| Video          | Link                                                        |
+| -------------- | ----------------------------------------------------------- |
 | Status Video 1 | [YouTube](https://youtu.be/EMPugYznZpI?si=zMVvOjIs82Qr-8zn) |
 
 ## Repository layout
