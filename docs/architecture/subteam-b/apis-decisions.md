@@ -17,6 +17,6 @@
  
 ## Why We Switched
 
-- Hosting FaceFusion would require paid GPU servers (RunPod, AWS, etc.) — too costly for this project
+- Hosting FaceFusion would require paid GPU servers which are too costly for this project
 - Replicate handles GPU requirements on their end via a simple REST API
 - Cloudflare Workers proxies Replicate API calls to keep the API key secure
