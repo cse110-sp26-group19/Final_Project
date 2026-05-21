@@ -43,30 +43,29 @@
 4.  (Optional to do as Supplemental Reading)
     - Example of Basic Worker Code
 
+      ```
+      export default {
+          async fetch(request, env) {
+              const body = await request.json();
 
-        ```
-        export default {
-            async fetch(request, env) {
-                const body = await request.json();
+              const response = await fetch("https://api.replicate.com/v1/predictions", {
+              method: "POST",
+              headers: {
+                  "Authorization": `Token ${env.REPLICATE_API_TOKEN}`,
+                  "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                  version: body.version,
+                  input: body.input
+              })
+              });
 
-                const response = await fetch("https://api.replicate.com/v1/predictions", {
-                method: "POST",
-                headers: {
-                    "Authorization": `Token ${env.REPLICATE_API_TOKEN}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    version: body.version,
-                    input: body.input
-                })
-                });
+              const data = await response.json();
 
-                const data = await response.json();
-
-                return Response.json(data);
-            }
-        };
-        ```
+              return Response.json(data);
+          }
+      };
+      ```
 
     - After You have the code, Our App Calls https://your-worker-name.workers.dev
       - ![Image Example of where the link is](./cloudflare_steps/cloudflare_step4.png)
@@ -91,8 +90,8 @@
             }
         ```
     - Until it succeeds and we get - `                 {
-                    "status": "succeeded",
-                    "output": "https://replicate.output/image.jpg"
-                }
-          `
+              "status": "succeeded",
+              "output": "https://replicate.output/image.jpg"
+          }
+    `
       **More complicated stuff will be left to replicate info tab**
