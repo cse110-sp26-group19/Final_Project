@@ -29,21 +29,18 @@ Get the whole team aligned on the MemeBro project. No work assignments this spri
 
 ## Action Items
 
-### Everyone: Submit 1-2 questions for Omair
-Each team member writes 1-2 questions for the customer. Drop them in our shared questions doc / Slack thread by [FILL IN deadline, e.g., Wed 05/06 EOD]. Leads will compile and bring to the TA meeting.
-
 | Team Member | Questions Submitted |
 |---|---|
-| Tybalt | [x] |
-| Steven | [x ] |
-| Anlisa | [x ] |
-| Lorenzo | [x ] |
-| Eric | [ x] |
-| Miguel | [x ] |
-| Abhay | [ x] |
-| Omar | [x ] |
-| George | [ x] |
-| Jennifer | [x ] |
+| Tybalt | ✅ |
+| Steven | ✅ |
+| Anlisa | ✅ |
+| Lorenzo | ✅ |
+| Eric | ✅ |
+| Miguel | ✅ |
+| Abhay | ✅ |
+| Omar | ✅ |
+| George | ✅ |
+| Jennifer | ✅ |
 
 **Question prompts to consider:**
 - Scope clarifications (what counts as MVP vs. stretch?)
