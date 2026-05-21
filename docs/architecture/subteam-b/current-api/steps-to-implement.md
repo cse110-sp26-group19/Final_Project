@@ -40,58 +40,57 @@
         - Value: your Replicate API key //This is th actual token, **DONT MIX IT UP**
         - ![Image of How to Do it](./cloudflare_steps/cloudflare_step3.png)
 
-4.  (Optional to do as Supplemental Reading)
-    - Example of Basic Worker Code
+4.  (Optional to do as Supplemental Reading) - Example of Basic Worker Code
 
-      ```
-      export default {
-          async fetch(request, env) {
-              const body = await request.json();
+          ```
+          export default {
+              async fetch(request, env) {
+                  const body = await request.json();
 
-              const response = await fetch("https://api.replicate.com/v1/predictions", {
-              method: "POST",
-              headers: {
-                  "Authorization": `Token ${env.REPLICATE_API_TOKEN}`,
-                  "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                  version: body.version,
-                  input: body.input
-              })
-              });
+                  const response = await fetch("https://api.replicate.com/v1/predictions", {
+                  method: "POST",
+                  headers: {
+                      "Authorization": `Token ${env.REPLICATE_API_TOKEN}`,
+                      "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({
+                      version: body.version,
+                      input: body.input
+                  })
+                  });
 
-              const data = await response.json();
+                  const data = await response.json();
 
-              return Response.json(data);
-          }
-      };
-      ```
+                  return Response.json(data);
+              }
+          };
+          ```
 
-    - After You have the code, Our App Calls https://your-worker-name.workers.dev
-      - ![Image Example of where the link is](./cloudflare_steps/cloudflare_step4.png)
-    - Then we send a JSON request to it
-      - ```
-            {
-                "version": "model_version_id",
-                "input": {
-                    "image": "https://example.com/photo1.jpg",
-                    "face": "https://example.com/photo2.jpg"
+        - After You have the code, Our App Calls https://your-worker-name.workers.dev
+          - ![Image Example of where the link is](./cloudflare_steps/cloudflare_step4.png)
+        - Then we send a JSON request to it
+          - ```
+                {
+                    "version": "model_version_id",
+                    "input": {
+                        "image": "https://example.com/photo1.jpg",
+                        "face": "https://example.com/photo2.jpg"
+                    }
                 }
-            }
-        ```
+            ```
 
-    - Then It waits for the request with something like `const var = await request.json`
-    - The Cloudflare calls replicate through a fetch function
-    - Then we get something like this every so often
-      - ```
-            {
-                "id": "prediction_123",
-                "status": "starting"
-            }
-        ```
-    - Until it succeeds and we get - `                 {
-              "status": "succeeded",
-              "output": "https://replicate.output/image.jpg"
-          }
-    `
-      **More complicated stuff will be left to replicate info tab**
+        - Then It waits for the request with something like `const var = await request.json`
+        - The Cloudflare calls replicate through a fetch function
+        - Then we get something like this every so often
+          - ```
+                {
+                    "id": "prediction_123",
+                    "status": "starting"
+                }
+            ```
+        - Until it succeeds and we get - `                {
+        "status": "succeeded",
+        "output": "https://replicate.output/image.jpg"
+
+    }`
+    **More complicated stuff will be left to replicate info tab**
