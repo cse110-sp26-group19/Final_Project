@@ -21,4 +21,13 @@
        - Add .env to .gitignore
        - Rotate/revoke tokens if exposed (via (replicate dashboard)[https://replicate.com/account/api-tokens])
 
-4.
+### Notes on How we plan to use replicate
+
+- We are using Cloudflare with Replicate mainly to not expose our API key as to not accidentally get the API key stolen and then billed for who knows how many times the person uses it.
+
+- Cloudflare is NOT doing the AI work.
+  - It is ONLY:
+    - accepting request
+    - securing your API key
+    - forwarding to Replicate
+    - returning result
