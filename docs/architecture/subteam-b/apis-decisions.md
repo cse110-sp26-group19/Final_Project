@@ -11,7 +11,6 @@
 
 **Why we chose replicate with cloudflare**
 
-<<<<<<< HEAD
 - FaceFusion
   - Depends on Personal Computers GPU, which is not good if clients device cannot handle it
   - We did not understand the extent of the GPU Usage until it was unable to be supported due to personal computers being unable to keep up with the GPU needs.
@@ -22,7 +21,7 @@
 - Hosting FaceFusion would require paid GPU servers which are too costly for this project
 - Replicate handles GPU requirements on their end via a simple REST API
 - Cloudflare Workers proxies Replicate API calls to keep the API key secure
-=======
+
 - Replicate is relatively cheap, it takes 384 runs roughly to cost a dollar worth
 - Replicate is a self hosted ML inference platform (You call an api, and it runs it for you)
   - Cloudflare was chosen for token encryption to prevent the token being stolen (if end up getting stolen, causes troubles in more ways than one)
