@@ -27,4 +27,4 @@
 - Replicate is a self hosted ML inference platform (You call an api, and it runs it for you)
   - Cloudflare was chosen for token encryption to prevent the token being stolen (if end up getting stolen, causes troubles in more ways than one)
 - Although we have less control, we do get the GPU problem out of the way, so thats the point of it all.
->>>>>>> main
+
