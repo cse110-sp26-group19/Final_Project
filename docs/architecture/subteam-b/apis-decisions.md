@@ -15,7 +15,7 @@
   - Depends on Personal Computers GPU, which is not good if clients device cannot handle it
   - We did not understand the extent of the GPU Usage until it was unable to be supported due to personal computers being unable to keep up with the GPU needs.
   - Originally Chosen as free, and can be ran in local computer until couldn't
- 
+
 ## Why We Switched
 
 - Hosting FaceFusion would require paid GPU servers which are too costly for this project
@@ -26,4 +26,3 @@
 - Replicate is a self hosted ML inference platform (You call an api, and it runs it for you)
   - Cloudflare was chosen for token encryption to prevent the token being stolen (if end up getting stolen, causes troubles in more ways than one)
 - Although we have less control, we do get the GPU problem out of the way, so thats the point of it all.
-

@@ -3,16 +3,16 @@
  * Handles the multi-face swap workflow in the browser
  */
 
-const sourceInput = document.getElementById('sourceImage');
-const targetInput = document.getElementById('targetImage');
-const detectBtn = document.getElementById('detectBtn');
-const swapBtn = document.getElementById('swapBtn');
-const detectionStatus = document.getElementById('detectionStatus');
-const swapStatus = document.getElementById('swapStatus');
-const targetCanvas = document.getElementById('targetCanvas');
-const faceCount = document.getElementById('faceCount');
-const swapResults = document.getElementById('swapResults');
-const detectionResults = document.getElementById('detectionResults');
+const sourceInput = document.getElementById("sourceImage");
+const targetInput = document.getElementById("targetImage");
+const detectBtn = document.getElementById("detectBtn");
+const swapBtn = document.getElementById("swapBtn");
+const detectionStatus = document.getElementById("detectionStatus");
+const swapStatus = document.getElementById("swapStatus");
+const targetCanvas = document.getElementById("targetCanvas");
+const faceCount = document.getElementById("faceCount");
+const swapResults = document.getElementById("swapResults");
+const detectionResults = document.getElementById("detectionResults");
 
 let sourceFile = null;
 let targetFile = null;
@@ -20,18 +20,18 @@ let targetCanvasData = null;
 let detectedFaces = [];
 let modelsLoaded = false;
 
-sourceInput.addEventListener('change', (e) => {
+sourceInput.addEventListener("change", (e) => {
   sourceFile = e.target.files[0];
-  updateStatus('Source image loaded', 'info', detectionStatus);
+  updateStatus("Source image loaded", "info", detectionStatus);
 });
 
-targetInput.addEventListener('change', (e) => {
+targetInput.addEventListener("change", (e) => {
   targetFile = e.target.files[0];
-  updateStatus('Target image loaded', 'info', detectionStatus);
+  updateStatus("Target image loaded", "info", detectionStatus);
 });
 
-detectBtn.addEventListener('click', detectFaces);
-swapBtn.addEventListener('click', performSwap);
+detectBtn.addEventListener("click", detectFaces);
+swapBtn.addEventListener("click", performSwap);
 
 function updateStatus(message, type, element) {
   element.textContent = message;
@@ -41,7 +41,7 @@ function updateStatus(message, type, element) {
 async function loadModels() {
   if (modelsLoaded) return;
   try {
-    const MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/';
+    const MODEL_URL = "https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/";
     await Promise.all([
       faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
       faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
@@ -54,17 +54,17 @@ async function loadModels() {
 
 async function detectFaces() {
   if (!sourceFile || !targetFile) {
-    updateStatus('Please select both images', 'error', detectionStatus);
+    updateStatus("Please select both images", "error", detectionStatus);
     return;
   }
 
   detectBtn.disabled = true;
-  updateStatus('Loading models (first time only)...', 'info', detectionStatus);
+  updateStatus("Loading models (first time only)...", "info", detectionStatus);
 
   try {
     await loadModels();
 
-    updateStatus('Detecting faces...', 'info', detectionStatus);
+    updateStatus("Detecting faces...", "info", detectionStatus);
     const targetImg = await loadImageFile(targetFile);
     targetCanvasData = targetImg;
 
@@ -83,20 +83,19 @@ async function detectFaces() {
     }));
 
     if (detectedFaces.length === 0) {
-      updateStatus('No faces detected', 'error', detectionStatus);
+      updateStatus("No faces detected", "error", detectionStatus);
       detectBtn.disabled = false;
       return;
     }
 
     drawDetectedFaces(targetImg, detectedFaces);
 
-    updateStatus(`Found ${detectedFaces.length} face(s)`, 'success', detectionStatus);
+    updateStatus(`Found ${detectedFaces.length} face(s)`, "success", detectionStatus);
     faceCount.textContent = `Detected: ${detectedFaces.length} face(s)`;
-    detectionResults.style.display = 'grid';
+    detectionResults.style.display = "grid";
     swapBtn.disabled = false;
-
   } catch (error) {
-    updateStatus(`Detection failed: ${error.message}`, 'error', detectionStatus);
+    updateStatus(`Detection failed: ${error.message}`, "error", detectionStatus);
     console.error(error);
   } finally {
     detectBtn.disabled = false;
@@ -104,17 +103,17 @@ async function detectFaces() {
 }
 
 function drawDetectedFaces(img, faces) {
-  const canvas = document.getElementById('targetCanvas');
+  const canvas = document.getElementById("targetCanvas");
   canvas.width = img.width;
   canvas.height = img.height;
 
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   ctx.drawImage(img, 0, 0);
 
-  ctx.strokeStyle = '#00ff00';
+  ctx.strokeStyle = "#00ff00";
   ctx.lineWidth = 3;
-  ctx.font = '16px Arial';
-  ctx.fillStyle = '#00ff00';
+  ctx.font = "16px Arial";
+  ctx.fillStyle = "#00ff00";
 
   faces.forEach((face, idx) => {
     const { x, y, width, height } = face.box;
@@ -129,27 +128,31 @@ async function loadImageFile(file) {
     reader.onload = (e) => {
       const img = new Image();
       img.onload = () => resolve(img);
-      img.onerror = () => reject(new Error('Failed to load image'));
+      img.onerror = () => reject(new Error("Failed to load image"));
       img.src = e.target.result;
     };
-    reader.onerror = () => reject(new Error('Failed to read file'));
+    reader.onerror = () => reject(new Error("Failed to read file"));
     reader.readAsDataURL(file);
   });
 }
 
 async function performSwap() {
   if (!sourceFile || !targetFile || detectedFaces.length === 0) {
-    updateStatus('Please complete detection first', 'error', swapStatus);
+    updateStatus("Please complete detection first", "error", swapStatus);
     return;
   }
 
   swapBtn.disabled = true;
-  swapResults.innerHTML = '';
-  updateStatus(`Swapping ${detectedFaces.length} face(s)...`, 'info', swapStatus);
+  swapResults.innerHTML = "";
+  updateStatus(`Swapping ${detectedFaces.length} face(s)...`, "info", swapStatus);
 
   try {
     const cropPromises = detectedFaces.map((face, idx) =>
-      cropFace(targetCanvasData, face.box, 20).then((blob) => ({ blob, idx: idx + 1, originalBox: face.box }))
+      cropFace(targetCanvasData, face.box, 20).then((blob) => ({
+        blob,
+        idx: idx + 1,
+        originalBox: face.box,
+      }))
     );
     const croppedFaces = await Promise.all(cropPromises);
 
@@ -157,7 +160,7 @@ async function performSwap() {
     for (let i = 0; i < croppedFaces.length; i++) {
       const { blob, idx, originalBox } = croppedFaces[i];
       try {
-        updateStatus(`Swapping face ${i + 1}/${croppedFaces.length}...`, 'info', swapStatus);
+        updateStatus(`Swapping face ${i + 1}/${croppedFaces.length}...`, "info", swapStatus);
         const result = await swapFace(sourceFile, blob, idx);
         swappedFaces.push({
           ...result,
@@ -172,15 +175,19 @@ async function performSwap() {
     }
 
     if (swappedFaces.length === 0) {
-      updateStatus('All face swaps failed', 'error', swapStatus);
+      updateStatus("All face swaps failed", "error", swapStatus);
     } else {
-      updateStatus('Compositing results...', 'info', swapStatus);
+      updateStatus("Compositing results...", "info", swapStatus);
       const compositeCanvas = await compositeSwappedFaces(targetCanvasData, swappedFaces);
       displayCompositeResult(compositeCanvas);
-      updateStatus(`Successfully swapped ${swappedFaces.length}/${detectedFaces.length} faces`, 'success', swapStatus);
+      updateStatus(
+        `Successfully swapped ${swappedFaces.length}/${detectedFaces.length} faces`,
+        "success",
+        swapStatus
+      );
     }
   } catch (error) {
-    updateStatus(`Swap failed: ${error.message}`, 'error', swapStatus);
+    updateStatus(`Swap failed: ${error.message}`, "error", swapStatus);
     console.error(error);
   } finally {
     swapBtn.disabled = false;
@@ -198,30 +205,33 @@ async function cropFace(img, boundingBox, padding = 20) {
   const cropWidth = endX - startX;
   const cropHeight = endY - startY;
 
-  const cropCanvas = document.createElement('canvas');
+  const cropCanvas = document.createElement("canvas");
   cropCanvas.width = cropWidth;
   cropCanvas.height = cropHeight;
 
-  const ctx = cropCanvas.getContext('2d');
+  const ctx = cropCanvas.getContext("2d");
   ctx.drawImage(img, startX, startY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
 
   return new Promise((resolve, reject) => {
     cropCanvas.toBlob((blob) => {
-      blob ? resolve(blob) : reject(new Error('Failed to crop'));
-    }, 'image/png');
+      blob ? resolve(blob) : reject(new Error("Failed to crop"));
+    }, "image/png");
   });
 }
 
 async function swapFace(sourceFile, targetBlob, faceIndex) {
   const formData = new FormData();
-  formData.append('sourceImage', sourceFile);
-  formData.append('targetImage', new File([targetBlob], `face-${faceIndex}.png`, { type: 'image/png' }));
+  formData.append("sourceImage", sourceFile);
+  formData.append(
+    "targetImage",
+    new File([targetBlob], `face-${faceIndex}.png`, { type: "image/png" })
+  );
 
   console.log(`Swapping face ${faceIndex}...`);
 
   try {
-    const response = await fetch('http://localhost:3001/api/swap', {
-      method: 'POST',
+    const response = await fetch("http://localhost:3001/api/swap", {
+      method: "POST",
       body: formData,
     });
 
@@ -237,7 +247,7 @@ async function swapFace(sourceFile, targetBlob, faceIndex) {
     console.log(`Face ${faceIndex} result:`, data);
 
     if (!data.success) {
-      throw new Error(data.error || 'Swap failed');
+      throw new Error(data.error || "Swap failed");
     }
 
     return {
@@ -251,10 +261,10 @@ async function swapFace(sourceFile, targetBlob, faceIndex) {
 }
 
 async function compositeSwappedFaces(originalImg, swappedFaces) {
-  const canvas = document.createElement('canvas');
+  const canvas = document.createElement("canvas");
   canvas.width = originalImg.width;
   canvas.height = originalImg.height;
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   ctx.drawImage(originalImg, 0, 0);
 
   for (const face of swappedFaces) {
@@ -298,9 +308,9 @@ function displayCompositeResult(canvas) {
     const url = URL.createObjectURL(blob);
     const img = new Image();
     img.src = url;
-    img.style.maxWidth = '100%';
-    img.style.borderRadius = '4px';
-    img.style.marginTop = '10px';
+    img.style.maxWidth = "100%";
+    img.style.borderRadius = "4px";
+    img.style.marginTop = "10px";
 
     swapResults.innerHTML = `
       <div style="text-align: center;">

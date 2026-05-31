@@ -1,5 +1,7 @@
 ## What to test and what not to
+
 ### What can be tested
+
 - source image, face is small but clear
 - source image with harsh shadows
 - source image in blue lighting
@@ -11,14 +13,15 @@
   - glasses
   - mask
 - Overlapping faces
-  - Like one face in front of the other 
+  - Like one face in front of the other
 - partial faces
-  - like with angles 
+  - like with angles
     - facing up
     - facing down
     - to the left
     - to the right
 
 ### What can't be tested
+
 - blurry photos, with a blurry face - resolution unknown
   - ie) small faces can be detected given that it isnt to blurry
