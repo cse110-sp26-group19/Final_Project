@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multi-Face Swap</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: #f5f5f5;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        color: #333;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .section {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .section h2 {
+        color: #555;
+        margin-bottom: 15px;
+        font-size: 18px;
+      }
+
+      .input-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .input-item {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .input-item label {
+        color: #666;
+        margin-bottom: 8px;
+        font-weight: 500;
+      }
+
+      .input-item input[type="file"] {
+        padding: 8px;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .btn-detect {
+        background: #007bff;
+        color: white;
+      }
+
+      .btn-detect:hover:not(:disabled) {
+        background: #0056b3;
+      }
+
+      .btn-swap {
+        background: #28a745;
+        color: white;
+      }
+
+      .btn-swap:hover:not(:disabled) {
+        background: #1e7e34;
+      }
+
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .canvas-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .canvas-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .canvas-item h3 {
+        color: #555;
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+
+      canvas,
+      img {
+        max-width: 100%;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        background: #f9f9f9;
+      }
+
+      .status {
+        padding: 12px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        display: none;
+      }
+
+      .status.show {
+        display: block;
+      }
+
+      .status.info {
+        background: #e7f3ff;
+        color: #0056b3;
+        border: 1px solid #b3d9ff;
+      }
+
+      .status.success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .status.error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      .face-count {
+        color: #666;
+        font-size: 14px;
+        margin-top: 10px;
+      }
+
+      .swap-results {
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      .swap-results h3 {
+        color: #555;
+        margin-bottom: 15px;
+      }
+
+      .swap-results img {
+        max-width: 100%;
+        margin: 15px 0;
+      }
+
+      .download-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background: #28a745;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: 600;
+        margin-top: 15px;
+      }
+
+      .download-btn:hover {
+        background: #1e7e34;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🔄 Multi-Face Swap</h1>
+
+      <!-- Input Section -->
+      <div class="section">
+        <h2>1. Upload Images</h2>
+        <div class="input-group">
+          <div class="input-item">
+            <label for="sourceImage">Source Image (face to swap from)</label>
+            <input type="file" id="sourceImage" accept="image/*" />
+          </div>
+          <div class="input-item">
+            <label for="targetImage">Target Image (faces to swap to)</label>
+            <input type="file" id="targetImage" accept="image/*" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Detection Section -->
+      <div class="section">
+        <h2>2. Detect Faces</h2>
+        <div class="status" id="detectionStatus"></div>
+        <div class="button-group">
+          <button class="btn-detect" id="detectBtn">Detect Faces</button>
+        </div>
+        <div class="canvas-grid" id="detectionResults" style="display: none; margin-top: 20px">
+          <div class="canvas-item">
+            <h3>Target Image with Detection</h3>
+            <canvas id="targetCanvas"></canvas>
+            <div class="face-count" id="faceCount"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Swap Section -->
+      <div class="section">
+        <h2>3. Perform Swap</h2>
+        <div class="status" id="swapStatus"></div>
+        <div class="button-group">
+          <button class="btn-swap" id="swapBtn" disabled>Swap All Faces</button>
+        </div>
+        <div id="swapResults" class="swap-results"></div>
+      </div>
+    </div>
+
+    <!-- face-api.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
+
+    <!-- Face Swap UI Controller -->
+    <script src="face-swap-ui.js"></script>
+  </body>
+</html>

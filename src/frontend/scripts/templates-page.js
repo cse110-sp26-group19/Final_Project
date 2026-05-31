@@ -9,7 +9,6 @@
  */
 
 import { getTemplates } from "../../templates.js";
-import { filterTemplates } from "../lib/template-filter.js";
 
 const PAGE_SIZE = 12;
 
@@ -36,10 +35,14 @@ const state = {
  * list, reset pagination, and re-render the grid.
  */
 function applyFilters() {
-  state.filtered = filterTemplates(state.templates, {
-    query: state.query,
-    category: state.category,
+  const query = state.query.trim().toLowerCase();
+
+  state.filtered = state.templates.filter((template) => {
+    if (query && !template.name.toLowerCase().includes(query)) return false;
+    if (state.category === "popular" && template.box_count < 4) return false;
+    return true;
   });
+
   state.visible = PAGE_SIZE;
   render();
 }
