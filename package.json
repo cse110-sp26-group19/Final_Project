@@ -7,6 +7,7 @@
   "scripts": {
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "server": "node src/backend/pipelines/b/server.js",
     "test": "node --test \"tests/*.test.js\""
   },
   "devDependencies": {
@@ -14,9 +15,12 @@
   },
   "dependencies": {
     "axios": "^1.16.1",
+    "canvas": "^3.2.3",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "face-api.js": "^0.22.2",
     "multer": "^2.1.1",
-    "replicate": "^1.4.0"
+    "replicate": "^1.4.0",
+    "tracking": "^1.1.3"
   }
 }

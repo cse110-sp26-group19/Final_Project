@@ -79,7 +79,8 @@ class ReplicateClient {
           throw new Error(`Prediction failed with status: ${result.status}`);
         }
 
-        const outputPath = await this.downloadAndSaveImage(result.output, options.outputName);
+        const fileName = await this.downloadAndSaveImage(result.output, options.outputName);
+        const outputPath = `http://localhost:3001/images/${fileName}`;
 
         return {
           success: true,
@@ -186,7 +187,7 @@ class ReplicateClient {
       const outputPath = path.join(this.outputDir, fileName);
 
       fs.writeFileSync(outputPath, response.data);
-      return outputPath;
+      return fileName;
     } catch (error) {
       throw new Error(`Download failed: ${error.message}`);
     }
