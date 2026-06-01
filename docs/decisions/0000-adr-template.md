@@ -18,6 +18,8 @@ State the choice clearly in one or two sentences. Be specific (libraries, patter
 
 ## Consequences
 
+- ...
+
 ### Positives
 
 - ...
