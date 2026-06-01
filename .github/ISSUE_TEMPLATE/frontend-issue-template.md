@@ -4,8 +4,7 @@ about: Use for UI bugs, layout shifts, component styling, responsiveness issues,
   feature
 title: "[frontend]"
 labels: frontend
-assignees: ''
-
+assignees: ""
 ---
 
 **Frontend Issue Description**:
