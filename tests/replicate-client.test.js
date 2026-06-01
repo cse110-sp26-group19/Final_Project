@@ -84,9 +84,11 @@ test("createPrediction - 402 insufficient credits", async (t) => {
  */
 test("pollPrediction - return succeeded", async (t) => {
   const origGet = axios.get;
-  t.mock.method(axios, "get", () => Promise.resolve({
-    data: { status: "succeeded", output: "url" }
-  }));
+  t.mock.method(axios, "get", () =>
+    Promise.resolve({
+      data: { status: "succeeded", output: "url" },
+    })
+  );
   const result = await new ReplicateClient().pollPrediction("pred-123");
   assert.strictEqual(result.status, "succeeded");
   axios.get = origGet;
@@ -99,9 +101,11 @@ test("pollPrediction - return succeeded", async (t) => {
  */
 test("pollPrediction - return failed", async (t) => {
   const origGet = axios.get;
-  t.mock.method(axios, "get", () => Promise.resolve({
-    data: { status: "failed", error: "Face not detected" }
-  }));
+  t.mock.method(axios, "get", () =>
+    Promise.resolve({
+      data: { status: "failed", error: "Face not detected" },
+    })
+  );
   const result = await new ReplicateClient().pollPrediction("pred-123");
   assert.strictEqual(result.status, "failed");
   axios.get = origGet;
