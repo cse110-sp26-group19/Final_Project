@@ -16,9 +16,11 @@ We will ...
 
 State the choice clearly in one or two sentences. Be specific (libraries, patterns, folder layout).
 
-## Consequences
+## What We Considered and Skipped
 
 - ...
+
+## Consequences
 
 ### Positives
 
