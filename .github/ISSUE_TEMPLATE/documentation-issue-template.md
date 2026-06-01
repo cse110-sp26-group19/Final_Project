@@ -3,8 +3,7 @@ name: Documentation Issue Template
 about: Use for specific tasks, feature requests, doc bugs, and missing setup guides
 title: "[docs]"
 labels: documentation
-assignees: ''
-
+assignees: ""
 ---
 
 **Description of the Documentation Issue**:
