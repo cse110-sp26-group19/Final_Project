@@ -28,6 +28,7 @@ The backend will expose a POST `/api/swap` endpoint that accepts multipart image
 ## What We Considered and Skipped
 
 **LLMs (OpenAI, Gemini, Claude)**
+
 - Inconsistent results: LLMs are designed for text and general vision tasks, not specialized face-swapping
 - Non-deterministic: May refuse to perform face swaps for safety reasons or fail intermittently
 - Expensive: LLM API costs ($0.01-0.10+ per call) far exceed specialized face-swap models
@@ -35,6 +36,7 @@ The backend will expose a POST `/api/swap` endpoint that accepts multipart image
 - Not designed for this task: Would require expensive prompt engineering with no guarantee of quality
 
 **FaceFusion (Self-Hosted)**
+
 - Accessibility barriers: Requires local GPU/CPU infrastructure that users/developers don't have available
 - Deployment complexity: Need to manage CUDA, PyTorch, model weights, and inference servers
 - Scale issues: Can't handle concurrent requests without expensive multi-GPU setup
@@ -46,6 +48,7 @@ The backend will expose a POST `/api/swap` endpoint that accepts multipart image
 ## Why Replicate API is Better
 
 **Replicate API** solves all these problems:
+
 - **Specialized**: codeplugtech model is purpose-built for face-swapping with proven accuracy
 - **Consistent**: Deterministic results with reliable error handling
 - **Cost-effective**: ~$0.01-0.02 per swap vs. $0.50+ for self-hosted GPU compute
