@@ -1,10 +1,10 @@
 # 0002. Use Replicate API with codeplugtech face-swap model
 
-| Attribute | Value                                |
-| --------- | ------------------------------------ |
-| Date      | `2026-05-21`                         |
-| Status    | Accepted                             |
-| Deciders  | CSE 110 Group 19 (Backend Team)      |
+| Attribute | Value                           |
+| --------- | ------------------------------- |
+| Date      | `2026-05-21`                    |
+| Status    | Accepted                        |
+| Deciders  | CSE 110 Group 19 (Backend Team) |
 
 ## Context
 
