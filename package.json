@@ -5,6 +5,7 @@
   "description": "AI-assisted meme generator — CSE 110 Spring 2026 final project (Group 19).",
   "type": "module",
   "scripts": {
+    "start": "node src/backend/server.js",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
