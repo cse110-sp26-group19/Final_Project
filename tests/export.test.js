@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-import { exportMeme } from "../src/export.js";
+import { exportMeme } from "../src/frontend/export.js";
 
 function makeCanvas({ failBlob = false, throwOnToBlob = false } = {}) {
   return {

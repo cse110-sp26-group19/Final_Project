@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-import { getTemplates, __testing } from "../src/templates.js";
+import { getTemplates, __testing } from "../src/frontend/templates.js";
 
 function makeStorage(initial = {}) {
   const store = new Map(Object.entries(initial));

@@ -15,7 +15,7 @@ import { drawMeme } from "../../meme-canvas.js";
 
 const STORAGE_KEY = "memebro:current-meme";
 const FACE_KEY = "memebro:face-photo";
-const API_SWAP_URL = "http://localhost:3001/api/face-swap";
+const API_SWAP_URL = `${window.location.origin}/api/face-swap`;
 const HIT_RADIUS = 0.1; // normalized distance threshold for drag pickup
 
 const elements = {

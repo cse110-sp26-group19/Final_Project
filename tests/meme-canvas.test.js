@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-import { drawMeme, __testing } from "../src/meme-canvas.js";
+import { drawMeme, __testing } from "../src/frontend/meme-canvas.js";
 
 function makeContext() {
   const calls = [];
