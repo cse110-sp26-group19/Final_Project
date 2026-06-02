@@ -8,16 +8,18 @@
 
 ## Attendance
 
-| Present | Absent |
-| ------- | ------ |
-| Name    | Name   |
-| Name    | Name   |
-| Name    |        |
-| Name    |        |
-| Name    |        |
-| Name    |        |
-| Name    |        |
-| Name    |        |
+| Present  | Absent |
+| -------- | ------ |
+| Tybalt   |        |
+| Steven   |        |
+| Anlisa   |        |
+| Lorenzo  |        |
+| Eric     |        |
+| Miguel   |        |
+| Abhay    |        |
+| Omar     |        |
+| George   |        |
+| Jennifer |        |
 
 ---
 
