@@ -166,22 +166,28 @@ class ReplicateClient {
       console.error("API Error:", error.response?.data);
 
       if (error.response?.status === 401) {
-        throw new Error("Invalid API token - check .env");
+        throw new Error("Invalid API token - check .env", { cause: error });
       }
       if (error.response?.status === 402) {
-        throw new Error("Insufficient credits - add payment at https://replicate.com");
+        throw new Error("Insufficient credits - add payment at https://replicate.com", {
+          cause: error,
+        });
       }
       if (error.response?.status === 404) {
-        throw new Error("Model not found - check model ID");
+        throw new Error("Model not found - check model ID", { cause: error });
       }
       if (error.response?.status === 422) {
-        throw new Error(`Invalid format: ${JSON.stringify(error.response.data)}`);
+        throw new Error(`Invalid format: ${JSON.stringify(error.response.data)}`, {
+          cause: error,
+        });
       }
       if (error.response?.status === 429) {
-        throw new Error("Rate limited - try again later");
+        throw new Error("Rate limited - try again later", { cause: error });
       }
 
-      throw new Error(`API error: ${error.response?.status || error.code} - ${error.message}`);
+      throw new Error(`API error: ${error.response?.status || error.code} - ${error.message}`, {
+        cause: error,
+      });
     }
   }
 
@@ -217,7 +223,7 @@ class ReplicateClient {
         console.log(`Status: ${prediction.status}`);
         await this.delay(this.pollInterval);
       } catch (error) {
-        throw new Error(`Poll failed: ${error.message}`);
+        throw new Error(`Poll failed: ${error.message}`, { cause: error });
       }
     }
 
@@ -245,7 +251,7 @@ class ReplicateClient {
       fs.writeFileSync(outputPath, response.data);
       return fileName;
     } catch (error) {
-      throw new Error(`Download failed: ${error.message}`);
+      throw new Error(`Download failed: ${error.message}`, { cause: error });
     }
   }
 
