@@ -5,11 +5,21 @@ const nextBtn = document.getElementById("next-btn");
 const preview = document.getElementById("upload-preview");
 const ALLOWED = ["image/jpeg", "image/png", "image/heic"];
 
+// Key used by the edit page to retrieve the face photo for the AI swap.
+const FACE_KEY = "memebro:face-photo";
+
 function handleFile(file) {
   if (!file || !ALLOWED.includes(file.type.toLowerCase())) {
     alert("Please upload a JPG, PNG, or HEIC file.");
     return;
   }
+
+  // Blob URLs are tab-local and die on navigation; convert to a base64 data
+  // URL so the edit page can read it from sessionStorage after the redirect.
+  const reader = new FileReader();
+  reader.onload = (e) => sessionStorage.setItem(FACE_KEY, e.target.result);
+  reader.readAsDataURL(file);
+
   preview.src = URL.createObjectURL(file);
   zone.classList.add("has-file");
   nextBtn.removeAttribute("disabled");
