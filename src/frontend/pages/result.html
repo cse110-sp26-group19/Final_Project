@@ -24,6 +24,14 @@
       <h1 class="result-title">Your meme</h1>
 
       <div class="result-frame" id="result-frame">
+        <!-- shown when the backend face-swap succeeds -->
+        <img
+          class="result-canvas result-swapped"
+          id="result-swapped"
+          alt="Face-swapped meme"
+          hidden
+        />
+        <!-- fallback: text-only meme rendered locally -->
         <canvas class="result-canvas" id="result-canvas"></canvas>
         <p class="result-status" id="result-status">Loading meme…</p>
       </div>
