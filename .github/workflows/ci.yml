@@ -1,13 +1,24 @@
 name: CI
 
+# Runs on every push and pull request.
 on: [push, pull_request]
 
 jobs:
-  lint:
+  ci:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Dependencies
-        run: npm install
-      - name: Format Check
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm ci
+      - name: Check formatting
         run: npm run format:check
+      - name: Run tests
+        run: npm test
+      # Lint is informational only — it reports issues as a warning and never fails the build.
+      - name: Lint (warning only)
+        run: npm run lint
+        continue-on-error: true
