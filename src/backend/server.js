@@ -149,6 +149,13 @@ app.post("/api/face-swap", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`memebro server → http://localhost:${PORT}`);
-});
+// Only start listening when run directly — not when imported by tests.
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  app.listen(PORT, () => {
+    console.log(`memebro server → http://localhost:${PORT}`);
+  });
+}
+
+// Export for integration tests; private helpers exposed via __testing.
+export { app };
+export const __testing = { fetchAsDataUrl, ALLOWED_FACE_MIME, ALLOWED_TEMPLATE_HOSTS };
