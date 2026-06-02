@@ -7,3 +7,6 @@ package-lock.json
 *.min.css
 *.min.js
 docs/design/wireframes/
+
+# Local, environment-specific override settings (not shared/enforced)
+**/*.local.json
