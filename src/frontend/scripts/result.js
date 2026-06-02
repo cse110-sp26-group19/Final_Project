@@ -22,6 +22,7 @@ const TOAST_TIMEOUT_MS = 2500;
 
 const elements = {
   canvas: document.getElementById("result-canvas"),
+  swapped: document.getElementById("result-swapped"),
   frame: document.getElementById("result-frame"),
   status: document.getElementById("result-status"),
   downloadBtn: document.getElementById("download-btn"),
@@ -115,14 +116,37 @@ function showToast(message, { isError = false } = {}) {
 }
 
 /**
- * Trigger a PNG download of the rendered canvas. Catches the tainted-canvas
- * SecurityError thrown when Imgflip's CDN doesn't send CORS headers and
- * shows a friendly right-click-to-save fallback instead.
+ * Trigger a PNG download of the final meme.
+ *
+ * When a face-swapped image is shown, fetch it and force a download via a
+ * temporary <a> tag (avoids the CORS taint that affects canvas.toBlob).
+ * Otherwise fall back to the existing canvas exportMeme path.
  */
 async function downloadMeme() {
   const filename = state.spec.templateName
     ? `${state.spec.templateName.replace(/\s+/g, "-").toLowerCase()}.png`
     : "meme.png";
+
+  if (state.spec.swappedImageUrl) {
+    try {
+      // The swapped image is served from localhost so fetch is allowed.
+      const response = await fetch(state.spec.swappedImageUrl);
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = objectUrl;
+      anchor.download = filename;
+      anchor.click();
+      URL.revokeObjectURL(objectUrl);
+      showToast("Saved to your downloads.");
+    } catch (error) {
+      console.error("Swapped image download failed:", error);
+      showToast("Download failed. Right-click the image to save it.", { isError: true });
+    }
+    return;
+  }
+
+  // Fallback: canvas-based export for text-only memes.
   try {
     await exportMeme(elements.canvas, filename);
     showToast("Saved to your downloads.");
@@ -178,11 +202,18 @@ async function init() {
   state.spec = spec;
 
   try {
-    const image = await loadImage(spec.templateUrl);
-    drawMeme(elements.canvas, image, spec.textBoxes ?? []);
+    if (spec.swappedImageUrl) {
+      // Show the AI face-swapped image instead of re-rendering the canvas.
+      elements.swapped.src = spec.swappedImageUrl;
+      elements.swapped.hidden = false;
+      elements.canvas.hidden = true;
+    } else {
+      const image = await loadImage(spec.templateUrl);
+      drawMeme(elements.canvas, image, spec.textBoxes ?? []);
+      elements.canvas.classList.add("is-loaded");
+    }
 
     elements.status.hidden = true;
-    elements.canvas.classList.add("is-loaded");
 
     elements.downloadBtn.disabled = false;
     elements.downloadBtn.setAttribute("aria-disabled", "false");
