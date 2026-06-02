@@ -17,7 +17,7 @@ The project needs a backend API server to handle face-swap requests, file upload
 - **Team expertise**: Team familiar with JavaScript/Node.js
 - **Lightweight**: Minimal overhead for serverless compatibility
 
-We evaluated three frameworks: Express.js, Fastify, and Hono.
+We evaluated three options: Express.js (custom framework), Firebase (BaaS), and Supabase (BaaS).
 
 ## Decision
 
@@ -48,21 +48,26 @@ Express.js provides a minimal, flexible HTTP server framework with mature middle
 
 ### Alternatives considered
 
-**Fastify**
+**Firebase (Backend-as-a-Service)**
+- No custom server code needed
+- Automatic scaling and hosting
+- Built-in authentication and real-time database
+- Tradeoffs: 
+  - Vendor lock-in (harder to migrate)
+  - Limited control over API logic
+  - Overkill for simple face-swap endpoint
+  - Replicate API calls would require Cloud Functions (additional complexity)
+  - Cost model less predictable
 
-- Faster performance (not needed at this scale)
-- More opinionated structure
-- Smaller ecosystem than Express
-- Steeper learning curve
-- Overkill for single endpoint project
-
-**Hono**
-
-- Lightweight and fast
-- Designed for edge computing (Cloudflare Workers)
-- Smaller ecosystem than Express
-- Less mature than Express
-- Would require learning new framework patterns
+**Supabase (PostgreSQL + Auto APIs)**
+- Open-source Firebase alternative
+- SQL database with auto-generated APIs
+- Built-in authentication
+- Tradeoffs:
+  - Not ideal for file-upload workflows
+  - Adds database complexity when not needed
+  - Focuses on CRUD operations, not file processing
+  - Replicate integration would still need custom server
 
 ### Follow-up
 
