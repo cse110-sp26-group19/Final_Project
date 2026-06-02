@@ -39,6 +39,7 @@ node src/backend/server.js
 ```
 
 Expected output:
+
 ```
 Face swap API server listening on port 3001
 Health check: GET http://localhost:3001/health
@@ -86,6 +87,7 @@ curl -o tests/fixtures/images/target.jpg \
 ```
 
 Or manually place JPEGs named:
+
 - `tests/fixtures/images/source.jpg`
 - `tests/fixtures/images/target.jpg`
 
@@ -128,11 +130,13 @@ node tests/test-api.integration.js
 ```
 
 Tests:
+
 1. ✅ Health check endpoint
-2. ✅ Status endpoint  
+2. ✅ Status endpoint
 3. ✅ Full face-swap workflow
 
 Expected output:
+
 ```
 ========================================
 Face Swap API Integration Tests
@@ -163,6 +167,7 @@ curl http://localhost:3001/health
 ```
 
 Response (200):
+
 ```json
 {
   "status": "ok",
@@ -177,6 +182,7 @@ curl http://localhost:3001/api/status
 ```
 
 Response (200):
+
 ```json
 {
   "server": "running",
@@ -195,6 +201,7 @@ curl -X POST http://localhost:3001/api/swap \
 ```
 
 Response (200):
+
 ```json
 {
   "success": true,
@@ -214,12 +221,14 @@ Open the `outputPath` URL in browser to view the swapped image.
 ### Error Cases
 
 **Missing files:**
+
 ```bash
 curl -X POST http://localhost:3001/api/swap \
   -F "sourceImage=@source.jpg"
 ```
 
 Response (400):
+
 ```json
 {
   "error": "Missing required files",
@@ -228,6 +237,7 @@ Response (400):
 ```
 
 **Invalid file type:**
+
 ```bash
 curl -X POST http://localhost:3001/api/swap \
   -F "sourceImage=@file.txt" \
@@ -235,6 +245,7 @@ curl -X POST http://localhost:3001/api/swap \
 ```
 
 Response (400):
+
 ```json
 {
   "error": "File upload error",
@@ -243,12 +254,14 @@ Response (400):
 ```
 
 **Invalid Replicate token:**
+
 ```
 # Set bad token in .env
 REPLICATE_API_TOKEN=invalid_token
 ```
 
 Response (500):
+
 ```json
 {
   "success": false,
@@ -273,10 +286,10 @@ src/backend/
 
 ## Environment Variables
 
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `REPLICATE_API_TOKEN` | ✅ Yes | - | Replicate API authentication token |
-| `PORT` | ❌ No | 3001 | Server port |
+| Variable              | Required | Default | Description                        |
+| --------------------- | -------- | ------- | ---------------------------------- |
+| `REPLICATE_API_TOKEN` | ✅ Yes   | -       | Replicate API authentication token |
+| `PORT`                | ❌ No    | 3001    | Server port                        |
 
 ## Troubleshooting
 
@@ -285,6 +298,7 @@ src/backend/
 **Problem**: Server won't start, missing .env variable
 
 **Solution**:
+
 ```bash
 # Check .env exists
 cat .env
@@ -301,6 +315,7 @@ echo "REPLICATE_API_TOKEN=your_token" > .env
 **Problem**: Dependencies not installed
 
 **Solution**:
+
 ```bash
 npm install
 ```
@@ -310,6 +325,7 @@ npm install
 **Problem**: Bad or expired Replicate token
 
 **Solution**:
+
 1. Get new token: https://replicate.com/account/api-tokens
 2. Update .env: `REPLICATE_API_TOKEN=new_token_here`
 3. Restart server
@@ -319,6 +335,7 @@ npm install
 **Problem**: Another process using port 3001
 
 **Solution**:
+
 ```bash
 # Use different port
 PORT=3002 node src/backend/server.js
@@ -333,6 +350,7 @@ kill -9 <PID>
 **Problem**: Integration tests fail with "Source file not found"
 
 **Solution**:
+
 ```bash
 # Verify files exist
 ls -la tests/fixtures/images/
