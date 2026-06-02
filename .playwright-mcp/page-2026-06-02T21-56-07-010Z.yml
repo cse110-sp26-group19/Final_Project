@@ -1,0 +1,32 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Memebro" [ref=e4] [cursor=pointer]:
+        - /url: ../index.html
+      - navigation "Main navigation" [ref=e5]:
+        - link "Upload" [ref=e6] [cursor=pointer]:
+          - /url: ../pages/upload.html
+        - link "Templates" [ref=e7] [cursor=pointer]:
+          - /url: ../pages/templates.html
+          - text: Templates
+          - img [ref=e8]
+        - link "Share" [ref=e10] [cursor=pointer]:
+          - /url: ../pages/share.html
+  - main [ref=e11]:
+    - generic [ref=e12]:
+      - generic [ref=e13]:
+        - generic [ref=e14]: Step 2 of 3 · Meme Selection
+        - heading "Pick a meme template" [level=1] [ref=e15]
+      - button "🎲 Random" [ref=e16] [cursor=pointer]
+    - generic [ref=e17]:
+      - searchbox "Search templates" [ref=e18]
+      - tablist "Template categories" [ref=e19]:
+        - button "All" [ref=e20] [cursor=pointer]
+        - button "Popular" [ref=e21] [cursor=pointer]
+    - paragraph [ref=e22]: Loading templates…
+    - generic [ref=e23]:
+      - link "← Back" [ref=e24] [cursor=pointer]:
+        - /url: upload.html
+      - 'link "Next: edit text (pick a template first)" [disabled] [ref=e25] [cursor=pointer]':
+        - /url: edit.html
+        - text: "Next: edit text →"

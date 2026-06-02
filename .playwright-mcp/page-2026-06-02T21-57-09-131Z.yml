@@ -1,0 +1,21 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Memebro" [ref=e4] [cursor=pointer]:
+        - /url: ../index.html
+      - navigation "Main navigation" [ref=e5]:
+        - link "Upload" [ref=e6] [cursor=pointer]:
+          - /url: ../pages/upload.html
+        - link "Templates" [ref=e7] [cursor=pointer]:
+          - /url: ../pages/templates.html
+          - text: Templates
+          - img [ref=e8]
+        - link "Share" [ref=e10] [cursor=pointer]:
+          - /url: ../pages/share.html
+  - main [ref=e11]:
+    - heading "Your meme" [level=1] [ref=e12]
+    - generic [ref=e15]:
+      - button "↓ Download" [ref=e16] [cursor=pointer]
+      - button "🔗 Share link" [ref=e17] [cursor=pointer]
+      - link "+ Make another" [ref=e18] [cursor=pointer]:
+        - /url: ../index.html
