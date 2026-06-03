@@ -30,18 +30,25 @@ After cloning the repo, run **once**:
 npm install
 ```
 
-This installs the dev tooling (Prettier and EditorConfig) so every contributor formats code identically. Rationale for the tool choice lives in [`docs/decisions/0001-code-style-tooling.md`](docs/decisions/0001-code-style-tooling.md).
+This installs the dev tooling (Prettier, ESLint, and EditorConfig) so every contributor formats and lints code identically. Rationale lives in the decision records: [`0001-code-style-tooling.md`](docs/decisions/0001-code-style-tooling.md) (formatting), [`0003-javascript-linting.md`](docs/decisions/0003-javascript-linting.md) (linting), and [`0004-ci-pipeline.md`](docs/decisions/0004-ci-pipeline.md) (CI).
 
 ## Daily workflow
 
-- **Format your code** before committing:
-  ```bash
-  npm run format
-  ```
-- **Check formatting** (what CI will run):
-  ```bash
-  npm run format:check
-  ```
+**Before you push, run one command:**
+
+```bash
+npm run check
+```
+
+This runs the exact same checks CI runs — formatting (Prettier), linting (ESLint), and the test suite — in one shot. If it passes locally, it will pass in CI and your PR will be mergeable.
+
+If `check` reports formatting or lint problems, auto-fix what can be fixed:
+
+```bash
+npm run fix
+```
+
+Then run `npm run check` again. The individual commands are also available if you want them: `npm run format`, `npm run format:check`, `npm run lint`, and `npm test`.
 
 ## Editor setup (strongly recommended)
 
@@ -49,6 +56,7 @@ Install these so formatting happens on save and you never have to think about it
 
 - **VS Code:**
   - [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+  - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
   - [EditorConfig for VS Code](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
 - **JetBrains (WebStorm, IntelliJ):** built-in. Enable Prettier under _Settings → Languages & Frameworks → JavaScript → Prettier_ and tick **"On save"** and **"On 'Reformat Code' action"**.
 
@@ -59,9 +67,20 @@ Once your editor is set up, **enable "Format on save"** in editor settings. Afte
 | Tool             | Purpose                                                                                            |
 | ---------------- | -------------------------------------------------------------------------------------------------- |
 | **Prettier**     | Formats HTML, CSS, JS, JSON, Markdown (whitespace, quotes, trailing commas, line wrapping, etc.)   |
+| **ESLint**       | Lints JavaScript for correctness bugs (unused variables, undefined references, unreachable code)   |
 | **EditorConfig** | Enforces basics at save-time (indent style/size, line endings, trailing whitespace, final newline) |
 
-If `npm run format:check` passes locally, it will pass in CI. If it doesn't, your PR will be blocked until it does.
+## CI checks
+
+Every push and pull request triggers our GitHub Actions pipeline ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)), which runs:
+
+- **Formatting** — `npm run format:check`
+- **Tests** — `npm test` (our frontend test suite)
+- **Lint** — `npm run lint`, reported as a **warning only** (it never fails the build)
+
+These match what `npm run check` runs locally, so if `check` passes you're good. A **docs-only** change still has to be Prettier-formatted (Prettier formats Markdown too).
+
+See [`docs/decisions/0004-ci-pipeline.md`](docs/decisions/0004-ci-pipeline.md) for the rationale.
 
 ---
 
