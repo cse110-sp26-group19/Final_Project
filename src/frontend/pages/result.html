@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="../styles/base.css" />
     <link rel="stylesheet" href="../styles/header.css" />
     <link rel="stylesheet" href="../styles/result.css" />
-    <link rel="preload" href="../assets/loading.json" as="fetch" crossorigin>
+    <link rel="preload" href="../assets/loading.json" as="fetch" crossorigin />
     <script src="../assets/lottie.min.js"></script>
   </head>
   <body>
@@ -28,16 +28,16 @@
       <div class="result-frame" id="result-frame">
         <canvas class="result-canvas" id="result-canvas"></canvas>
         <div class="result-status" id="result-status">
-          <div id="lottie-loading" style="width:120px;height:120px;"></div>
+          <div id="lottie-loading" style="width: 120px; height: 120px"></div>
           Loading meme…
         </div>
         <script>
           lottie.loadAnimation({
-            container: document.getElementById('lottie-loading'),
-            renderer: 'svg',
+            container: document.getElementById("lottie-loading"),
+            renderer: "svg",
             loop: true,
             autoplay: true,
-            path: '../assets/loading.json'
+            path: "../assets/loading.json",
           });
         </script>
       </div>

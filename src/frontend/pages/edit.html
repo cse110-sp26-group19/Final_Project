@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="../styles/header.css" />
     <link rel="stylesheet" href="../styles/step-indicator.css" />
     <link rel="stylesheet" href="../styles/edit.css" />
-    <link rel="preload" href="../assets/loading.json" as="fetch" crossorigin>
+    <link rel="preload" href="../assets/loading.json" as="fetch" crossorigin />
     <script src="../assets/lottie.min.js"></script>
   </head>
   <body>
@@ -30,16 +30,16 @@
           <div class="edit-preview__frame" id="preview-frame">
             <canvas class="edit-preview__canvas" id="preview-canvas"></canvas>
             <div class="edit-preview__status" id="preview-status">
-              <div id="lottie-loading" style="width:120px;height:120px;"></div>
+              <div id="lottie-loading" style="width: 120px; height: 120px"></div>
               Loading template…
             </div>
             <script>
               lottie.loadAnimation({
-                container: document.getElementById('lottie-loading'),
-                renderer: 'svg',
+                container: document.getElementById("lottie-loading"),
+                renderer: "svg",
                 loop: true,
                 autoplay: true,
-                path: '../assets/loading.json'
+                path: "../assets/loading.json",
               });
             </script>
           </div>
