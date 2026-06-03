@@ -229,12 +229,12 @@ app.get("/api/status", (req, res) => {
  * @param {Error} error - Error object
  * @param {Object} req - Express request
  * @param {Object} res - Express response
- * @param {Function} next - Express next middleware
+ * @param {Function} _next - Express next middleware (unused)
  *
  * @returns {Object} 400 - { error: "File upload error", message: string }
  * @returns {Object} 500 - { error: "Internal server error", message: string }
  */
-app.use((error, req, res, next) => {
+app.use((error, req, res, _next) => {
   console.error("Express error:", error.message);
   if (error instanceof multer.MulterError) {
     return res.status(400).json({
