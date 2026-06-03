@@ -49,10 +49,11 @@ Express.js provides a minimal, flexible HTTP server framework with mature middle
 ### Alternatives considered
 
 **Firebase (Backend-as-a-Service)**
+
 - No custom server code needed
 - Automatic scaling and hosting
 - Built-in authentication and real-time database
-- Tradeoffs: 
+- Tradeoffs:
   - Vendor lock-in (harder to migrate)
   - Limited control over API logic
   - Overkill for simple face-swap endpoint
@@ -60,6 +61,7 @@ Express.js provides a minimal, flexible HTTP server framework with mature middle
   - Cost model less predictable
 
 **Supabase (PostgreSQL + Auto APIs)**
+
 - Open-source Firebase alternative
 - SQL database with auto-generated APIs
 - Built-in authentication
