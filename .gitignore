@@ -36,4 +36,8 @@ coverage/
 src/backend/pipelines/**/*_zone_check.png
 src/backend/pipelines/**/*_zone_check.jpg
 
+# Playwright MCP browser artifacts
+.playwright-mcp/
 
+# Generated face-swap images (runtime output, not source)
+src/frontend/assets/generated/

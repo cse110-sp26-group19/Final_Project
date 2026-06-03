@@ -26,6 +26,7 @@ We will expose a single `POST /api/face-swap` endpoint on the Express server
 Replicate. The browser never holds or sees the API token.
 
 **Client-side data flow:**
+
 - Upload page converts the picked file to a base64 data URL via `FileReader` and
   stores it in `sessionStorage` under `memebro:face-photo`.
 - Edit page reads that key on "Generate", POSTs `{ faceDataUrl, templateUrl }` as
@@ -35,6 +36,7 @@ Replicate. The browser never holds or sees the API token.
   `<img>` instead of re-rendering the canvas.
 
 **Server-side request handling:**
+
 - Validates `faceDataUrl` MIME against an allowlist (`jpeg | png | webp`) — HEIC is
   rejected server-side because Replicate does not accept it.
 - Validates `templateUrl` against `ALLOWED_TEMPLATE_HOSTS` (`imgflip.com`) to
