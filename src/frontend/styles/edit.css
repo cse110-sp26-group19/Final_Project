@@ -70,7 +70,7 @@
   color: var(--color-error);
 }
 
-.edit-preview__frame.is-error lottie-player {
+.edit-preview__frame.is-error #lottie-loading {
   display: none;
 }
 

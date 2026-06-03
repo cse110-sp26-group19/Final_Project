@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="../styles/header.css" />
     <link rel="stylesheet" href="../styles/step-indicator.css" />
     <link rel="stylesheet" href="../styles/edit.css" />
+    <link rel="preload" href="../assets/loading.json" as="fetch" crossorigin>
+    <script src="../assets/lottie.min.js"></script>
   </head>
   <body>
     <div id="site-header"></div>
@@ -28,15 +30,18 @@
           <div class="edit-preview__frame" id="preview-frame">
             <canvas class="edit-preview__canvas" id="preview-canvas"></canvas>
             <div class="edit-preview__status" id="preview-status">
-            <lottie-player
-              src="../assets/loading.json"
-              background="transparent"
-              speed="1"
-              style="width: 120px; height: 120px;"
-              loop autoplay>
-            </lottie-player>
-            Loading template…
-          </div>
+              <div id="lottie-loading" style="width:120px;height:120px;"></div>
+              Loading template…
+            </div>
+            <script>
+              lottie.loadAnimation({
+                container: document.getElementById('lottie-loading'),
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: '../assets/loading.json'
+              });
+            </script>
           </div>
           <p class="edit-preview__hint">Tip: drag any text on the preview to move it.</p>
         </section>
@@ -60,6 +65,5 @@
     </main>
 
     <script type="module" src="../scripts/edit.js"></script>
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   </body>
 </html>

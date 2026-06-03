@@ -55,7 +55,7 @@
   color: var(--color-error);
 }
 
-.result-frame.is-error lottie-player {
+.result-frame.is-error #lottie-loading {
   display: none;
 }
 

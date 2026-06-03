@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="../styles/base.css" />
     <link rel="stylesheet" href="../styles/header.css" />
     <link rel="stylesheet" href="../styles/result.css" />
+    <link rel="preload" href="../assets/loading.json" as="fetch" crossorigin>
+    <script src="../assets/lottie.min.js"></script>
   </head>
   <body>
     <div id="site-header"></div>
@@ -26,15 +28,18 @@
       <div class="result-frame" id="result-frame">
         <canvas class="result-canvas" id="result-canvas"></canvas>
         <div class="result-status" id="result-status">
-          <lottie-player
-            src="../assets/loading.json"
-            background="transparent"
-            speed="1"
-            style="width: 120px; height: 120px;"
-            loop autoplay>
-          </lottie-player>
+          <div id="lottie-loading" style="width:120px;height:120px;"></div>
           Loading meme…
         </div>
+        <script>
+          lottie.loadAnimation({
+            container: document.getElementById('lottie-loading'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: '../assets/loading.json'
+          });
+        </script>
       </div>
 
       <div class="result-actions">
@@ -51,6 +56,5 @@
     </main>
 
     <script type="module" src="../scripts/result.js"></script>
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   </body>
 </html>
