@@ -25,7 +25,16 @@
 
       <div class="result-frame" id="result-frame">
         <canvas class="result-canvas" id="result-canvas"></canvas>
-        <p class="result-status" id="result-status">Loading meme…</p>
+        <div class="result-status" id="result-status">
+          <lottie-player
+            src="../assets/loading.json"
+            background="transparent"
+            speed="1"
+            style="width: 120px; height: 120px;"
+            loop autoplay>
+          </lottie-player>
+          Loading meme…
+        </div>
       </div>
 
       <div class="result-actions">
@@ -42,5 +51,6 @@
     </main>
 
     <script type="module" src="../scripts/result.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   </body>
 </html>

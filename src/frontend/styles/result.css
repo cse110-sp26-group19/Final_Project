@@ -39,6 +39,10 @@
 
 .result-status {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
   font-family: var(--font-sans);
   font-size: 18px;
   line-height: 23px;
@@ -49,6 +53,10 @@
 
 .result-frame.is-error .result-status {
   color: var(--color-error);
+}
+
+.result-frame.is-error lottie-player {
+  display: none;
 }
 
 .result-actions {

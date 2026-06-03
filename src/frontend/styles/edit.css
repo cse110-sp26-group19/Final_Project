@@ -54,6 +54,10 @@
 
 .edit-preview__status {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
   font-family: var(--font-sans);
   font-size: 18px;
   line-height: 23px;
@@ -64,6 +68,10 @@
 
 .edit-preview__frame.is-error .edit-preview__status {
   color: var(--color-error);
+}
+
+.edit-preview__frame.is-error lottie-player {
+  display: none;
 }
 
 .edit-preview__hint {
