@@ -27,7 +27,6 @@ function proxyImageUrl(url) {
 
 const elements = {
   canvas: document.getElementById("result-canvas"),
-  swapped: document.getElementById("result-swapped"),
   frame: document.getElementById("result-frame"),
   status: document.getElementById("result-status"),
   downloadBtn: document.getElementById("download-btn"),
@@ -121,45 +120,23 @@ function showToast(message, { isError = false } = {}) {
 }
 
 /**
- * Trigger a PNG download of the final meme.
+ * Trigger a PNG download of the final meme from the canvas.
  *
- * When a face-swapped image is shown, fetch it and force a download via a
- * temporary <a> tag (avoids the CORS taint that affects canvas.toBlob).
- * Otherwise fall back to the existing canvas exportMeme path.
+ * Both text-only and face-swapped memes are rendered onto the same canvas
+ * (with text overlaid), so a single canvas export path handles both cases.
+ * The canvas is same-origin for all image sources so toBlob() is never tainted.
  */
 async function downloadMeme() {
   const filename = state.spec.templateName
     ? `${state.spec.templateName.replace(/\s+/g, "-").toLowerCase()}.png`
     : "meme.png";
 
-  if (state.spec.swappedImageUrl) {
-    try {
-      // The swapped image is served from localhost so fetch is allowed.
-      const response = await fetch(state.spec.swappedImageUrl);
-      const blob = await response.blob();
-      const objectUrl = URL.createObjectURL(blob);
-      const anchor = document.createElement("a");
-      anchor.href = objectUrl;
-      anchor.download = filename;
-      anchor.click();
-      URL.revokeObjectURL(objectUrl);
-      showToast("Saved to your downloads.");
-    } catch (error) {
-      console.error("Swapped image download failed:", error);
-      showToast("Download failed. Right-click the image to save it.", { isError: true });
-    }
-    return;
-  }
-
-  // Fallback: canvas-based export for text-only memes.
   try {
     await exportMeme(elements.canvas, filename);
     showToast("Saved to your downloads.");
   } catch (error) {
     console.error("Download failed:", error);
-    showToast("Download blocked by the template host. Right-click the image to save it.", {
-      isError: true,
-    });
+    showToast("Download failed. Right-click the image to save it.", { isError: true });
   }
 }
 
@@ -207,15 +184,12 @@ async function init() {
   state.spec = spec;
 
   try {
-    if (spec.swappedImageUrl) {
-      // Show the AI face-swapped image instead of re-rendering the canvas.
-      elements.swapped.src = spec.swappedImageUrl;
-      elements.swapped.classList.add("is-loaded");
-    } else {
-      const image = await loadImage(proxyImageUrl(spec.templateUrl));
-      drawMeme(elements.canvas, image, spec.textBoxes ?? []);
-      elements.canvas.classList.add("is-loaded");
-    }
+    // Use swapped face image when available, otherwise proxy the template.
+    // Both paths go through drawMeme so text boxes are always rendered on top.
+    const imageUrl = spec.swappedImageUrl ?? proxyImageUrl(spec.templateUrl);
+    const image = await loadImage(imageUrl);
+    drawMeme(elements.canvas, image, spec.textBoxes ?? []);
+    elements.canvas.classList.add("is-loaded");
 
     elements.status.hidden = true;
 
