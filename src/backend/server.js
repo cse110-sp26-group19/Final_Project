@@ -24,7 +24,7 @@ dotenv.config({
 });
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 const FRONTEND_DIR = path.join(__dirname, "../frontend");
 const GENERATED_DIR = path.join(__dirname, "../frontend/assets/generated");
 
@@ -173,7 +173,7 @@ app.post("/api/face-swap", async (req, res) => {
     }
 
     const fileName = await client.downloadAndSaveImage(prediction.output);
-    const outputUrl = `http://localhost:${PORT}/images/${fileName}`;
+    const outputUrl = `/images/${fileName}`;
 
     console.log(`[face-swap] done: ${outputUrl}`);
     return res.json({ outputUrl });

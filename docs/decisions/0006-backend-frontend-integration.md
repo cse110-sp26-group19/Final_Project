@@ -82,8 +82,9 @@ Replicate. The browser never holds or sees the API token.
 - Base64 encoding inflates image size by ~33%; a 3 MB photo becomes ~4 MB in
   sessionStorage and the POST body. May hit the sessionStorage 5–10 MB limit on
   large uncompressed images.
-- The `API_SWAP_URL` is hardcoded to `http://localhost:3001` in `edit.js`. A
-  production deployment would need an environment-aware base URL.
+- The `API_SWAP_URL` uses `window.location.origin` in `edit.js`, so it works on
+  any port. A production deployment would need to ensure the frontend and backend
+  are served from the same origin or configure a proxy.
 - HEIC photos (common on iPhone) cannot be face-swapped and show an error message
   instead; users must convert to JPG first.
 - Polling is server-side and synchronous within the request — the HTTP connection
@@ -92,8 +93,7 @@ Replicate. The browser never holds or sees the API token.
 
 ### Follow-up
 
-- [ ] Replace hardcoded `localhost:3001` in `edit.js` with a build-time or
-      runtime-injected base URL for production deploys.
+- [x] Replace hardcoded `localhost:3001` in `edit.js` with `window.location.origin` — done.
 - [ ] Add client-side HEIC → JPEG conversion (e.g. `heic2any`) so iPhone uploads
       work end-to-end without a manual conversion step.
 - [ ] Consider compressing the face image client-side (canvas `toBlob` at 0.8
