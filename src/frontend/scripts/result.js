@@ -210,8 +210,7 @@ async function init() {
     if (spec.swappedImageUrl) {
       // Show the AI face-swapped image instead of re-rendering the canvas.
       elements.swapped.src = spec.swappedImageUrl;
-      elements.swapped.hidden = false;
-      elements.canvas.hidden = true;
+      elements.swapped.classList.add("is-loaded");
     } else {
       const image = await loadImage(proxyImageUrl(spec.templateUrl));
       drawMeme(elements.canvas, image, spec.textBoxes ?? []);
