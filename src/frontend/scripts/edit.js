@@ -9,9 +9,9 @@
  * Result page, which re-renders at export quality.
  */
 
-import { getTemplates } from "../../templates.js";
-import { loadImage } from "../../image-loader.js";
-import { drawMeme } from "../../meme-canvas.js";
+import { getTemplates } from "../templates.js";
+import { loadImage } from "../image-loader.js";
+import { drawMeme } from "../meme-canvas.js";
 
 const STORAGE_KEY = "memebro:current-meme";
 const FACE_KEY = "memebro:face-photo";

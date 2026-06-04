@@ -37,3 +37,4 @@ coverage/
 
 # Generated face-swap images (runtime output, not source)
 src/frontend/assets/generated/
+src/output/
