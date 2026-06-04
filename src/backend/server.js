@@ -60,6 +60,40 @@ app.use("/images", express.static(GENERATED_DIR));
 // Serve the frontend (index.html, pages/, scripts/, styles/, assets/).
 app.use(express.static(FRONTEND_DIR));
 
+/**
+ * GET /api/image-proxy?url=<encoded-imgflip-url>
+ *
+ * Proxies meme template images from allowed CDN hosts so the browser can draw
+ * them onto a canvas without CORS taint. Only hosts in ALLOWED_TEMPLATE_HOSTS
+ * are forwarded — all others return 403 (SSRF guard mirrors fetchAsDataUrl).
+ */
+app.get("/api/image-proxy", async (req, res) => {
+  const { url } = req.query;
+  if (!url) {
+    return res.status(400).json({ error: "url query param is required" });
+  }
+  let parsed;
+  try {
+    parsed = new URL(url);
+  } catch {
+    return res.status(400).json({ error: "url must be a valid URL" });
+  }
+  if (!ALLOWED_TEMPLATE_HOSTS.includes(parsed.hostname)) {
+    return res.status(403).json({ error: `Host not allowed: ${parsed.hostname}` });
+  }
+  try {
+    const response = await axios.get(url, { responseType: "arraybuffer", timeout: 30_000 });
+    const contentType = response.headers["content-type"] ?? "image/jpeg";
+    res.set("Content-Type", contentType);
+    res.set("Cache-Control", "public, max-age=86400");
+    res.set("Access-Control-Allow-Origin", "*");
+    res.send(Buffer.from(response.data));
+  } catch (error) {
+    console.error("[image-proxy] error:", error.message);
+    return res.status(502).json({ error: "Failed to fetch image" });
+  }
+});
+
 // Lazy-init so the server starts without a token in pure frontend dev mode.
 let _client = null;
 

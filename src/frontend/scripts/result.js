@@ -19,6 +19,11 @@ import { exportMeme } from "../../export.js";
 
 const STORAGE_KEY = "memebro:current-meme";
 const TOAST_TIMEOUT_MS = 2500;
+const API_PROXY_URL = `${window.location.origin}/api/image-proxy`;
+
+function proxyImageUrl(url) {
+  return `${API_PROXY_URL}?url=${encodeURIComponent(url)}`;
+}
 
 const elements = {
   canvas: document.getElementById("result-canvas"),
@@ -208,7 +213,7 @@ async function init() {
       elements.swapped.hidden = false;
       elements.canvas.hidden = true;
     } else {
-      const image = await loadImage(spec.templateUrl);
+      const image = await loadImage(proxyImageUrl(spec.templateUrl));
       drawMeme(elements.canvas, image, spec.textBoxes ?? []);
       elements.canvas.classList.add("is-loaded");
     }

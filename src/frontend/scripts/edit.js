@@ -16,6 +16,7 @@ import { drawMeme } from "../../meme-canvas.js";
 const STORAGE_KEY = "memebro:current-meme";
 const FACE_KEY = "memebro:face-photo";
 const API_SWAP_URL = `${window.location.origin}/api/face-swap`;
+const API_PROXY_URL = `${window.location.origin}/api/image-proxy`;
 const HIT_RADIUS = 0.1; // normalized distance threshold for drag pickup
 
 const elements = {
@@ -32,6 +33,18 @@ const state = {
   textBoxes: [],
   draggingIndex: -1,
 };
+
+/**
+ * Route a template image URL through the local proxy so the canvas load is
+ * same-origin, bypassing Imgflip CDN CORS restrictions without tainting the
+ * canvas for later PNG export.
+ *
+ * @param {string} url
+ * @returns {string}
+ */
+function proxyImageUrl(url) {
+  return `${API_PROXY_URL}?url=${encodeURIComponent(url)}`;
+}
 
 /**
  * Read the templateId query param from the current URL.
@@ -282,7 +295,7 @@ async function init() {
       throw new Error(`Template ${templateId} not found`);
     }
 
-    state.image = await loadImage(state.template.url);
+    state.image = await loadImage(proxyImageUrl(state.template.url));
     state.textBoxes = defaultTextBoxes(state.template.box_count ?? 2);
 
     elements.status.hidden = true;
