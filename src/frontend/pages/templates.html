@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="../styles/header.css" />
     <link rel="stylesheet" href="../styles/step-indicator.css" />
     <link rel="stylesheet" href="../styles/templates.css" />
+    <link rel="preload" href="../assets/loading.json" as="fetch" crossorigin />
+    <script src="../assets/lottie.min.js"></script>
   </head>
   <body>
     <div id="site-header"></div>
@@ -48,7 +50,19 @@
         </div>
       </div>
 
-      <p class="templates-status" id="grid-loading">Loading templates…</p>
+      <div class="templates-status" id="grid-loading">
+        <div id="lottie-loading" style="width:120px;height:120px;"></div>
+        Loading templates…
+      </div>
+      <script>
+        lottie.loadAnimation({
+          container: document.getElementById('lottie-loading'),
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          path: '../assets/loading.json'
+        });
+      </script>
       <p class="templates-status" id="grid-empty" hidden>
         No templates match. Try a different search.
       </p>
