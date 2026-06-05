@@ -13,12 +13,17 @@
  * instead.
  */
 
-import { loadImage } from "../../image-loader.js";
-import { drawMeme } from "../../meme-canvas.js";
-import { exportMeme } from "../../export.js";
+import { loadImage } from "../image-loader.js";
+import { drawMeme } from "../meme-canvas.js";
+import { exportMeme } from "../export.js";
 
 const STORAGE_KEY = "memebro:current-meme";
 const TOAST_TIMEOUT_MS = 2500;
+const API_PROXY_URL = `${window.location.origin}/api/image-proxy`;
+
+function proxyImageUrl(url) {
+  return `${API_PROXY_URL}?url=${encodeURIComponent(url)}`;
+}
 
 const elements = {
   canvas: document.getElementById("result-canvas"),
@@ -115,22 +120,23 @@ function showToast(message, { isError = false } = {}) {
 }
 
 /**
- * Trigger a PNG download of the rendered canvas. Catches the tainted-canvas
- * SecurityError thrown when Imgflip's CDN doesn't send CORS headers and
- * shows a friendly right-click-to-save fallback instead.
+ * Trigger a PNG download of the final meme from the canvas.
+ *
+ * Both text-only and face-swapped memes are rendered onto the same canvas
+ * (with text overlaid), so a single canvas export path handles both cases.
+ * The canvas is same-origin for all image sources so toBlob() is never tainted.
  */
 async function downloadMeme() {
   const filename = state.spec.templateName
     ? `${state.spec.templateName.replace(/\s+/g, "-").toLowerCase()}.png`
     : "meme.png";
+
   try {
     await exportMeme(elements.canvas, filename);
     showToast("Saved to your downloads.");
   } catch (error) {
     console.error("Download failed:", error);
-    showToast("Download blocked by the template host. Right-click the image to save it.", {
-      isError: true,
-    });
+    showToast("Download failed. Right-click the image to save it.", { isError: true });
   }
 }
 
@@ -196,11 +202,14 @@ async function init() {
   state.spec = spec;
 
   try {
-    const image = await loadImage(spec.templateUrl);
+    // Use swapped face image when available, otherwise proxy the template.
+    // Both paths go through drawMeme so text boxes are always rendered on top.
+    const imageUrl = spec.swappedImageUrl ?? proxyImageUrl(spec.templateUrl);
+    const image = await loadImage(imageUrl);
     drawMeme(elements.canvas, image, spec.textBoxes ?? []);
+    elements.canvas.classList.add("is-loaded");
 
     elements.status.hidden = true;
-    elements.canvas.classList.add("is-loaded");
 
     elements.downloadBtn.disabled = false;
     elements.downloadBtn.setAttribute("aria-disabled", "false");

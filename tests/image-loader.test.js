@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-import { loadImage, loadUserPhoto } from "../src/image-loader.js";
+import { loadImage, loadUserPhoto } from "../src/frontend/image-loader.js";
 
 function makeImageCtor() {
   const created = [];
