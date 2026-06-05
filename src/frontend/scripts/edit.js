@@ -239,13 +239,7 @@ async function requestFaceSwap(templateUrl) {
  * @param {boolean} [isError]
  */
 function showSwapStatus(message, isError = false) {
-  let statusEl = document.getElementById("swap-status");
-  if (!statusEl) {
-    statusEl = document.createElement("p");
-    statusEl.id = "swap-status";
-    statusEl.className = "edit-swap-status";
-    elements.generateBtn.insertAdjacentElement("afterend", statusEl);
-  }
+  const statusEl = document.getElementById("swap-status");
   statusEl.textContent = message;
   statusEl.classList.toggle("edit-swap-status--error", isError);
   statusEl.hidden = !message;
