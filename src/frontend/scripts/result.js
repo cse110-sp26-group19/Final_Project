@@ -141,10 +141,28 @@ async function downloadMeme() {
 }
 
 /**
- * Copy the shareable URL to the clipboard.
+ * Share the URL. On platforms with the Web Share API (most mobile browsers
+ * and some desktop ones), open the native share sheet. Everywhere else,
+ * fall back to copying the link to the clipboard.
  */
 async function copyShareLink() {
   const url = buildShareUrl();
+
+  if (typeof navigator.share === "function") {
+    const shareText = state.spec.templateName
+      ? `Check out my "${state.spec.templateName}" meme`
+      : "Check out my meme";
+    try {
+      await navigator.share({ title: "Memebro", text: shareText, url });
+      return;
+    } catch (error) {
+      // User dismissed the share sheet — leave the page quiet.
+      if (error.name === "AbortError") return;
+      // Any other failure falls through to the clipboard path below.
+      console.warn("Web Share failed, falling back to clipboard:", error);
+    }
+  }
+
   try {
     await navigator.clipboard.writeText(url);
     showToast("Link copied to your clipboard.");
