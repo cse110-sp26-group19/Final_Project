@@ -201,34 +201,22 @@ async function requestFaceSwap(templateUrl) {
   const faceDataUrl = sessionStorage.getItem(FACE_KEY);
   if (!faceDataUrl) return null;
 
-  // HEIC files read as "data:image/heic;..." which the server rejects — tell
-  // the user rather than silently falling back to the text-only meme.
   if (faceDataUrl.startsWith("data:image/heic")) {
-    showSwapStatus("HEIC photos aren't supported for face swap. Convert to JPG first.", true);
-    return null;
+    throw new Error("HEIC photos aren't supported for face swap. Convert to JPG first.");
   }
 
-  try {
-    showSwapStatus("Swapping face… this takes ~15 seconds.");
-    const response = await fetch(API_SWAP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ faceDataUrl, templateUrl }),
-    });
+  const response = await fetch(API_SWAP_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ faceDataUrl, templateUrl }),
+  });
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || `Server returned ${response.status}`);
-    }
-
-    showSwapStatus("");
-    return data.outputUrl;
-  } catch (error) {
-    console.error("Face swap failed:", error);
-    showSwapStatus(`Face swap failed: ${error.message}. Saving text-only meme.`, true);
-    return null;
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.error || `Server returned ${response.status}`);
   }
+
+  return data.outputUrl;
 }
 
 /**
@@ -251,14 +239,27 @@ function showSwapStatus(message, isError = false) {
  * If a face photo is stored, calls the backend swap API first and embeds
  * the swapped image URL in the spec.
  */
+function setGenerating(active) {
+  elements.generateBtn.disabled = active;
+  elements.generateBtn.setAttribute("aria-disabled", String(active));
+  elements.generateBtn.textContent = active ? "Generating…" : "Generate →";
+}
+
 async function generate() {
   if (!state.template) return;
 
-  elements.generateBtn.disabled = true;
-  elements.generateBtn.setAttribute("aria-disabled", "true");
-  elements.generateBtn.textContent = "Generating…";
+  setGenerating(true);
 
-  const swappedImageUrl = await requestFaceSwap(state.template.url);
+  let swappedImageUrl = null;
+  try {
+    showSwapStatus("Swapping face… this takes ~15 seconds.");
+    swappedImageUrl = await requestFaceSwap(state.template.url);
+    showSwapStatus("");
+  } catch (error) {
+    console.error("Face swap failed:", error);
+    showSwapStatus(`${error.message}. Saving text-only meme.`, true);
+    setGenerating(false);
+  }
 
   const spec = {
     templateUrl: state.template.url,
@@ -297,8 +298,7 @@ async function init() {
     renderInputs();
     renderPreview();
     bindDragHandlers();
-    elements.generateBtn.disabled = false;
-    elements.generateBtn.setAttribute("aria-disabled", "false");
+    setGenerating(false);
     elements.generateBtn.addEventListener("click", generate);
   } catch (error) {
     console.error("Failed to load editor:", error);
