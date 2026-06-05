@@ -13,9 +13,9 @@
  * instead.
  */
 
-import { loadImage } from "../../image-loader.js";
-import { drawMeme } from "../../meme-canvas.js";
-import { exportMeme } from "../../export.js";
+import { loadImage } from "../image-loader.js";
+import { drawMeme } from "../meme-canvas.js";
+import { exportMeme } from "../export.js";
 
 const STORAGE_KEY = "memebro:current-meme";
 const TOAST_TIMEOUT_MS = 2500;
