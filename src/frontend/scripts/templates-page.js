@@ -10,6 +10,7 @@
 
 import { getTemplates } from "../../templates.js";
 import { filterTemplates } from "../lib/template-filter.js";
+import { enforceGuard, setSelectedTemplate } from "../lib/session-state.js";
 
 const PAGE_SIZE = 12;
 
@@ -100,6 +101,7 @@ function buildCard(template) {
  * @param {{id: string}} template
  */
 function selectTemplate(template) {
+  setSelectedTemplate(template.id);
   window.location.href = `edit.html?templateId=${encodeURIComponent(template.id)}`;
 }
 
@@ -143,6 +145,9 @@ function bindEvents() {
  * Page entry point — fetch templates, hide the loading message, and render.
  */
 async function init() {
+  // Strict order: the user must have uploaded a photo before picking a template.
+  if (enforceGuard("templates")) return;
+
   try {
     state.templates = await getTemplates();
     state.filtered = state.templates;

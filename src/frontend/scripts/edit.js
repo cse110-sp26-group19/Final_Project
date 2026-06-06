@@ -12,6 +12,7 @@
 import { getTemplates } from "../templates.js";
 import { loadImage } from "../image-loader.js";
 import { drawMeme } from "../meme-canvas.js";
+import { enforceGuard } from "../lib/session-state.js";
 
 const STORAGE_KEY = "memebro:current-meme";
 const FACE_KEY = "memebro:face-photo";
@@ -277,6 +278,10 @@ async function generate() {
  * and wire up inputs + drag + generate.
  */
 async function init() {
+  // Strict order: bounce to the earliest unfinished step if a photo or
+  // template is missing before the edit page tries to composite anything.
+  if (enforceGuard("edit")) return;
+
   const templateId = getTemplateIdFromUrl();
   if (!templateId) {
     window.location.replace("templates.html");

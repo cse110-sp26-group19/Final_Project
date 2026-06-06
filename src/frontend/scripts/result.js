@@ -16,6 +16,7 @@
 import { loadImage } from "../image-loader.js";
 import { drawMeme } from "../meme-canvas.js";
 import { exportMeme } from "../export.js";
+import { enforceGuard } from "../lib/session-state.js";
 
 const STORAGE_KEY = "memebro:current-meme";
 const TOAST_TIMEOUT_MS = 2500;
@@ -194,6 +195,10 @@ function bindEvents() {
  * Page entry point — read the spec, render the meme, enable the actions.
  */
 async function init() {
+  // Strict order: no generated meme (and no shared `spec` link) means the user
+  // skipped ahead — bounce them to the earliest unfinished step.
+  if (enforceGuard("result")) return;
+
   const spec = readSpec();
   if (!spec || !spec.templateUrl) {
     window.location.replace("../index.html");
