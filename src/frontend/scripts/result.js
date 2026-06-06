@@ -16,6 +16,7 @@
 import { loadImage } from "../image-loader.js";
 import { drawMeme } from "../meme-canvas.js";
 import { exportMeme } from "../export.js";
+import { guardPage } from "../lib/flow-dom.js";
 
 const STORAGE_KEY = "memebro:current-meme";
 const TOAST_TIMEOUT_MS = 2500;
@@ -194,6 +195,10 @@ function bindEvents() {
  * Page entry point — read the spec, render the meme, enable the actions.
  */
 async function init() {
+  // No generated meme (and no shared ?spec link) means the user skipped ahead —
+  // send them to start the flow.
+  if (guardPage("result")) return;
+
   const spec = readSpec();
   if (!spec || !spec.templateUrl) {
     window.location.replace("../index.html");

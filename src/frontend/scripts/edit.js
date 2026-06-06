@@ -12,6 +12,7 @@
 import { getTemplates } from "../templates.js";
 import { loadImage } from "../image-loader.js";
 import { drawMeme } from "../meme-canvas.js";
+import { guardPage, getTemplate, updateStepIndicator } from "../lib/flow-dom.js";
 
 const STORAGE_KEY = "memebro:current-meme";
 const FACE_KEY = "memebro:face-photo";
@@ -129,17 +130,38 @@ function renderPreview() {
 }
 
 /**
+ * Pull clientX/clientY from either a MouseEvent or a TouchEvent. For touch
+ * events the first active touch (or first changed touch on touchend) is used.
+ *
+ * @param {MouseEvent | TouchEvent} event
+ * @returns {{ clientX: number, clientY: number }}
+ */
+function getClientCoords(event) {
+  if (event.touches && event.touches.length > 0) {
+    return { clientX: event.touches[0].clientX, clientY: event.touches[0].clientY };
+  }
+  if (event.changedTouches && event.changedTouches.length > 0) {
+    return {
+      clientX: event.changedTouches[0].clientX,
+      clientY: event.changedTouches[0].clientY,
+    };
+  }
+  return { clientX: event.clientX, clientY: event.clientY };
+}
+
+/**
  * Translate a mouse or touch event into normalized (0..1) coordinates
  * within the canvas's displayed area.
  *
- * @param {MouseEvent} event
+ * @param {MouseEvent | TouchEvent} event
  * @returns {{x: number, y: number}}
  */
 function eventToNormalized(event) {
   const rect = elements.canvas.getBoundingClientRect();
+  const { clientX, clientY } = getClientCoords(event);
   return {
-    x: (event.clientX - rect.left) / rect.width,
-    y: (event.clientY - rect.top) / rect.height,
+    x: (clientX - rect.left) / rect.width,
+    y: (clientY - rect.top) / rect.height,
   };
 }
 
@@ -167,26 +189,41 @@ function findBoxAt(x, y) {
 }
 
 /**
- * Wire up canvas mouse events for drag-to-reposition of text overlays.
+ * Wire up canvas mouse and touch events for drag-to-reposition of text
+ * overlays. The same three handlers handle both input types so behavior is
+ * identical on desktop (mouse) and mobile (touch).
  */
 function bindDragHandlers() {
-  elements.canvas.addEventListener("mousedown", (event) => {
+  const onStart = (event) => {
     const { x, y } = eventToNormalized(event);
     state.draggingIndex = findBoxAt(x, y);
-  });
+  };
 
-  window.addEventListener("mousemove", (event) => {
+  const onMove = (event) => {
     if (state.draggingIndex < 0) return;
+    // Block the page from scrolling while the user is dragging a text overlay.
+    if (event.cancelable && event.touches) event.preventDefault();
     const { x, y } = eventToNormalized(event);
     const box = state.textBoxes[state.draggingIndex];
     box.x = Math.max(0, Math.min(1, x));
     box.y = Math.max(0, Math.min(1, y));
     renderPreview();
-  });
+  };
 
-  window.addEventListener("mouseup", () => {
+  const onEnd = () => {
     state.draggingIndex = -1;
-  });
+  };
+
+  elements.canvas.addEventListener("mousedown", onStart);
+  elements.canvas.addEventListener("touchstart", onStart, { passive: true });
+
+  // touchmove must be non-passive so preventDefault() can stop page scrolling.
+  window.addEventListener("mousemove", onMove);
+  window.addEventListener("touchmove", onMove, { passive: false });
+
+  window.addEventListener("mouseup", onEnd);
+  window.addEventListener("touchend", onEnd);
+  window.addEventListener("touchcancel", onEnd);
 }
 
 /**
@@ -277,7 +314,13 @@ async function generate() {
  * and wire up inputs + drag + generate.
  */
 async function init() {
-  const templateId = getTemplateIdFromUrl();
+  // Edit needs both inputs; the guard bounces to whichever is missing.
+  if (guardPage("edit")) return;
+  updateStepIndicator("edit");
+
+  // The template id may come via the URL or from sessionStorage (when the user
+  // reached edit by way of the upload page, where the URL param is dropped).
+  const templateId = getTemplateIdFromUrl() || getTemplate();
   if (!templateId) {
     window.location.replace("templates.html");
     return;
