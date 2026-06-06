@@ -1,0 +1,48 @@
+{
+  "IMG_1": {
+    "context": "Two-panel Drake meme. Top panel shows Drake turning away in disapproval. Bottom panel shows Drake pointing in approval. Text zone top-right for rejected idea. Text zone bottom-right for approved idea.",
+    "image": "drake-approval.png",
+    "imageZone": { "x": 0.05, "y": 0.54, "w": 0.27, "h": 0.33 },
+    "faceSwapSupported": false,
+    "text": null,
+    "user_image": null
+  },
+
+  "IMG_2": {
+    "context": "Distracted boyfriend meme. Man walking with girlfriend turns to look at another woman passing by. Girlfriend looks shocked and upset. Text zones above each character for labeling.",
+    "faceSwapSupported": false,
+    "text": null,
+    "user_image": null
+  },
+
+  "IMG_3": {
+    "context": "Two-button choice meme. Sweating character struggles to decide between two buttons. Text zones above both buttons and one zone above the character.",
+    "faceSwapSupported": false,
+    "text": null,
+    "user_image": null
+  },
+
+  "IMG_4": {
+    "context": "Two-panel meme. Top panel shows two large red buttons on a panel, with a hand hovering over them unable to choose. Bottom panel shows a close-up of a sweating, stressed man wiping his forehead in a panic. Text zones above each button and below the character's face.",
+    "imageZone": { "x": 0.38, "y": 0.56, "w": 0.24, "h": 0.26 },
+    "faceSwapSupported": false,
+    "text": null,
+    "user_image": null
+  },
+
+  "KURT": {
+    "context": "Close-up portrait of Kurt Angle standing outside in front of a large brick house. Front-facing, well-lit. Used as a face swap template — the face in this image is replaced with the user's face.",
+    "image": "kurt template.jpeg",
+    "faceSwapSupported": true,
+    "text": null,
+    "user_image": null
+  },
+
+  "IRONMAN": {
+    "context": "Extreme close-up of Tony Stark inside the Iron Man HUD. Dark cinematic lighting with glowing tech elements on each side. Face fills most of the frame — used as a face swap template.",
+    "image": "ironman.jpg",
+    "faceSwapSupported": true,
+    "text": null,
+    "user_image": null
+  }
+}

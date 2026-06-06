@@ -32,6 +32,10 @@ Thumbs.db
 *.log
 coverage/
 
+# Pipeline zone-check verification outputs (generated locally, not needed in repo)
+src/backend/pipelines/**/*_zone_check.png
+src/backend/pipelines/**/*_zone_check.jpg
+
 # Playwright MCP browser artifacts
 .playwright-mcp/
 
