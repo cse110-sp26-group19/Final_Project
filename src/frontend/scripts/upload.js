@@ -5,7 +5,9 @@ const input = document.getElementById("file-input");
 const cameraInput = document.getElementById("camera-input");
 const nextBtn = document.getElementById("next-btn");
 const preview = document.getElementById("upload-preview");
-const ALLOWED = ["image/jpeg", "image/png", "image/heic"];
+// HEIC is intentionally excluded: non-Safari browsers can't render it for the
+// preview, and the face-swap model can't process it. Users must use JPG/PNG.
+const ALLOWED = ["image/jpeg", "image/png"];
 
 // Upload is always reachable; reflect actual progress in the step indicator.
 guardPage("upload");
@@ -13,7 +15,9 @@ updateStepIndicator("upload");
 
 function handleFile(file) {
   if (!file || !ALLOWED.includes(file.type.toLowerCase())) {
-    alert("Please upload a JPG, PNG, or HEIC file.");
+    alert(
+      "Please use a JPG or PNG. HEIC photos aren't supported — on iPhone, export the photo as JPG or set Camera → Formats → Most Compatible."
+    );
     return;
   }
 
