@@ -20,7 +20,7 @@ In that sense, memes are not just jokes. They are small packets of cultural and 
 
 ## Humor as Emotional Regulation
 
-One of the strongest arguments for memes being beneficial comes from humor research. A 2021 fMRI study in *Cerebral Cortex* found that humorous reappraisal was more effective than ordinary reappraisal at reducing negative emotion and increasing positive emotion, both immediately and days later. The study linked humorous coping to neural pathways involved in cognitive restructuring and emotional release.
+One of the strongest arguments for memes being beneficial comes from humor research. A 2021 fMRI study in _Cerebral Cortex_ found that humorous reappraisal was more effective than ordinary reappraisal at reducing negative emotion and increasing positive emotion, both immediately and days later. The study linked humorous coping to neural pathways involved in cognitive restructuring and emotional release.
 
 This maps well onto memes. A meme can take something frustrating, embarrassing, stressful, or painful and make it easier to look at. That does not erase the problem, but it can change the emotional relationship to it. Instead of experiencing a stressor as isolated or overwhelming, the viewer may experience it as shared, understandable, and temporarily lighter.
 
@@ -33,7 +33,7 @@ Memes can support emotional regulation through:
 
 ## Social Connection and Belonging
 
-Memes are also socially useful. A 2025 study in *Cyberpsychology* found that frequent use of memes, GIFs, and emojis in messaging was associated with greater self-disclosure, intimacy, and relationship maintenance. The study suggests that these visual tools can help people maintain social connection, especially in digital communication where nonverbal cues are missing.
+Memes are also socially useful. A 2025 study in _Cyberpsychology_ found that frequent use of memes, GIFs, and emojis in messaging was associated with greater self-disclosure, intimacy, and relationship maintenance. The study suggests that these visual tools can help people maintain social connection, especially in digital communication where nonverbal cues are missing.
 
 This is one reason memes are powerful inside friend groups, fandoms, teams, and online communities. Sharing a meme can mean "I understand this," "I feel this too," or "this reminds me of us" without requiring a long explanation. That low-friction social signal can help people feel less alone.
 
@@ -41,13 +41,13 @@ For a meme-based product, this is important: the value is not only in generating
 
 ## Memes and Anxiety or Stress
 
-Research on COVID-19 memes provides a useful example. A 2021 *Scientific Reports* study found that people with severe anxiety symptoms rated COVID-related memes as more humorous, relatable, and shareable than non-anxious controls. The authors cautiously suggested that pandemic memes may serve as a coping mechanism for people experiencing anxiety.
+Research on COVID-19 memes provides a useful example. A 2021 _Scientific Reports_ study found that people with severe anxiety symptoms rated COVID-related memes as more humorous, relatable, and shareable than non-anxious controls. The authors cautiously suggested that pandemic memes may serve as a coping mechanism for people experiencing anxiety.
 
 This does not prove that memes cure anxiety. However, it supports the idea that people experiencing stress may find memes useful because they make negative experiences feel more relatable and socially shareable. In stressful situations, a meme can communicate, "This is hard, but other people see it too."
 
 ## Mental Health Memes: Benefits and Limits
 
-A 2022 review in *Humanities and Social Sciences Communications* examined whether mental health memes are beneficial or harmful. The review found that many people with psychiatric symptoms report positive experiences with mental health memes, especially because they provide humor, relatability, and a sense of peer support.
+A 2022 review in _Humanities and Social Sciences Communications_ examined whether mental health memes are beneficial or harmful. The review found that many people with psychiatric symptoms report positive experiences with mental health memes, especially because they provide humor, relatability, and a sense of peer support.
 
 At the same time, the review emphasizes that the research is still early. More clinical, longitudinal, and experimental work is needed. Some meme content may be harmful if it normalizes dangerous behavior, deepens rumination, or replaces real support. This is especially relevant for memes about depression, suicide, self-harm, eating disorders, or trauma.
 
@@ -71,8 +71,8 @@ Memes can benefit the brain by combining humor, social recognition, visual proce
 
 ## Sources
 
-- Ian MacRae, "What Memes Reveal About Our Brains," *Psychology Today*, 2024. https://www.psychologytoday.com/us/blog/silicon-psyche/202409/what-memes-reveal-about-our-brains
-- Umair Akram et al., "Internet memes related to the COVID-19 pandemic as a potential coping mechanism for anxiety," *Scientific Reports*, 2021. https://www.nature.com/articles/s41598-021-00857-8
-- Umair Akram and Jennifer Drabble, "Mental health memes: beneficial or aversive in relation to psychiatric symptoms?", *Humanities and Social Sciences Communications*, 2022. https://www.nature.com/articles/s41599-022-01381-4
-- Xiaoxiao Jiang et al., "From 'Aha!' to 'Haha!' Using Humor to Cope with Negative Stimuli," *Cerebral Cortex*, 2021. https://academic.oup.com/cercor/article/31/4/2238/6015076
-- Rachel X. Peng and Jin Chen, "Meme-ingful connections: Unleashing the power of memes, GIFs, and emojis in relationship-oriented online communication," *Cyberpsychology: Journal of Psychosocial Research on Cyberspace*, 2025. https://cyberpsychology.eu/article/view/38321
+- Ian MacRae, "What Memes Reveal About Our Brains," _Psychology Today_, 2024. https://www.psychologytoday.com/us/blog/silicon-psyche/202409/what-memes-reveal-about-our-brains
+- Umair Akram et al., "Internet memes related to the COVID-19 pandemic as a potential coping mechanism for anxiety," _Scientific Reports_, 2021. https://www.nature.com/articles/s41598-021-00857-8
+- Umair Akram and Jennifer Drabble, "Mental health memes: beneficial or aversive in relation to psychiatric symptoms?", _Humanities and Social Sciences Communications_, 2022. https://www.nature.com/articles/s41599-022-01381-4
+- Xiaoxiao Jiang et al., "From 'Aha!' to 'Haha!' Using Humor to Cope with Negative Stimuli," _Cerebral Cortex_, 2021. https://academic.oup.com/cercor/article/31/4/2238/6015076
+- Rachel X. Peng and Jin Chen, "Meme-ingful connections: Unleashing the power of memes, GIFs, and emojis in relationship-oriented online communication," _Cyberpsychology: Journal of Psychosocial Research on Cyberspace_, 2025. https://cyberpsychology.eu/article/view/38321
