@@ -231,6 +231,11 @@ async function init() {
     const imageUrl = spec.swappedImageUrl ?? proxyImageUrl(spec.templateUrl);
     const image = await loadImage(imageUrl);
     drawMeme(elements.canvas, image, spec.textBoxes ?? []);
+    elements.canvas.setAttribute(
+      "aria-label",
+      spec.templateName ? `Generated ${spec.templateName} meme` : "Generated meme"
+    );
+    elements.canvas.setAttribute("role", "img");
     elements.canvas.classList.add("is-loaded");
 
     clearInterval(phraseInterval);
@@ -246,6 +251,7 @@ async function init() {
     clearInterval(phraseInterval);
     console.error("Failed to render meme:", error);
     elements.frame.classList.add("is-error");
+    elements.status.setAttribute("role", "alert");
     elements.status.textContent = "Failed to render meme. Try generating it again.";
   }
 }

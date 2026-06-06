@@ -72,7 +72,10 @@ export function guardPage(page) {
  */
 export function updateStepIndicator(page) {
   const meta = document.querySelector(".step-indicator__meta");
-  if (meta) meta.textContent = stepMeta(page, readProgress());
+  if (meta) {
+    meta.textContent = stepMeta(page, readProgress());
+    meta.setAttribute("aria-current", "step");
+  }
 }
 
 /**

@@ -93,6 +93,20 @@
   display: none;
 }
 
+.upload-status {
+  min-height: 24px;
+  margin: var(--space-4) auto 0;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.upload-status[role="alert"] {
+  color: var(--color-error);
+}
+
 .upload-zone__text--mobile {
   display: none;
 }

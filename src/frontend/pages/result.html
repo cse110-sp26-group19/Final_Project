@@ -35,8 +35,8 @@
         />
         <!-- fallback: text-only meme rendered locally -->
         <canvas class="result-canvas" id="result-canvas"></canvas>
-        <div class="result-status" id="result-status">
-          <div id="lottie-loading" style="width: 120px; height: 120px"></div>
+        <div class="result-status" id="result-status" role="status" aria-live="polite">
+          <div id="lottie-loading" style="width: 120px; height: 120px" aria-hidden="true"></div>
           <span id="result-status-text">Loading meme…</span>
         </div>
         <script>
