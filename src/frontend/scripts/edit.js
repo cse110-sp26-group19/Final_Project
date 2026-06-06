@@ -38,7 +38,7 @@ const SWAP_PHRASES = [
   "We love to see it (almost)",
   "POV: you're about to be iconic",
   "Respectfully this slaps and it's not even done",
-  "A small price to pay for a legendary meme"
+  "A small price to pay for a legendary meme",
 ];
 
 const elements = {
