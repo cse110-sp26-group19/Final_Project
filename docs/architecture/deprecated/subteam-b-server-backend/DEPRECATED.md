@@ -9,6 +9,7 @@ This directory contains the **Pipeline B backend implementation**—one of three
 ## Pipeline Selection Context
 
 The team evaluated three distinct backend pipeline options:
+
 - **Pipeline A** - ❌ Not selected
 - **Pipeline B** - ❌ Discontinued (this folder)
 - **Current** - ✅ Selected & implemented: Express.js with ReplicateClient
@@ -17,16 +18,17 @@ The current implementation was chosen as the best approach for the project needs
 
 ### What Changed
 
-| Old Approach | New Approach |
-|---|---|
-| `backend-b-integration.js` | Integrated into `src/backend/server.js` |
-| `backend-b-server.js` | Replaced by `src/backend/server.js` |
-| Separate integration logic | Single Express server with unified endpoints |
-| Manual API orchestration | ReplicateClient wrapper handles Replicate API |
+| Old Approach               | New Approach                                  |
+| -------------------------- | --------------------------------------------- |
+| `backend-b-integration.js` | Integrated into `src/backend/server.js`       |
+| `backend-b-server.js`      | Replaced by `src/backend/server.js`           |
+| Separate integration logic | Single Express server with unified endpoints  |
+| Manual API orchestration   | ReplicateClient wrapper handles Replicate API |
 
 ## Current Architecture
 
 The new implementation at `src/backend/server.js`:
+
 - ✅ Single Express.js HTTP server
 - ✅ Multer for file uploads
 - ✅ ReplicateClient for Replicate API integration
@@ -42,6 +44,7 @@ See [ADR 0005](../../decisions/0005-express-backend-framework.md) for the archit
 **Do NOT use files in this directory.**
 
 Instead, see:
+
 - **Backend Setup:** [BACKEND_SETUP.md](../../../../BACKEND_SETUP.md)
 - **Server Implementation:** `src/backend/server.js`
 - **Replicate Client:** `src/backend/replicate-client.js`
