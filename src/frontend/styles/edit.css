@@ -186,3 +186,51 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Phone tightening: smaller preview, larger touch targets, no iOS zoom on inputs */
+@media (max-width: 640px) {
+  .edit-layout {
+    gap: var(--space-5);
+  }
+
+  .edit-preview__label {
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  .edit-preview__frame {
+    min-height: 280px;
+  }
+
+  .edit-preview__canvas {
+    max-height: 55vh;
+  }
+
+  .edit-preview__hint {
+    font-size: 13px;
+  }
+
+  .edit-panel {
+    gap: var(--space-4);
+  }
+
+  .edit-input-group__label {
+    font-size: 14px;
+  }
+
+  .edit-input {
+    padding: 12px 14px;
+    font-size: 16px; /* keep at 16px+ so iOS doesn't auto-zoom on focus */
+    min-height: 44px;
+  }
+
+  .edit-actions {
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+  }
+
+  .edit-actions .btn {
+    width: 100%;
+    min-height: 44px;
+  }
+}

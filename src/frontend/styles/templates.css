@@ -120,6 +120,11 @@
   border-color: #e2e8f0;
 }
 
+.template-card--selected {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px #6366f1;
+}
+
 .template-card__image {
   width: 100%;
   aspect-ratio: 1 / 1;
