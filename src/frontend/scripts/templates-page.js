@@ -8,7 +8,7 @@
  * chosen template's id carried in the URL query string.
  */
 
-import { getTemplates } from "../templates.js";
+import { getTemplates } from "../../templates.js";
 import { filterTemplates } from "../lib/template-filter.js";
 
 const PAGE_SIZE = 12;

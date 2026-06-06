@@ -60,7 +60,19 @@
               Generate →
             </button>
           </div>
-          <p id="swap-status" class="edit-swap-status" hidden></p>
+          <div id="swap-status" class="edit-swap-status" hidden>
+            <div id="lottie-swap" style="width:80px;height:80px;"></div>
+            <span id="swap-status-text"></span>
+          </div>
+          <script>
+            lottie.loadAnimation({
+              container: document.getElementById('lottie-swap'),
+              renderer: 'svg',
+              loop: true,
+              autoplay: true,
+              path: '../assets/loading.json'
+            });
+          </script>
         </aside>
       </div>
     </main>
