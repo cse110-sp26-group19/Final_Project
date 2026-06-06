@@ -1,0 +1,29 @@
+name: Deploy
+
+# Continuous deployment to Cloudflare Pages (static frontend + Pages Functions).
+# Runs on every push to main; code reaches main only through PRs that passed CI
+# (branch protection), so this job does not re-run the test suite.
+#
+# Prerequisites (one-time setup):
+#   - GitHub repo secrets:  CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID
+#   - Cloudflare Pages project "memebro" created in the account
+#   - Cloudflare Pages env var: REPLICATE_API_TOKEN (encrypted) for /api/face-swap
+# See docs/decisions/0008-deploy-cloudflare-pages-functions.md.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Reads pages_build_output_dir and the project name from wrangler.toml.
+          command: pages deploy
