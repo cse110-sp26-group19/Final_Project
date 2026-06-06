@@ -1,0 +1,13 @@
+# Cloudflare Pages configuration.
+# See docs/decisions/0008-deploy-cloudflare-pages-functions.md for the "why".
+#
+# - The static frontend is served from src/frontend.
+# - API routes live in functions/api/*.js (Cloudflare Pages Functions) and are
+#   served same-origin under /api/* — no CORS handling needed.
+# - REPLICATE_API_TOKEN is set as an encrypted environment variable in the
+#   Cloudflare dashboard (Settings → Environment variables) or via
+#   `npx wrangler pages secret put REPLICATE_API_TOKEN`. It is never committed.
+
+name = "memebro"
+compatibility_date = "2026-06-06"
+pages_build_output_dir = "src/frontend"

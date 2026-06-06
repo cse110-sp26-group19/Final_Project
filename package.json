@@ -6,6 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node src/backend/server.js",
+    "pages:dev": "npx wrangler pages dev",
+    "pages:deploy": "npx wrangler pages deploy",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
