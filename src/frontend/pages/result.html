@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="../styles/base.css" />
     <link rel="stylesheet" href="../styles/header.css" />
     <link rel="stylesheet" href="../styles/result.css" />
+    <link rel="preload" href="../assets/loading.json" as="fetch" crossorigin />
+    <script src="../assets/lottie.min.js"></script>
   </head>
   <body>
     <div id="site-header"></div>
@@ -33,7 +35,19 @@
         />
         <!-- fallback: text-only meme rendered locally -->
         <canvas class="result-canvas" id="result-canvas"></canvas>
-        <p class="result-status" id="result-status">Loading meme…</p>
+        <div class="result-status" id="result-status">
+          <div id="lottie-loading" style="width: 120px; height: 120px"></div>
+          <span id="result-status-text">Loading meme…</span>
+        </div>
+        <script>
+          lottie.loadAnimation({
+            container: document.getElementById("lottie-loading"),
+            renderer: "svg",
+            loop: true,
+            autoplay: true,
+            path: "../assets/loading.json",
+          });
+        </script>
       </div>
 
       <div class="result-actions">
