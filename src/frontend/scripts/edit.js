@@ -12,6 +12,7 @@
 import { getTemplates } from "../templates.js";
 import { loadImage } from "../image-loader.js";
 import { drawMeme } from "../meme-canvas.js";
+import { guardPage, getTemplate, updateStepIndicator } from "../lib/flow-dom.js";
 
 const STORAGE_KEY = "memebro:current-meme";
 const FACE_KEY = "memebro:face-photo";
@@ -357,7 +358,13 @@ async function generate() {
  * and wire up inputs + drag + generate.
  */
 async function init() {
-  const templateId = getTemplateIdFromUrl();
+  // Edit needs both inputs; the guard bounces to whichever is missing.
+  if (guardPage("edit")) return;
+  updateStepIndicator("edit");
+
+  // The template id may come via the URL or from sessionStorage (when the user
+  // reached edit by way of the upload page, where the URL param is dropped).
+  const templateId = getTemplateIdFromUrl() || getTemplate();
   if (!templateId) {
     window.location.replace("templates.html");
     return;

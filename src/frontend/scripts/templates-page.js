@@ -10,6 +10,7 @@
 
 import { getTemplates } from "../../templates.js";
 import { filterTemplates } from "../lib/template-filter.js";
+import { setTemplate, updateStepIndicator, nextHref } from "../lib/flow-dom.js";
 
 const PAGE_SIZE = 12;
 
@@ -21,6 +22,7 @@ const elements = {
   chips: document.querySelectorAll(".templates-chip"),
   random: document.getElementById("random-btn"),
   seeMore: document.getElementById("see-more-btn"),
+  next: document.getElementById("next-btn"),
 };
 
 const state = {
@@ -29,6 +31,7 @@ const state = {
   visible: PAGE_SIZE,
   category: "all",
   query: "",
+  selectedId: null,
 };
 
 /**
@@ -79,6 +82,11 @@ function buildCard(template) {
   card.className = "template-card";
   card.setAttribute("aria-label", `Select template: ${template.name}`);
 
+  if (template.id === state.selectedId) {
+    card.classList.add("template-card--selected");
+    card.setAttribute("aria-pressed", "true");
+  }
+
   const img = document.createElement("img");
   img.className = "template-card__image";
   img.src = template.url;
@@ -95,17 +103,34 @@ function buildCard(template) {
 }
 
 /**
- * Navigate to the Edit page, carrying the selected template id in the URL.
+ * Select a template: remember it, highlight its card, and enable the Next
+ * button. Flexible order — Next leads to upload if there's no photo yet, or
+ * straight to edit if there is.
  *
  * @param {{id: string}} template
  */
 function selectTemplate(template) {
-  window.location.href = `edit.html?templateId=${encodeURIComponent(template.id)}`;
+  state.selectedId = template.id;
+  setTemplate(template.id);
+  render();
+  enableNextButton();
 }
 
 /**
- * Pick a uniformly random template from the current filtered list and navigate
- * to the Edit page with it.
+ * Point the Next button at the right destination and label it accordingly.
+ */
+function enableNextButton() {
+  const dest = nextHref("templates"); // "upload.html" | "edit.html"
+  elements.next.href = dest;
+  elements.next.textContent = dest.startsWith("upload")
+    ? "Next: add your photo →"
+    : "Next: edit text →";
+  elements.next.removeAttribute("aria-disabled");
+  elements.next.removeAttribute("tabindex");
+}
+
+/**
+ * Pick a uniformly random template from the current filtered list and select it.
  */
 function pickRandom() {
   if (state.filtered.length === 0) return;
@@ -143,6 +168,9 @@ function bindEvents() {
  * Page entry point — fetch templates, hide the loading message, and render.
  */
 async function init() {
+  // Templates is always reachable; show the right step number for this visit.
+  updateStepIndicator("templates");
+
   try {
     state.templates = await getTemplates();
     state.filtered = state.templates;

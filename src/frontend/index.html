@@ -49,5 +49,10 @@
         </div>
       </div>
     </main>
+    <script type="module">
+      // Returning home starts a brand-new process: clear any in-flight flow state.
+      import { resetFlow } from "./lib/flow-dom.js";
+      resetFlow();
+    </script>
   </body>
 </html>
