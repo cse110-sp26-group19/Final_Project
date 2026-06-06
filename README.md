@@ -2,6 +2,10 @@
 
 An 11-person meme generator project. This README is the entry point — use it to navigate the codebase and the research/process documentation.
 
+## Live site
+
+**[memebro.pages.dev](https://memebro.pages.dev)** — deployed on Cloudflare Pages (static frontend + Pages Functions for the face-swap API). See [ADR 0008](docs/decisions/0008-deploy-cloudflare-pages-functions.md).
+
 ## Videos
 
 | Video          | Link                                                        |
