@@ -1,3 +1,10 @@
+import {
+  FACE_KEY,
+  enforceGuard,
+  getSelectedTemplate,
+  renderStepIndicator,
+} from "../lib/session-state.js";
+
 const zone = document.getElementById("upload-zone");
 const input = document.getElementById("file-input");
 const cameraInput = document.getElementById("camera-input");
@@ -5,8 +12,9 @@ const nextBtn = document.getElementById("next-btn");
 const preview = document.getElementById("upload-preview");
 const ALLOWED = ["image/jpeg", "image/png", "image/heic"];
 
-// Key used by the edit page to retrieve the face photo for the AI swap.
-const FACE_KEY = "memebro:face-photo";
+// Flexible order: upload is always reachable. Reflect progress in the indicator.
+enforceGuard("upload");
+renderStepIndicator("upload");
 
 function handleFile(file) {
   if (!file || !ALLOWED.includes(file.type.toLowerCase())) {
@@ -22,6 +30,8 @@ function handleFile(file) {
 
   preview.src = URL.createObjectURL(file);
   zone.classList.add("has-file");
+  // If a template was already picked, skip straight to edit; otherwise go pick one.
+  nextBtn.href = getSelectedTemplate() ? "edit.html" : "templates.html";
   nextBtn.removeAttribute("disabled");
   nextBtn.removeAttribute("aria-disabled");
 }

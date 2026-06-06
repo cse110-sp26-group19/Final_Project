@@ -12,7 +12,7 @@
 import { getTemplates } from "../templates.js";
 import { loadImage } from "../image-loader.js";
 import { drawMeme } from "../meme-canvas.js";
-import { enforceGuard } from "../lib/session-state.js";
+import { enforceGuard, getSelectedTemplate, renderStepIndicator } from "../lib/session-state.js";
 
 const STORAGE_KEY = "memebro:current-meme";
 const FACE_KEY = "memebro:face-photo";
@@ -278,11 +278,13 @@ async function generate() {
  * and wire up inputs + drag + generate.
  */
 async function init() {
-  // Strict order: bounce to the earliest unfinished step if a photo or
-  // template is missing before the edit page tries to composite anything.
+  // Flexible order: edit needs both inputs; bounce to whichever is missing.
   if (enforceGuard("edit")) return;
+  renderStepIndicator("edit");
 
-  const templateId = getTemplateIdFromUrl();
+  // The template id may arrive via the URL (template → edit directly) or from
+  // sessionStorage (template → upload → edit, where the URL param is lost).
+  const templateId = getTemplateIdFromUrl() || getSelectedTemplate();
   if (!templateId) {
     window.location.replace("templates.html");
     return;

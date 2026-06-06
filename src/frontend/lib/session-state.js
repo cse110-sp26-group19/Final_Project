@@ -1,13 +1,14 @@
 /**
- * Browser adapter for the strict-order routing guard.
+ * Browser adapter for the flexible routing logic.
  *
  * Reads the real progress signals — a face photo and meme spec in
- * sessionStorage, a selected template in sessionStorage or the URL — maps them
- * to the page-name redirects from `routing-guard.js`, and performs the
- * redirect. Page controllers call `enforceGuard(page)` at the top of their init
- * so a page never renders without its prerequisites. See ADR 0007.
+ * sessionStorage, a selected template in sessionStorage or the URL — and
+ * applies the decisions from `routing-guard.js`: guarding pages, sending the
+ * user to the next incomplete step, and updating the step indicator. Page
+ * controllers call `enforceGuard(page)` and `renderStepIndicator(page)` on
+ * load. See ADR 0007.
  */
-import { guardRedirect } from "./routing-guard.js";
+import { guardRedirect, nextIncompleteStep, stepMeta } from "./routing-guard.js";
 
 /** sessionStorage key for the uploaded face photo (data URL). Set by upload.js. */
 export const FACE_KEY = "memebro:face-photo";
@@ -17,10 +18,9 @@ export const TEMPLATE_KEY = "memebro:selected-template";
 export const MEME_KEY = "memebro:current-meme";
 
 /**
- * Snapshot the user's progress through the funnel from sessionStorage and the
- * current URL. A template counts if it is stored OR carried in `?templateId`;
- * a meme counts if stored OR carried in `?spec` (so shared links still open the
- * result page for visitors who never ran the funnel).
+ * Snapshot the user's progress from sessionStorage and the current URL. A
+ * template counts if it is stored OR carried in `?templateId`; a meme counts
+ * if stored OR carried in `?spec` (so shared result links still open).
  *
  * @returns {{hasPhoto: boolean, hasTemplate: boolean, hasMeme: boolean}}
  */
@@ -34,10 +34,9 @@ export function readProgress() {
 }
 
 /**
- * Enforce strict ordering for the given page. If a prerequisite is missing,
- * redirect to the earliest unfinished step and return `true` so the caller can
- * stop initializing. `location.replace` is used so guarded bounces don't pile
- * up in history and trap the back button.
+ * Enforce the flow for the given page. If a prerequisite is missing, redirect
+ * to the appropriate step and return `true` so the caller can stop
+ * initializing. `location.replace` keeps guarded bounces out of history.
  *
  * @param {"upload" | "templates" | "edit" | "result"} page
  * @returns {boolean} Whether a redirect was triggered.
@@ -58,4 +57,33 @@ export function enforceGuard(page) {
  */
 export function setSelectedTemplate(templateId) {
   sessionStorage.setItem(TEMPLATE_KEY, templateId);
+}
+
+/**
+ * The currently selected template id, or `null` if none has been chosen.
+ *
+ * @returns {string | null}
+ */
+export function getSelectedTemplate() {
+  return sessionStorage.getItem(TEMPLATE_KEY);
+}
+
+/**
+ * Navigate to the next step that still needs completing, given current
+ * progress. Used after picking a template or finishing an upload so the user
+ * flows forward regardless of which input they did first.
+ */
+export function goToNextStep() {
+  window.location.href = `${nextIncompleteStep(readProgress())}.html`;
+}
+
+/**
+ * Update the page's step-indicator meta line to reflect actual progress. No-op
+ * on pages that have no `.step-indicator__meta` element.
+ *
+ * @param {"upload" | "templates" | "edit" | "result"} page
+ */
+export function renderStepIndicator(page) {
+  const meta = document.querySelector(".step-indicator__meta");
+  if (meta) meta.textContent = stepMeta(page, readProgress());
 }

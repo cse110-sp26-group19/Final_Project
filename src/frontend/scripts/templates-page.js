@@ -10,7 +10,12 @@
 
 import { getTemplates } from "../../templates.js";
 import { filterTemplates } from "../lib/template-filter.js";
-import { enforceGuard, setSelectedTemplate } from "../lib/session-state.js";
+import {
+  enforceGuard,
+  setSelectedTemplate,
+  goToNextStep,
+  renderStepIndicator,
+} from "../lib/session-state.js";
 
 const PAGE_SIZE = 12;
 
@@ -102,7 +107,8 @@ function buildCard(template) {
  */
 function selectTemplate(template) {
   setSelectedTemplate(template.id);
-  window.location.href = `edit.html?templateId=${encodeURIComponent(template.id)}`;
+  // Flexible order: go to upload if there's no photo yet, else straight to edit.
+  goToNextStep();
 }
 
 /**
@@ -145,8 +151,9 @@ function bindEvents() {
  * Page entry point — fetch templates, hide the loading message, and render.
  */
 async function init() {
-  // Strict order: the user must have uploaded a photo before picking a template.
+  // Flexible order: templates is always reachable (it can be the first step).
   if (enforceGuard("templates")) return;
+  renderStepIndicator("templates");
 
   try {
     state.templates = await getTemplates();
