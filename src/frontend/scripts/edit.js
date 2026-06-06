@@ -9,11 +9,14 @@
  * Result page, which re-renders at export quality.
  */
 
-import { getTemplates } from "../../templates.js";
-import { loadImage } from "../../image-loader.js";
-import { drawMeme } from "../../meme-canvas.js";
+import { getTemplates } from "../templates.js";
+import { loadImage } from "../image-loader.js";
+import { drawMeme } from "../meme-canvas.js";
 
 const STORAGE_KEY = "memebro:current-meme";
+const FACE_KEY = "memebro:face-photo";
+const API_SWAP_URL = `${window.location.origin}/api/face-swap`;
+const API_PROXY_URL = `${window.location.origin}/api/image-proxy`;
 const HIT_RADIUS = 0.1; // normalized distance threshold for drag pickup
 
 const elements = {
@@ -30,6 +33,18 @@ const state = {
   textBoxes: [],
   draggingIndex: -1,
 };
+
+/**
+ * Route a template image URL through the local proxy so the canvas load is
+ * same-origin, bypassing Imgflip CDN CORS restrictions without tainting the
+ * canvas for later PNG export.
+ *
+ * @param {string} url
+ * @returns {string}
+ */
+function proxyImageUrl(url) {
+  return `${API_PROXY_URL}?url=${encodeURIComponent(url)}`;
+}
 
 /**
  * Read the templateId query param from the current URL.
@@ -175,16 +190,84 @@ function bindDragHandlers() {
 }
 
 /**
+ * Call the backend face-swap API if the user uploaded a face photo.
+ * Returns the swapped image URL on success, or null if no photo was uploaded
+ * or if the API call fails (so the result page still shows the text meme).
+ *
+ * @param {string} templateUrl Imgflip CDN URL of the selected template
+ * @returns {Promise<string|null>}
+ */
+async function requestFaceSwap(templateUrl) {
+  const faceDataUrl = sessionStorage.getItem(FACE_KEY);
+  if (!faceDataUrl) return null;
+
+  if (faceDataUrl.startsWith("data:image/heic")) {
+    throw new Error("HEIC photos aren't supported for face swap. Convert to JPG first.");
+  }
+
+  const response = await fetch(API_SWAP_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ faceDataUrl, templateUrl }),
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.error || `Server returned ${response.status}`);
+  }
+
+  return data.outputUrl;
+}
+
+/**
+ * Show or clear a status message below the generate button.
+ * Pass isError=true to render in the error colour.
+ *
+ * @param {string} message
+ * @param {boolean} [isError]
+ */
+function showSwapStatus(message, isError = false) {
+  const statusEl = document.getElementById("swap-status");
+  statusEl.textContent = message;
+  statusEl.classList.toggle("edit-swap-status--error", isError);
+  statusEl.hidden = !message;
+}
+
+/**
  * Persist the current meme spec to sessionStorage and navigate to the
  * Result page, which is responsible for re-rendering and offering export.
+ * If a face photo is stored, calls the backend swap API first and embeds
+ * the swapped image URL in the spec.
  */
-function generate() {
+function setGenerating(active) {
+  elements.generateBtn.disabled = active;
+  elements.generateBtn.setAttribute("aria-disabled", String(active));
+  elements.generateBtn.textContent = active ? "Generating…" : "Generate →";
+}
+
+async function generate() {
   if (!state.template) return;
+
+  setGenerating(true);
+
+  let swappedImageUrl = null;
+  try {
+    showSwapStatus("Swapping face… this takes ~15 seconds.");
+    swappedImageUrl = await requestFaceSwap(state.template.url);
+    showSwapStatus("");
+  } catch (error) {
+    console.error("Face swap failed:", error);
+    showSwapStatus(`${error.message}. Saving text-only meme.`, true);
+    setGenerating(false);
+  }
+
   const spec = {
     templateUrl: state.template.url,
     templateName: state.template.name,
     textBoxes: state.textBoxes,
+    swappedImageUrl: swappedImageUrl ?? undefined,
   };
+
   sessionStorage.setItem(STORAGE_KEY, JSON.stringify(spec));
   window.location.href = "result.html";
 }
@@ -207,7 +290,7 @@ async function init() {
       throw new Error(`Template ${templateId} not found`);
     }
 
-    state.image = await loadImage(state.template.url);
+    state.image = await loadImage(proxyImageUrl(state.template.url));
     state.textBoxes = defaultTextBoxes(state.template.box_count ?? 2);
 
     elements.status.hidden = true;
@@ -215,8 +298,7 @@ async function init() {
     renderInputs();
     renderPreview();
     bindDragHandlers();
-    elements.generateBtn.disabled = false;
-    elements.generateBtn.setAttribute("aria-disabled", "false");
+    setGenerating(false);
     elements.generateBtn.addEventListener("click", generate);
   } catch (error) {
     console.error("Failed to load editor:", error);

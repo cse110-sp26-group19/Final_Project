@@ -5,10 +5,11 @@
   "description": "AI-assisted meme generator — CSE 110 Spring 2026 final project (Group 19).",
   "type": "module",
   "scripts": {
+    "start": "node src/backend/server.js",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
-    "test": "node --test tests/export.test.js tests/image-loader.test.js tests/meme-canvas.test.js tests/template-filter.test.js tests/templates.test.js",
+    "test": "node --test tests/export.test.js tests/image-loader.test.js tests/meme-canvas.test.js tests/template-filter.test.js tests/templates.test.js tests/replicate-client.test.js tests/server.test.js",
     "fix": "prettier --write . && eslint . --fix",
     "check": "npm run format:check && npm run lint && npm test"
   },
@@ -17,5 +18,11 @@
     "eslint": "^10.4.1",
     "globals": "^17.6.0",
     "prettier": "^3.3.3"
+  },
+  "dependencies": {
+    "axios": "^1.16.1",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
   }
 }

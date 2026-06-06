@@ -10,3 +10,6 @@ docs/design/wireframes/
 
 # Local, environment-specific override settings (not shared/enforced)
 **/*.local.json
+
+# Playwright MCP browser artifacts
+.playwright-mcp/
