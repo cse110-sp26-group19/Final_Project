@@ -233,6 +233,51 @@ function showSwapStatus(message, isError = false) {
   statusEl.hidden = !message;
 }
 
+let _swapProgressRaf = null;
+
+function startSwapProgress() {
+  const bar = document.getElementById("swap-progress");
+  const fill = document.getElementById("swap-progress-fill");
+  bar.hidden = false;
+  fill.style.width = "0%";
+
+  const DURATION = 15000;
+  const start = performance.now();
+
+  function tick(now) {
+    const elapsed = Math.min(now - start, DURATION);
+    // ease-out: fast start, slow finish — reaches ~90% at DURATION
+    const progress = 1 - Math.pow(1 - elapsed / DURATION, 3);
+    fill.style.width = `${progress * 90}%`;
+    if (elapsed < DURATION) {
+      _swapProgressRaf = requestAnimationFrame(tick);
+    }
+  }
+
+  _swapProgressRaf = requestAnimationFrame(tick);
+}
+
+function stopSwapProgress(success = true) {
+  if (_swapProgressRaf !== null) {
+    cancelAnimationFrame(_swapProgressRaf);
+    _swapProgressRaf = null;
+  }
+  const fill = document.getElementById("swap-progress-fill");
+  const bar = document.getElementById("swap-progress");
+  if (success) {
+    fill.style.transition = "width 0.3s ease-out";
+    fill.style.width = "100%";
+    setTimeout(() => {
+      bar.hidden = true;
+      fill.style.width = "0%";
+      fill.style.transition = "width 0.4s ease-out";
+    }, 350);
+  } else {
+    bar.hidden = true;
+    fill.style.width = "0%";
+  }
+}
+
 /**
  * Persist the current meme spec to sessionStorage and navigate to the
  * Result page, which is responsible for re-rendering and offering export.
@@ -253,10 +298,13 @@ async function generate() {
   let swappedImageUrl = null;
   try {
     showSwapStatus("Swapping face… this takes ~15 seconds.");
+    startSwapProgress();
     swappedImageUrl = await requestFaceSwap(state.template.url);
+    stopSwapProgress(true);
     showSwapStatus("");
   } catch (error) {
     console.error("Face swap failed:", error);
+    stopSwapProgress(false);
     showSwapStatus(`${error.message}. Saving text-only meme.`, true);
     setGenerating(false);
   }
