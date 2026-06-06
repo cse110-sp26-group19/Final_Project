@@ -76,6 +76,12 @@ p + p {
   }
 }
 
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* Text utilities */
 .lead {
   font-size: var(--font-size-lg);

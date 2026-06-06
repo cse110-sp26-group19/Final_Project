@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="../styles/header.css" />
     <link rel="stylesheet" href="../styles/step-indicator.css" />
     <link rel="stylesheet" href="../styles/edit.css" />
+    <link rel="preload" href="../assets/loading.json" as="fetch" crossorigin />
+    <script src="../assets/lottie.min.js"></script>
   </head>
   <body>
     <div id="site-header"></div>
@@ -27,7 +29,19 @@
           <p class="edit-preview__label">Preview</p>
           <div class="edit-preview__frame" id="preview-frame">
             <canvas class="edit-preview__canvas" id="preview-canvas"></canvas>
-            <p class="edit-preview__status" id="preview-status">Loading template…</p>
+            <div class="edit-preview__status" id="preview-status">
+              <div id="lottie-loading" style="width: 120px; height: 120px"></div>
+              <span id="preview-status-text">Loading template…</span>
+            </div>
+            <script>
+              lottie.loadAnimation({
+                container: document.getElementById("lottie-loading"),
+                renderer: "svg",
+                loop: true,
+                autoplay: true,
+                path: "../assets/loading.json",
+              });
+            </script>
           </div>
           <p class="edit-preview__hint">Tip: drag any text on the preview to move it.</p>
         </section>
@@ -46,7 +60,22 @@
               Generate →
             </button>
           </div>
-          <p id="swap-status" class="edit-swap-status" hidden></p>
+          <div id="swap-status" class="edit-swap-status" hidden>
+            <div id="lottie-swap" style="width: 80px; height: 80px"></div>
+            <span id="swap-status-text"></span>
+            <div class="swap-progress" id="swap-progress" hidden>
+              <div class="swap-progress__fill" id="swap-progress-fill"></div>
+            </div>
+          </div>
+          <script>
+            lottie.loadAnimation({
+              container: document.getElementById("lottie-swap"),
+              renderer: "svg",
+              loop: true,
+              autoplay: true,
+              path: "../assets/loading.json",
+            });
+          </script>
         </aside>
       </div>
     </main>

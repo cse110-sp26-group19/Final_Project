@@ -22,6 +22,13 @@ const STORAGE_KEY = "memebro:current-meme";
 const TOAST_TIMEOUT_MS = 2500;
 const API_PROXY_URL = `${window.location.origin}/api/image-proxy`;
 
+const RESULT_PHRASES = [
+  "Loading meme…",
+  "Rendering your masterpiece…",
+  "Adding the finishing touches…",
+  "Almost ready…",
+];
+
 function proxyImageUrl(url) {
   return `${API_PROXY_URL}?url=${encodeURIComponent(url)}`;
 }
@@ -194,6 +201,16 @@ function bindEvents() {
 /**
  * Page entry point — read the spec, render the meme, enable the actions.
  */
+function startPhrases(textElId, phrases) {
+  let i = 0;
+  const el = document.getElementById(textElId);
+  el.textContent = phrases[i];
+  return setInterval(() => {
+    i = (i + 1) % phrases.length;
+    el.textContent = phrases[i];
+  }, 3000);
+}
+
 async function init() {
   // No generated meme (and no shared ?spec link) means the user skipped ahead —
   // send them to start the flow.
@@ -206,6 +223,8 @@ async function init() {
   }
   state.spec = spec;
 
+  const phraseInterval = startPhrases("result-status-text", RESULT_PHRASES);
+
   try {
     // Use swapped face image when available, otherwise proxy the template.
     // Both paths go through drawMeme so text boxes are always rendered on top.
@@ -214,6 +233,7 @@ async function init() {
     drawMeme(elements.canvas, image, spec.textBoxes ?? []);
     elements.canvas.classList.add("is-loaded");
 
+    clearInterval(phraseInterval);
     elements.status.hidden = true;
 
     elements.downloadBtn.disabled = false;
@@ -223,6 +243,7 @@ async function init() {
 
     bindEvents();
   } catch (error) {
+    clearInterval(phraseInterval);
     console.error("Failed to render meme:", error);
     elements.frame.classList.add("is-error");
     elements.status.textContent = "Failed to render meme. Try generating it again.";
