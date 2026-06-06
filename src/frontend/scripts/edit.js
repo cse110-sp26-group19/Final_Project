@@ -19,6 +19,28 @@ const API_SWAP_URL = `${window.location.origin}/api/face-swap`;
 const API_PROXY_URL = `${window.location.origin}/api/image-proxy`;
 const HIT_RADIUS = 0.1; // normalized distance threshold for drag pickup
 
+const TEMPLATE_PHRASES = [
+  "Loading template…",
+  "Fetching your meme template…",
+  "Almost ready…",
+  "Preparing the canvas…",
+];
+
+const SWAP_PHRASES = [
+  "Making meme… this takes ~30-60 secs.",
+  "Bro is literally computing rn",
+  "Almost there, hang tight…",
+  "No cap, this takes a sec",
+  "Applying the meme magic…",
+  "We're so back (once it finishes)",
+  "POV: waiting for your meme",
+  "Me: hurry up / Server: I am literally trying",
+  "We love to see it (almost)",
+  "POV: you're about to be iconic",
+  "Respectfully this slaps and it's not even done",
+  "A small price to pay for a legendary meme"
+];
+
 const elements = {
   canvas: document.getElementById("preview-canvas"),
   status: document.getElementById("preview-status"),
@@ -226,6 +248,16 @@ async function requestFaceSwap(templateUrl) {
  * @param {string} message
  * @param {boolean} [isError]
  */
+function startPhrases(textElId, phrases) {
+  let i = 0;
+  const el = document.getElementById(textElId);
+  el.textContent = phrases[i];
+  return setInterval(() => {
+    i = (i + 1) % phrases.length;
+    el.textContent = phrases[i];
+  }, 3000);
+}
+
 function showSwapStatus(message, isError = false) {
   const statusEl = document.getElementById("swap-status");
   document.getElementById("swap-status-text").textContent = message;
@@ -234,6 +266,23 @@ function showSwapStatus(message, isError = false) {
 }
 
 let _swapProgressRaf = null;
+let _swapPhraseInterval = null;
+
+function startSwapPhrases(phrases) {
+  let index = 0;
+  showSwapStatus(phrases[index]);
+  _swapPhraseInterval = setInterval(() => {
+    index = (index + 1) % phrases.length;
+    document.getElementById("swap-status-text").textContent = phrases[index];
+  }, 3000);
+}
+
+function stopSwapPhrases() {
+  if (_swapPhraseInterval !== null) {
+    clearInterval(_swapPhraseInterval);
+    _swapPhraseInterval = null;
+  }
+}
 
 function startSwapProgress() {
   const bar = document.getElementById("swap-progress");
@@ -295,15 +344,22 @@ async function generate() {
 
   setGenerating(true);
 
+  const hasFacePhoto = !!sessionStorage.getItem(FACE_KEY);
   let swappedImageUrl = null;
   try {
-    showSwapStatus("Swapping face… this takes ~15 seconds.");
-    startSwapProgress();
+    if (hasFacePhoto) {
+      startSwapPhrases(SWAP_PHRASES);
+      startSwapProgress();
+    }
     swappedImageUrl = await requestFaceSwap(state.template.url);
-    stopSwapProgress(true);
-    showSwapStatus("");
+    if (hasFacePhoto) {
+      stopSwapPhrases();
+      stopSwapProgress(true);
+      showSwapStatus("");
+    }
   } catch (error) {
     console.error("Face swap failed:", error);
+    stopSwapPhrases();
     stopSwapProgress(false);
     showSwapStatus(`${error.message}. Saving text-only meme.`, true);
     setGenerating(false);
@@ -331,6 +387,7 @@ async function init() {
     return;
   }
 
+  const phraseInterval = startPhrases("preview-status-text", TEMPLATE_PHRASES);
   try {
     const templates = await getTemplates();
     state.template = templates.find((t) => t.id === templateId);
@@ -341,6 +398,7 @@ async function init() {
     state.image = await loadImage(proxyImageUrl(state.template.url));
     state.textBoxes = defaultTextBoxes(state.template.box_count ?? 2);
 
+    clearInterval(phraseInterval);
     elements.status.hidden = true;
     elements.canvas.classList.add("is-loaded");
     renderInputs();
@@ -349,6 +407,7 @@ async function init() {
     setGenerating(false);
     elements.generateBtn.addEventListener("click", generate);
   } catch (error) {
+    clearInterval(phraseInterval);
     console.error("Failed to load editor:", error);
     elements.frame.classList.add("is-error");
     elements.status.textContent = "Failed to load template. Please go back and try another.";

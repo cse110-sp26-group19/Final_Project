@@ -8,8 +8,15 @@
  * chosen template's id carried in the URL query string.
  */
 
-import { getTemplates } from "../../templates.js";
+import { getTemplates } from "../templates.js";
 import { filterTemplates } from "../lib/template-filter.js";
+
+const TEMPLATES_PHRASES = [
+  "Loading templates… ",
+  "Fetching meme templates…",
+  "Almost there…",
+  "Getting the good stuff…",
+];
 
 const PAGE_SIZE = 12;
 
@@ -142,14 +149,27 @@ function bindEvents() {
 /**
  * Page entry point — fetch templates, hide the loading message, and render.
  */
+function startPhrases(textElId, phrases) {
+  let i = 0;
+  const el = document.getElementById(textElId);
+  el.textContent = phrases[i];
+  return setInterval(() => {
+    i = (i + 1) % phrases.length;
+    el.textContent = phrases[i];
+  }, 3000);
+}
+
 async function init() {
+  const phraseInterval = startPhrases("grid-loading-text", TEMPLATES_PHRASES);
   try {
     state.templates = await getTemplates();
     state.filtered = state.templates;
+    clearInterval(phraseInterval);
     elements.loading.hidden = true;
     bindEvents();
     render();
   } catch (error) {
+    clearInterval(phraseInterval);
     console.error("Failed to load templates:", error);
     elements.loading.textContent = "Failed to load templates. Please refresh.";
   }
