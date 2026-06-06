@@ -32,6 +32,11 @@ Thumbs.db
 *.log
 coverage/
 
+# Cloudflare Wrangler local state + local secrets (wrangler pages dev)
+.wrangler/
+.dev.vars
+.dev.vars.*
+
 # Pipeline zone-check verification outputs (generated locally, not needed in repo)
 src/backend/pipelines/**/*_zone_check.png
 src/backend/pipelines/**/*_zone_check.jpg

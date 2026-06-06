@@ -1,15 +1,17 @@
 {
   "name": "memebro",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "AI-assisted meme generator — CSE 110 Spring 2026 final project (Group 19).",
   "type": "module",
   "scripts": {
     "start": "node src/backend/server.js",
+    "pages:dev": "npx wrangler pages dev",
+    "pages:deploy": "npx wrangler pages deploy",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
-    "test": "node --test tests/export.test.js tests/image-loader.test.js tests/meme-canvas.test.js tests/template-filter.test.js tests/templates.test.js tests/replicate-client.test.js tests/server.test.js tests/flow.test.js",
+    "test": "node --test tests/export.test.js tests/image-loader.test.js tests/meme-canvas.test.js tests/template-filter.test.js tests/templates.test.js tests/replicate-client.test.js tests/server.test.js tests/flow.test.js tests/image-proxy-function.test.js tests/face-swap-function.test.js",
     "fix": "prettier --write . && eslint . --fix",
     "check": "npm run format:check && npm run lint && npm test"
   },
