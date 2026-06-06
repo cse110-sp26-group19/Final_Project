@@ -5,7 +5,7 @@ import globals from "globals";
 export default [
   // Don't lint generated, vendored, or minified output.
   {
-    ignores: ["node_modules/", "dist/", "build/", "out/", "coverage/", "**/*.min.js"],
+    ignores: ["node_modules/", "dist/", "build/", "out/", "coverage/", ".wrangler/", "**/*.min.js"],
   },
 
   // Baseline correctness rules from ESLint's recommended set.
