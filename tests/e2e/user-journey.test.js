@@ -141,10 +141,31 @@ describe("Full user journey: home → templates → edit → result", () => {
     // Wait for the generate button to become enabled (edit.js enables it after the template loads)
     await page.waitForSelector("#generate-btn:not([disabled])", { timeout: 10000 });
 
+    // Intercept the face-swap API call and return an immediate error so generate() catches
+    // it and navigates to result.html without waiting for a live Replicate response.
+    // This makes the test pass cross-platform regardless of whether a token is present.
+    await page.setRequestInterception(true);
+    const abortFaceSwap = (req) => {
+      if (req.url().includes("/api/face-swap")) {
+        req.respond({
+          status: 503,
+          contentType: "application/json",
+          body: JSON.stringify({ error: "face-swap mocked in E2E test" }),
+        });
+      } else {
+        req.continue();
+      }
+    };
+    page.on("request", abortFaceSwap);
+
     await Promise.all([
       page.waitForNavigation({ waitUntil: "domcontentloaded", timeout: 15000 }),
       page.click("#generate-btn"),
     ]);
+
+    // Clean up request interception
+    page.off("request", abortFaceSwap);
+    await page.setRequestInterception(false);
 
     expect(page.url()).toContain("result.html");
   });
@@ -153,11 +174,13 @@ describe("Full user journey: home → templates → edit → result", () => {
   // Step 7: Result page has a canvas and Make another link when meme spec exists
   // ---------------------------------------------------------------------------
   test("result page has canvas and Make another link when meme spec is in sessionStorage", async () => {
-    await page.goto(`${BASE_URL}/pages/result.html`, { waitUntil: "domcontentloaded" });
-
+    // Seed sessionStorage on a non-guarded page first — navigating directly to
+    // result.html without the spec causes an immediate redirect before evaluate() runs.
+    await page.goto(`${BASE_URL}/index.html`, { waitUntil: "domcontentloaded" });
     await seedFlowState();
 
-    await page.reload({ waitUntil: "domcontentloaded" });
+    // Now navigate — hasMeme is already true so guardPage("result") passes
+    await page.goto(`${BASE_URL}/pages/result.html`, { waitUntil: "domcontentloaded" });
 
     const canvas = await page.$("#result-canvas");
     expect(canvas).not.toBeNull();
@@ -170,11 +193,11 @@ describe("Full user journey: home → templates → edit → result", () => {
   // Step 8: Make another link returns to home
   // ---------------------------------------------------------------------------
   test("clicking Make another returns to index.html", async () => {
-    await page.goto(`${BASE_URL}/pages/result.html`, { waitUntil: "domcontentloaded" });
-
+    // Same pattern: seed on index.html first, then navigate to result.html
+    await page.goto(`${BASE_URL}/index.html`, { waitUntil: "domcontentloaded" });
     await seedFlowState();
 
-    await page.reload({ waitUntil: "domcontentloaded" });
+    await page.goto(`${BASE_URL}/pages/result.html`, { waitUntil: "domcontentloaded" });
 
     await page.waitForSelector("#restart-btn", { timeout: 5000 });
 
