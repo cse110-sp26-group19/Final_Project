@@ -1,25 +1,52 @@
-function initTheme() {
-  const saved = localStorage.getItem("memebro-theme");
-  if (saved) {
-    document.documentElement.setAttribute("data-theme", saved);
-  }
+/** @type {string} Single source of truth for the current theme. */
+let currentTheme = localStorage.getItem("memebro-theme") || "dark";
+
+/**
+ * Applies a theme by updating the module state, DOM attribute, and localStorage.
+ *
+ * @param {string} theme - The theme to apply ('light' or 'dark').
+ */
+function applyTheme(theme) {
+  currentTheme = theme;
+  document.documentElement.setAttribute("data-theme", theme);
+  localStorage.setItem("memebro-theme", theme);
 }
 
+/**
+ * Updates the toggle button's aria-label to reflect the current theme.
+ */
 function updateToggleButton() {
   const btn = document.querySelector(".theme-toggle");
   if (!btn) return;
-  const isLight = document.documentElement.getAttribute("data-theme") === "light";
-  btn.setAttribute("aria-label", isLight ? "Switch to dark mode" : "Switch to light mode");
+  btn.setAttribute(
+    "aria-label",
+    currentTheme === "light" ? "Switch to dark mode" : "Switch to light mode"
+  );
 }
 
+/**
+ * Toggles between light and dark mode and updates the toggle button label.
+ */
 function toggleTheme() {
-  const current = document.documentElement.getAttribute("data-theme");
-  const next = current === "light" ? "dark" : "light";
-  document.documentElement.setAttribute("data-theme", next);
-  localStorage.setItem("memebro-theme", next);
+  applyTheme(currentTheme === "light" ? "dark" : "light");
   updateToggleButton();
 }
 
+/**
+ * Wires up the theme toggle button after the header is injected into the DOM.
+ */
+function initToggle() {
+  const btn = document.querySelector(".theme-toggle");
+  if (!btn) return;
+  btn.addEventListener("click", toggleTheme);
+  updateToggleButton();
+}
+
+/**
+ * Fetches and injects header.html into the page, then initializes the theme toggle.
+ *
+ * @returns {Promise<void>}
+ */
 async function loadHeader() {
   const placeholder = document.getElementById("site-header");
   if (!placeholder) return;
@@ -32,13 +59,8 @@ async function loadHeader() {
   let html = await res.text();
   html = html.replace(/href="\/([^"]*)"/g, `href="${base}/$1"`);
   placeholder.outerHTML = html;
-
-  const toggleBtn = document.querySelector(".theme-toggle");
-  if (toggleBtn) {
-    toggleBtn.addEventListener("click", toggleTheme);
-    updateToggleButton();
-  }
+  initToggle();
 }
 
-initTheme();
+applyTheme(currentTheme);
 document.addEventListener("DOMContentLoaded", loadHeader);
