@@ -11,7 +11,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
-    "test": "node --test tests/export.test.js tests/image-loader.test.js tests/meme-canvas.test.js tests/template-filter.test.js tests/templates.test.js tests/replicate-client.test.js tests/server.test.js tests/flow.test.js tests/image-proxy-function.test.js tests/face-swap-function.test.js",
+    "test": "node --test tests/export.test.js tests/image-loader.test.js tests/meme-canvas.test.js tests/template-filter.test.js tests/templates.test.js tests/replicate-client.test.js tests/server.test.js tests/flow.test.js tests/image-proxy-function.test.js tests/face-swap-function.test.js tests/text-boxes.test.js tests/share-spec.test.js",
     "fix": "prettier --write . && eslint . --fix",
     "check": "npm run format:check && npm run lint && npm test"
   },

@@ -17,6 +17,7 @@ import { loadImage } from "../image-loader.js";
 import { drawMeme } from "../meme-canvas.js";
 import { exportMeme } from "../export.js";
 import { guardPage } from "../lib/flow-dom.js";
+import { decodeSpec, encodeSpec } from "../lib/share-spec.js";
 
 const STORAGE_KEY = "memebro:current-meme";
 const TOAST_TIMEOUT_MS = 2500;
@@ -48,33 +49,6 @@ const state = {
 };
 
 let toastTimer = null;
-
-/**
- * Encode a meme spec into a URL-safe base64 string. Handles unicode (emoji,
- * non-ASCII text) by routing through encodeURIComponent first.
- *
- * @param {object} spec
- * @returns {string}
- */
-function encodeSpec(spec) {
-  return btoa(encodeURIComponent(JSON.stringify(spec)));
-}
-
-/**
- * Reverse of {@link encodeSpec}. Returns null if the param is missing or
- * malformed, so the caller can fall back to the next source.
- *
- * @param {string | null} param
- * @returns {object | null}
- */
-function decodeSpec(param) {
-  if (!param) return null;
-  try {
-    return JSON.parse(decodeURIComponent(atob(param)));
-  } catch {
-    return null;
-  }
-}
 
 /**
  * Resolve the meme spec for this page. Tries the `spec` URL param first (so
