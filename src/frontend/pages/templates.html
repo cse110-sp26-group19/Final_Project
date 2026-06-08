@@ -42,16 +42,23 @@
           placeholder="Search templates"
           aria-label="Search templates"
         />
-        <div class="templates-chips" role="tablist" aria-label="Template categories">
-          <button class="templates-chip templates-chip--active" data-category="all" type="button">
+        <div class="templates-chips" role="group" aria-label="Template categories">
+          <button
+            class="templates-chip templates-chip--active"
+            data-category="all"
+            type="button"
+            aria-pressed="true"
+          >
             All
           </button>
-          <button class="templates-chip" data-category="popular" type="button">Popular</button>
+          <button class="templates-chip" data-category="popular" type="button" aria-pressed="false">
+            Popular
+          </button>
         </div>
       </div>
 
-      <div class="templates-status" id="grid-loading">
-        <div id="lottie-loading" style="width: 120px; height: 120px"></div>
+      <div class="templates-status" id="grid-loading" role="status" aria-live="polite">
+        <div id="lottie-loading" style="width: 120px; height: 120px" aria-hidden="true"></div>
         <span id="grid-loading-text">Loading templates…</span>
       </div>
       <script>
@@ -63,10 +70,15 @@
           path: "../assets/loading.json",
         });
       </script>
-      <p class="templates-status" id="grid-empty" hidden>
+      <p class="templates-status" id="grid-empty" role="status" aria-live="polite" hidden>
         No templates match. Try a different search.
       </p>
-      <div class="template-grid" id="template-grid" aria-live="polite"></div>
+      <div
+        class="template-grid"
+        id="template-grid"
+        aria-label="Meme templates"
+        aria-live="polite"
+      ></div>
 
       <div class="templates-see-more">
         <button class="see-more" id="see-more-btn" type="button" hidden>↓ See more</button>

@@ -13,6 +13,7 @@ import { getTemplates } from "../templates.js";
 import { loadImage } from "../image-loader.js";
 import { drawMeme } from "../meme-canvas.js";
 import { guardPage, getTemplate, updateStepIndicator } from "../lib/flow-dom.js";
+import { defaultTextBoxes, labelForBox } from "../lib/text-boxes.js";
 
 const STORAGE_KEY = "memebro:current-meme";
 const FACE_KEY = "memebro:face-photo";
@@ -79,40 +80,6 @@ function getTemplateIdFromUrl() {
 }
 
 /**
- * Build default normalized positions for a template with N text boxes:
- * first near the top, last near the bottom, intermediate boxes spaced
- * evenly in between.
- *
- * @param {number} count
- * @returns {Array<{text: string, x: number, y: number}>}
- */
-function defaultTextBoxes(count) {
-  const safeCount = Math.max(1, count);
-  if (safeCount === 1) return [{ text: "", x: 0.5, y: 0.5 }];
-
-  const boxes = [];
-  for (let i = 0; i < safeCount; i++) {
-    const y = 0.1 + (0.8 * i) / (safeCount - 1);
-    boxes.push({ text: "", x: 0.5, y });
-  }
-  return boxes;
-}
-
-/**
- * Friendly label for a text box: "Top text" for the first, "Bottom text"
- * for the last, "Text N" for any in between.
- *
- * @param {number} index
- * @param {number} total
- * @returns {string}
- */
-function labelForBox(index, total) {
-  if (index === 0) return "Top text";
-  if (index === total - 1) return "Bottom text";
-  return `Text ${index + 1}`;
-}
-
-/**
  * Render the side-panel inputs for the current set of text boxes.
  */
 function renderInputs() {
@@ -132,6 +99,10 @@ function renderInputs() {
     input.id = `text-input-${index}`;
     input.type = "text";
     input.placeholder = "Edit this";
+    input.setAttribute(
+      "aria-label",
+      `${label.textContent}. Text updates the meme preview as you type.`
+    );
     input.value = box.text;
     input.addEventListener("input", () => {
       state.textBoxes[index].text = input.value;
@@ -325,6 +296,7 @@ function startSwapProgress() {
   const bar = document.getElementById("swap-progress");
   const fill = document.getElementById("swap-progress-fill");
   bar.hidden = false;
+  bar.setAttribute("aria-valuenow", "0");
   fill.style.width = "0%";
 
   const DURATION = 15000;
@@ -334,7 +306,9 @@ function startSwapProgress() {
     const elapsed = Math.min(now - start, DURATION);
     // ease-out: fast start, slow finish — reaches ~90% at DURATION
     const progress = 1 - Math.pow(1 - elapsed / DURATION, 3);
-    fill.style.width = `${progress * 90}%`;
+    const percent = Math.round(progress * 90);
+    fill.style.width = `${percent}%`;
+    bar.setAttribute("aria-valuenow", String(percent));
     if (elapsed < DURATION) {
       _swapProgressRaf = requestAnimationFrame(tick);
     }
@@ -353,6 +327,7 @@ function stopSwapProgress(success = true) {
   if (success) {
     fill.style.transition = "width 0.3s ease-out";
     fill.style.width = "100%";
+    bar.setAttribute("aria-valuenow", "100");
     setTimeout(() => {
       bar.hidden = true;
       fill.style.width = "0%";
@@ -361,6 +336,7 @@ function stopSwapProgress(success = true) {
   } else {
     bar.hidden = true;
     fill.style.width = "0%";
+    bar.setAttribute("aria-valuenow", "0");
   }
 }
 
@@ -440,6 +416,7 @@ async function init() {
 
     state.image = await loadImage(proxyImageUrl(state.template.url));
     state.textBoxes = defaultTextBoxes(state.template.box_count ?? 2);
+    elements.canvas.setAttribute("aria-label", `Preview of ${state.template.name} meme`);
 
     clearInterval(phraseInterval);
     elements.status.hidden = true;
@@ -453,6 +430,7 @@ async function init() {
     clearInterval(phraseInterval);
     console.error("Failed to load editor:", error);
     elements.frame.classList.add("is-error");
+    elements.status.setAttribute("role", "alert");
     elements.status.textContent = "Failed to load template. Please go back and try another.";
   }
 }

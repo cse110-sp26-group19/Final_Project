@@ -60,10 +60,12 @@ function applyFilters() {
  */
 function render() {
   elements.grid.replaceChildren();
+  elements.grid.setAttribute("aria-busy", "true");
 
   if (state.filtered.length === 0) {
     elements.empty.hidden = false;
     elements.seeMore.hidden = true;
+    elements.grid.setAttribute("aria-busy", "false");
     return;
   }
 
@@ -75,6 +77,7 @@ function render() {
   }
 
   elements.seeMore.hidden = state.visible >= state.filtered.length;
+  elements.grid.setAttribute("aria-busy", "false");
 }
 
 /**
@@ -88,6 +91,7 @@ function buildCard(template) {
   card.type = "button";
   card.className = "template-card";
   card.setAttribute("aria-label", `Select template: ${template.name}`);
+  card.setAttribute("aria-pressed", "false");
 
   if (template.id === state.selectedId) {
     card.classList.add("template-card--selected");
@@ -97,7 +101,8 @@ function buildCard(template) {
   const img = document.createElement("img");
   img.className = "template-card__image";
   img.src = template.url;
-  img.alt = template.name;
+  img.alt = "";
+  img.setAttribute("aria-hidden", "true");
   img.loading = "lazy";
 
   const name = document.createElement("span");
@@ -134,6 +139,7 @@ function enableNextButton() {
     : "Next: edit text →";
   elements.next.removeAttribute("aria-disabled");
   elements.next.removeAttribute("tabindex");
+  elements.next.setAttribute("aria-label", elements.next.textContent.trim());
 }
 
 /**
@@ -158,8 +164,12 @@ function bindEvents() {
 
   elements.chips.forEach((chip) => {
     chip.addEventListener("click", () => {
-      elements.chips.forEach((c) => c.classList.remove("templates-chip--active"));
+      elements.chips.forEach((c) => {
+        c.classList.remove("templates-chip--active");
+        c.setAttribute("aria-pressed", "false");
+      });
       chip.classList.add("templates-chip--active");
+      chip.setAttribute("aria-pressed", "true");
       state.category = chip.dataset.category;
       applyFilters();
     });
@@ -196,11 +206,13 @@ async function init() {
     state.filtered = state.templates;
     clearInterval(phraseInterval);
     elements.loading.hidden = true;
+    elements.grid.setAttribute("aria-busy", "false");
     bindEvents();
     render();
   } catch (error) {
     clearInterval(phraseInterval);
     console.error("Failed to load templates:", error);
+    elements.loading.setAttribute("role", "alert");
     elements.loading.textContent = "Failed to load templates. Please refresh.";
   }
 }
