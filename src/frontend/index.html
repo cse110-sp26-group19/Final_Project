@@ -44,15 +44,35 @@
           <p class="home-card__subtitle">Or get a random one</p>
           <div class="home-card__actions">
             <a href="./pages/templates.html" class="btn btn--surface">Browse</a>
-            <a href="./pages/templates.html" class="btn btn--surface">Random</a>
+            <button type="button" class="btn btn--surface" id="home-random-btn">Random</button>
           </div>
         </div>
       </div>
     </main>
     <script type="module">
       // Returning home starts a brand-new process: clear any in-flight flow state.
-      import { resetFlow } from "./lib/flow-dom.js";
+      import { resetFlow, setTemplate } from "./lib/flow-dom.js";
+      import { getTemplates } from "./templates.js";
+
       resetFlow();
+
+      // Random: grab a random meme template, remember it, then send the user to
+      // the upload page to add their photo.
+      const randomBtn = document.getElementById("home-random-btn");
+      randomBtn.addEventListener("click", async () => {
+        randomBtn.setAttribute("aria-busy", "true");
+        randomBtn.textContent = "Picking…";
+        try {
+          const templates = await getTemplates();
+          const template = templates[Math.floor(Math.random() * templates.length)];
+          setTemplate(template.id);
+          window.location.href = "./pages/upload.html";
+        } catch (error) {
+          console.error("Failed to pick a random template:", error);
+          randomBtn.removeAttribute("aria-busy");
+          randomBtn.textContent = "Random";
+        }
+      });
     </script>
   </body>
 </html>
