@@ -28,9 +28,14 @@
         <section class="edit-preview" aria-label="Meme preview">
           <p class="edit-preview__label">Preview</p>
           <div class="edit-preview__frame" id="preview-frame">
-            <canvas class="edit-preview__canvas" id="preview-canvas"></canvas>
-            <div class="edit-preview__status" id="preview-status">
-              <div id="lottie-loading" style="width: 120px; height: 120px"></div>
+            <canvas
+              class="edit-preview__canvas"
+              id="preview-canvas"
+              role="img"
+              aria-label="Meme preview canvas"
+            ></canvas>
+            <div class="edit-preview__status" id="preview-status" role="status" aria-live="polite">
+              <div id="lottie-loading" style="width: 120px; height: 120px" aria-hidden="true"></div>
               <span id="preview-status-text">Loading template…</span>
             </div>
             <script>
@@ -52,7 +57,7 @@
             <h1 class="step-indicator__title">Edit text</h1>
           </div>
 
-          <div class="edit-inputs" id="edit-inputs"></div>
+          <div class="edit-inputs" id="edit-inputs" aria-label="Meme text inputs"></div>
 
           <div class="edit-actions">
             <a href="templates.html" class="btn btn--surface">← Change template</a>
@@ -60,10 +65,19 @@
               Generate →
             </button>
           </div>
-          <div id="swap-status" class="edit-swap-status" hidden>
-            <div id="lottie-swap" style="width: 80px; height: 80px"></div>
+          <div id="swap-status" class="edit-swap-status" role="status" aria-live="polite" hidden>
+            <div id="lottie-swap" style="width: 80px; height: 80px" aria-hidden="true"></div>
             <span id="swap-status-text"></span>
-            <div class="swap-progress" id="swap-progress" hidden>
+            <div
+              class="swap-progress"
+              id="swap-progress"
+              role="progressbar"
+              aria-label="Face swap progress"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+              hidden
+            >
               <div class="swap-progress__fill" id="swap-progress-fill"></div>
             </div>
           </div>

@@ -35,9 +35,9 @@
   font-family: var(--font-sans);
   font-size: 18px;
   line-height: 23px;
-  color: #e2e8f0;
-  background: #0c1020;
-  border: 1px solid #151b2e;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   outline: none;
   transition: border-color 0.15s ease;
@@ -48,7 +48,7 @@
 }
 
 .templates-search:focus {
-  border-color: #e2e8f0;
+  border-color: var(--color-text);
 }
 
 .templates-chips {
@@ -62,9 +62,9 @@
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 20px;
-  color: #e2e8f0;
+  color: var(--color-text);
   background: transparent;
-  border: 1px solid #151b2e;
+  border: 1px solid var(--color-border);
   border-radius: 999px;
   cursor: pointer;
   transition:
@@ -73,12 +73,12 @@
 }
 
 .templates-chip:hover {
-  border-color: #e2e8f0;
+  border-color: var(--color-text);
 }
 
 .templates-chip--active {
-  background: #0c2d6e;
-  border-color: #0c2d6e;
+  background: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
 /* Status (loading / empty) */
@@ -104,7 +104,7 @@
 .template-card {
   display: flex;
   flex-direction: column;
-  background: #0c1020;
+  background: var(--color-surface);
   border: 1px solid transparent;
   border-radius: 8px;
   overflow: hidden;
@@ -117,19 +117,19 @@
 
 .template-card:hover {
   transform: translateY(-2px);
-  border-color: #e2e8f0;
+  border-color: var(--color-text);
 }
 
 .template-card--selected {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 2px #6366f1;
+  border-color: var(--color-accent-secondary);
+  box-shadow: 0 0 0 2px var(--color-accent-secondary);
 }
 
 .template-card__image {
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
-  background: #111526;
+  background: var(--color-surface-2);
   display: block;
 }
 
@@ -138,7 +138,7 @@
   font-family: var(--font-sans);
   font-size: 14px;
   line-height: 18px;
-  color: #e2e8f0;
+  color: var(--color-text);
   text-align: center;
   overflow: hidden;
   white-space: nowrap;
@@ -155,7 +155,7 @@
 .see-more {
   font-family: var(--font-sans);
   font-size: 18px;
-  color: #e2e8f0;
+  color: var(--color-text);
   background: transparent;
   border: none;
   cursor: pointer;
