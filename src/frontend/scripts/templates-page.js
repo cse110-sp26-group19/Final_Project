@@ -137,12 +137,14 @@ function enableNextButton() {
 }
 
 /**
- * Pick a uniformly random template from the current filtered list and select it.
+ * Pick a uniformly random template from the current filtered list, remember it,
+ * and head straight to the upload page so the user can add their photo.
  */
 function pickRandom() {
   if (state.filtered.length === 0) return;
   const index = Math.floor(Math.random() * state.filtered.length);
-  selectTemplate(state.filtered[index]);
+  setTemplate(state.filtered[index].id);
+  window.location.href = "upload.html";
 }
 
 /**
