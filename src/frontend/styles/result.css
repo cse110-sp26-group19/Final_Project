@@ -8,14 +8,14 @@
   font-size: 40px;
   line-height: 52px;
   font-weight: var(--font-weight-regular);
-  color: #e2e8f0;
+  color: var(--color-text);
   text-align: center;
   margin-bottom: var(--space-6);
 }
 
 .result-frame {
   position: relative;
-  background: #0c1020;
+  background: var(--color-surface);
   border-radius: 8px;
   min-height: 400px;
   display: flex;
@@ -78,9 +78,9 @@
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 20px;
-  color: #e2e8f0;
-  background: #111526;
-  border: 1px solid #151b2e;
+  color: var(--color-text);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   max-width: 400px;
   margin-left: auto;
