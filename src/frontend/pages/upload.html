@@ -27,10 +27,22 @@
       </div>
       <input type="file" id="file-input" accept=".jpg,.jpeg,.png" hidden />
       <input type="file" id="camera-input" accept="image/*" capture="environment" hidden />
-      <div class="upload-zone" id="upload-zone">
+      <div
+        class="upload-zone"
+        id="upload-zone"
+        role="button"
+        tabindex="0"
+        aria-label="Upload a JPG or PNG photo"
+        aria-describedby="upload-status"
+      >
         <img class="upload-zone__preview" id="upload-preview" alt="Uploaded photo preview" />
         <div class="upload-zone__content">
-          <img class="upload-zone__icon" src="../assets/icons/upload-plus.svg" alt="" />
+          <img
+            class="upload-zone__icon"
+            src="../assets/icons/upload-plus.svg"
+            alt=""
+            aria-hidden="true"
+          />
           <p class="upload-zone__text upload-zone__text--desktop">Drop a photo<br />or</p>
           <p class="upload-zone__text upload-zone__text--mobile">Tap to upload<br />JPG · PNG</p>
           <button
@@ -50,9 +62,16 @@
           🖼 Library
         </button>
       </div>
+      <p class="upload-status" id="upload-status" role="status" aria-live="polite"></p>
       <div class="page-nav">
         <a href="../index.html" class="btn">← Back</a>
-        <a href="templates.html" class="btn" id="next-btn" disabled aria-disabled="true"
+        <a
+          href="templates.html"
+          class="btn"
+          id="next-btn"
+          aria-disabled="true"
+          tabindex="-1"
+          aria-label="Next: pick a meme (upload a photo first)"
           >Next: pick a meme →</a
         >
       </div>
