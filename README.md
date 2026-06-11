@@ -12,6 +12,8 @@ An 11-person meme generator project. This README is the entry point — use it t
 | -------------- | ----------------------------------------------------------- |
 | Status Video 1 | [YouTube](https://youtu.be/EMPugYznZpI?si=zMVvOjIs82Qr-8zn) |
 | Private Video  | [YouTube](https://youtu.be/ehPdovQsD34)                     |
+| Public Video  | [YouTube](https://youtu.be/_gwiINwU1nE)                      |
+
 
 ## Repository layout
 
